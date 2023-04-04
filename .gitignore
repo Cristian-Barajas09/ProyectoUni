@@ -3,3 +3,4 @@ __pycache__
 venv
 comandos.txt
 especificaciones.txt
+.env
