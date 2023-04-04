@@ -1,9 +1,5 @@
 import customtkinter as ctk
-import db.database as sqldb
-
-
-base_datos = sqldb.BaseDatos(**sqldb.keys_db)
-
+from db.database import base_datos
 
 class MysqlWindow:
     def __init__(self):

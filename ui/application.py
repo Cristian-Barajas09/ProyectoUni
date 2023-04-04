@@ -2,11 +2,13 @@ import tkinter as tk
 import util.generic as utl
 import os
 import customtkinter as ctk
+from util.rutas import dir
 class Application:
-    def __init__(self,image):
+    def __init__(self):
         self.window = ctk.CTk()
-        carpeta_imagenes = os.path.join(image,"logo.ico")
-        self.window.iconbitmap(carpeta_imagenes)
+        carpeta_imagenes = os.path.join(dir,"image")
+        icon = os.path.join(carpeta_imagenes,"logo.ico")
+        self.window.iconbitmap(icon)
         self.window.title("C.E.I Josefina Molina de Duque")
         self.window.geometry("600x300")
 

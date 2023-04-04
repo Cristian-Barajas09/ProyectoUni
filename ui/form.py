@@ -1,29 +1,29 @@
 import tkinter as tk
 from tkinter import messagebox
-import db.database as sqldb
+from db.database import base_datos
 from .application import Application
 from tkinter.font import BOLD
 import util.generic as utl
 import customtkinter as ctk
+from util.rutas import dir
 import os
 #formulario de entrada
 
-base_datos = sqldb.BaseDatos(**sqldb.keys_db)
+
 
 
 
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 class Form:
-    def __init__(self,image):
-        carpeta_imagenes = os.path.join(image,"logo.ico")
-        print(carpeta_imagenes)
-        self.image = image
+    def __init__(self):
+        carpeta_imagenes = os.path.join(dir,"image")
+        icon = os.path.join(carpeta_imagenes,"logo.ico")
         self.window = ctk.CTk()
         self.window.title("inicio de sesion")
         self.window.geometry("800x500")
         self.window.resizable(0,0)
-        self.window.iconbitmap(carpeta_imagenes)
+        self.window.iconbitmap(icon)
 
         utl.centrar_venta(self.window,800,500)
         #frame logo
@@ -67,18 +67,17 @@ class Form:
     def getData(self):
         user = self.input1.get()
         password = self.input2.get()
-        print(user)
+
         if user == "" or password == "":
             messagebox.showerror(title="faltan campos por rellenar",message="por favor rellene todos los campos")
         else:
             result = base_datos.consulta(f"SELECT * FROM users WHERE email = '{user}'")
             data = result.fetchall()
-            print(data)
             if data:
                 print(password)
                 if password in data[0]:
                     self.window.destroy()
-                    Application(self.image)
+                    Application()
                 else:
                     messagebox.showerror(title="contraseña invalida",message="la contraseña proporsionada es invalida")
             else:

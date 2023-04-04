@@ -2,13 +2,8 @@ import mysql.connector
 import os
 import subprocess
 from mysql.connector import Error
+from .keys import keys_db
 # conexion a la base de datos
-
-keys_db = {
-    "host": "localhost",
-    "user": "root",
-    "database":"proyecto"
-}
 
 # --> Rutas
 
@@ -21,7 +16,7 @@ class BaseDatos:
             self.connector = mysql.connector.connect(**kwargs)
             self.cursor = self.connector.cursor()
         except Error as error:
-            print("algo salio mal",error)
+            print("algo salio mal: \n",error)
             exit()
     #decorador para el reporte de base de datos en el servidor
     def reporte_bd(funcion_parametro):
@@ -80,3 +75,7 @@ class BaseDatos:
 # execute() es para ejecutar sentencias sql
 # commit para mandarlas a mysql
 # fetchall obtiene todos los datos de la sentencia
+
+
+base_datos = BaseDatos(**keys_db)
+
