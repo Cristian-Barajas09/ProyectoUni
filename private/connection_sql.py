@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import tkinter.messagebox as message
 from util.rutas import dir
-from admin import Admin
+
 class App:
     def __init__(self) -> None:
         self.window = ctk.CTk()
@@ -38,5 +38,4 @@ class App:
                 file.write(f"DATABASE = {self.data_base}\n")
                 file.write(f"HOST_DATABASE = {self.host}\n")
             self.window.destroy()
-            Admin()
 
