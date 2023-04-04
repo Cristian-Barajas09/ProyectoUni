@@ -1,6 +1,7 @@
 import customtkinter as ctk
 import tkinter.messagebox as message
 from util.rutas import dir
+from admin import Admin
 class App:
     def __init__(self) -> None:
         self.window = ctk.CTk()
@@ -32,8 +33,10 @@ class App:
             message.showerror(title="faltan campos",message="rellene todos los campos")
         else:
             with open(f"{dir}/.env",'w+') as file:
+                file.write("#KEYS FOR DATABASE\n")
                 file.write(f"USER_DATABASE = {self.user}\n")
                 file.write(f"DATABASE = {self.data_base}\n")
                 file.write(f"HOST_DATABASE = {self.host}\n")
             self.window.destroy()
+            Admin()
 
