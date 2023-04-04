@@ -1,11 +1,12 @@
 import tkinter as tk
 import util.generic as utl
-from datetime import time
+import os
 import customtkinter as ctk
 class Application:
-    def __init__(self):
+    def __init__(self,image):
         self.window = ctk.CTk()
-        self.window.iconbitmap("C:\\Users\\CRISTIAN\\Desktop\\proyecto uni\\image\\logo.ico")
+        carpeta_imagenes = os.path.join(image,"logo.ico")
+        self.window.iconbitmap(carpeta_imagenes)
         self.window.title("C.E.I Josefina Molina de Duque")
         self.window.geometry("600x300")
 

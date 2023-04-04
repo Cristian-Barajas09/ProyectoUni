@@ -2,7 +2,7 @@ from ui.form import Form
 from private.admin import Admin
 import os
 # desactivar si ya quieres iniciar produccion
-DEBUG = True
+DEBUG: bool = False
 
 
 if DEBUG:

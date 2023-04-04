@@ -1,6 +1,7 @@
 import mysql.connector
 import os
 import subprocess
+from mysql.connector import Error
 # conexion a la base de datos
 
 keys_db = {
@@ -16,8 +17,12 @@ carpeta_principal = os.path.dirname(__file__)
 carpeta_respaldo = os.path.join(carpeta_principal,"respaldo")
 class BaseDatos:
     def __init__(self, **kwargs):
-        self.connector = mysql.connector.connect(**kwargs)
-        self.cursor = self.connector.cursor()
+        try:
+            self.connector = mysql.connector.connect(**kwargs)
+            self.cursor = self.connector.cursor()
+        except Error as error:
+            print("algo salio mal",error)
+            exit()
     #decorador para el reporte de base de datos en el servidor
     def reporte_bd(funcion_parametro):
         def interno(self,nombre_bd):
@@ -62,9 +67,14 @@ class BaseDatos:
         with open(f'{carpeta_respaldo}/{nombre_bd}.sql','w') as out:
             subprocess.Popen(f'"C:/xampp/mysql/bin/"mysqldump -u root --databases {nombre_bd}', shell=True,stdout=out)
     #create table
-    def create_table(self,nombre_db,nombre_tb):
+    def create_table(self,nombre_tb,nombre):
         try:
-            print()
+            self.cursor.execute(
+                f"""CREATE TABLE {nombre_tb}(
+                    id INT AUTO_INCREMENT NOT NULL,
+                    {nombre}
+                )"""
+                )
         except:
             print(f"no se pudo crear la tabla {nombre_tb}")
 # execute() es para ejecutar sentencias sql

@@ -18,6 +18,7 @@ class Form:
     def __init__(self,image):
         carpeta_imagenes = os.path.join(image,"logo.ico")
         print(carpeta_imagenes)
+        self.image = image
         self.window = ctk.CTk()
         self.window.title("inicio de sesion")
         self.window.geometry("800x500")
@@ -64,17 +65,20 @@ class Form:
         self.window.mainloop()
 
     def getData(self):
-        self.user = self.input1.get()
-        self.password = self.input2.get()
-        if self.user == "" or self.password == "":
+        user = self.input1.get()
+        password = self.input2.get()
+        print(user)
+        if user == "" or password == "":
             messagebox.showerror(title="faltan campos por rellenar",message="por favor rellene todos los campos")
         else:
-            self.data = base_datos.consulta(f"SELECT * FROM users WHERE email = '{self.user}'")
-            if self.data:
-                print(self.data)
-                if self.password in self.data[0]:
+            result = base_datos.consulta(f"SELECT * FROM users WHERE email = '{user}'")
+            data = result.fetchall()
+            print(data)
+            if data:
+                print(password)
+                if password in data[0]:
                     self.window.destroy()
-                    Application()
+                    Application(self.image)
                 else:
                     messagebox.showerror(title="contraseña invalida",message="la contraseña proporsionada es invalida")
             else:
