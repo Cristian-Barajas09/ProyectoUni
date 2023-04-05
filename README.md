@@ -1,7 +1,8 @@
 # app
 
 ```sh
-virtualenv venv or python -m venv venv
+pip install virtualenv
+virtualenv venv
 .\venv\Scripts\activate
 pip install -r requirements.txt
 python main.py
