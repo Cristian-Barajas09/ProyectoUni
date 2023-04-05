@@ -11,5 +11,3 @@ try:
 except KeyError as error:
     print("no se encontraron las variables de entorno")
     App()
-finally:
-    print("programa cerrado")

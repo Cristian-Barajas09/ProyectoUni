@@ -36,7 +36,7 @@ class BaseDatos:
         self.cursor.execute("SHOW DATABASES")
         lista = []
         for bd in self.cursor:
-            print(bd)
+            # print(bd)
             lista.append(bd)
         return lista
 
@@ -62,16 +62,18 @@ class BaseDatos:
         with open(f'{carpeta_respaldo}/{nombre_bd}.sql','w') as out:
             subprocess.Popen(f'"C:/xampp/mysql/bin/"mysqldump -u root --databases {nombre_bd}', shell=True,stdout=out)
     #create table
-    def create_table(self,nombre_tb,nombre):
-        try:
-            self.cursor.execute(
-                f"""CREATE TABLE {nombre_tb}(
-                    id INT AUTO_INCREMENT NOT NULL,
-                    {nombre}
-                )"""
-                )
-        except:
-            print(f"no se pudo crear la tabla {nombre_tb}")
+    def create_table(self,nombre_tb,numero_columnas):
+        for i in numero_columnas:
+            print(i)
+        # try:
+        #     self.cursor.execute(
+        #         f"""CREATE TABLE {nombre_tb}(
+        #             id INT AUTO_INCREMENT NOT NULL,
+        #             {nombre}
+        #         )"""
+        #         )
+        # except:
+        #     print(f"no se pudo crear la tabla {nombre_tb}")
 # execute() es para ejecutar sentencias sql
 # commit para mandarlas a mysql
 # fetchall obtiene todos los datos de la sentencia
