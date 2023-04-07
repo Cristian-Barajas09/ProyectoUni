@@ -12,7 +12,6 @@ def run():
         Admin()
     else:
         Form()
-        print(dir)
 
 if __name__ == "__main__":
     run()

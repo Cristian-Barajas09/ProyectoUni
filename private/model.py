@@ -16,10 +16,10 @@ class MysqlWindow:
         self.result = base_datos.mostrar_bd()
         # print(self.result[0][0])
         for result in self.result:
-
             self.label = ctk.CTkLabel(self.vent1,text=f"{result[0]}")
             self.label.pack()
 
 
     def create_table(self):
         self.vent2 = ctk.CTkToplevel()
+        base_datos.create_table("test",4)

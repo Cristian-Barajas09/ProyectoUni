@@ -26,13 +26,13 @@ class BaseDatos:
             BaseDatos.mostrar_bd(self)
         return interno
     # consultas a la base datos
-    def consulta(self, sql):
+    def consulta(self, sql) -> :
         cursor = self.connector.cursor()
         cursor.execute(sql)
         return cursor
     # mostrar base de datos del servidor
 
-    def mostrar_bd(self):
+    def mostrar_bd(self) -> list:
         self.cursor.execute("SHOW DATABASES")
         lista = []
         for bd in self.cursor:
@@ -42,7 +42,7 @@ class BaseDatos:
 
     # elimina una base de datos
     @reporte_bd
-    def eliminar_bd(self, nombre_bd):
+    def eliminar_bd(self, nombre_bd:str) -> None :
         try:
             self.cursor.execute(f"DROP DATABASE {nombre_bd}")
             print(f"la base de datos {nombre_bd} a sido eliminada con exito")
@@ -52,7 +52,7 @@ class BaseDatos:
 
     # crear base de datos
     @reporte_bd
-    def crear_bd(self, nombre_bd):
+    def crear_bd(self, nombre_bd: str) -> None:
         try:
             self.cursor.execute(f"CREATE DATABASE IF NOT EXISTS {nombre_bd}")
             print(f"se creo la base de datos {nombre_bd} o ya existia")
@@ -62,18 +62,23 @@ class BaseDatos:
         with open(f'{carpeta_respaldo}/{nombre_bd}.sql','w') as out:
             subprocess.Popen(f'"C:/xampp/mysql/bin/"mysqldump -u root --databases {nombre_bd}', shell=True,stdout=out)
     #create table
-    def create_table(self,nombre_tb,numero_columnas):
-        for i in numero_columnas:
-            print(i)
-        # try:
-        #     self.cursor.execute(
-        #         f"""CREATE TABLE {nombre_tb}(
-        #             id INT AUTO_INCREMENT NOT NULL,
-        #             {nombre}
-        #         )"""
-        #         )
-        # except:
-        #     print(f"no se pudo crear la tabla {nombre_tb}")
+    def create_table(self,table_name:str,numero_columnas:int,columna_detail:list) -> str:
+        try:
+            quest = []
+            # columnas = int(input("cuantas columnas? \n"))
+            # table_name = input("nombre de la tabla: ")
+            query = f"CREATE TABLE {table_name}(\n"
+            for column in range(numero_columnas):
+                quest[column] = columna_detail[column]
+                if column == numero_columnas:
+                    query += f"{quest}"
+                else:
+                    query += f"{quest}\n"
+                    query += ");"
+            self.cursor.execute(query)
+            return self.cursor
+        except:
+            print(f"no se pudo crear la tabla {table_name}")
 # execute() es para ejecutar sentencias sql
 # commit para mandarlas a mysql
 # fetchall obtiene todos los datos de la sentencia
