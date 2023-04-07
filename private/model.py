@@ -22,4 +22,10 @@ class MysqlWindow:
 
     def create_table(self):
         self.vent2 = ctk.CTkToplevel()
-        base_datos.create_table("test",4)
+        self.label1 = ctk.CTkLabel(master=self.vent2,text="nombre de la tabla")
+        self.label1.pack()
+        self.input1 = ctk.CTkEntry(master=self.vent2,placeholder_text="test")
+        self.input1.pack()
+        # text = self.input1.get()
+        # print(text)
+        # base_datos.create_table("test",4)

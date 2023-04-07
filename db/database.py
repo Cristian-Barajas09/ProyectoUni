@@ -26,7 +26,7 @@ class BaseDatos:
             BaseDatos.mostrar_bd(self)
         return interno
     # consultas a la base datos
-    def consulta(self, sql) -> :
+    def consulta(self, sql):
         cursor = self.connector.cursor()
         cursor.execute(sql)
         return cursor

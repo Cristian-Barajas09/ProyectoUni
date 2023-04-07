@@ -2,6 +2,7 @@ import tkinter as tk
 import util.generic as utl
 import os
 import customtkinter as ctk
+from .inscripcion import Inscripciones
 from util.rutas import dir
 class Application:
     def __init__(self):
@@ -12,7 +13,13 @@ class Application:
         self.window.title("C.E.I Josefina Molina de Duque")
         self.window.geometry("600x300")
 
-        frame1 = ctk.CTkFrame(self.window,width=200,height=300)
-        frame1.pack(side="left")
-        label1 = ctk.CTkLabel(frame1,text="Inicio")
+        frame_1 = ctk.CTkFrame(self.window,width=200,height=300)
+        frame_1.pack(side="left")
+        label_1 = ctk.CTkLabel(frame_1,text="Inicio")
+        label_1.place(x=20,y=20)
+        btn_1 = ctk.CTkButton(master=frame_1,text="incripciones",command=self.inscripciones)
+        btn_1.place(x=20,y=50)
         self.window.mainloop()
+    def inscripciones(self):
+        self.window.destroy()
+        Inscripciones()
