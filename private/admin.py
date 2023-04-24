@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from .model import MysqlWindow
 from ui.form import Form
+from ui.control import Control
 class Admin:
     def __init__(self):
         self.window = ctk.CTk()
@@ -12,6 +13,9 @@ class Admin:
         self.btn1.place(x=20,y=40)
         self.btn2 = ctk.CTkButton(frame1,text="iniciar aplicacion",command=self.form)
         self.btn2.place(x=20,y=80)
+        self.btn3 = ctk.CTkButton(frame1,text="control de personal",command=self.control)
+        self.btn3.place(x=20,y=120)
+
         self.window.mainloop()
 
     def mysqlWindow(self):
@@ -23,3 +27,7 @@ class Admin:
         self.window.destroy()
         Form()
 
+
+    def control(self):
+        self.window.destroy()
+        Control()

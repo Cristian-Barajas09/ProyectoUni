@@ -1,10 +1,10 @@
 from PIL import ImageTk,Image
 from customtkinter import CTkImage
 
-def leer_image(path,size):
+def leer_image(path,size) -> CTkImage:
     return CTkImage(
         dark_image=Image.open(path).resize(size,Image.ANTIALIAS),
-        size=(300,500),
+        size=size,
     )
 
 def centrar_venta(ventana,aplicacion_ancho,aplicacion_largo):

@@ -6,7 +6,7 @@ from tkinter.font import BOLD
 import util.generic as utl
 import customtkinter as ctk
 from util.rutas import dir
-import os
+from .base import Base
 #formulario de entrada
 
 
@@ -15,19 +15,18 @@ import os
 
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
-class Form:
+class Form(Base):
     def __init__(self):
-        carpeta_imagenes = os.path.join(dir,"image")
-        icon = os.path.join(carpeta_imagenes,"logo.ico")
+
         self.window = ctk.CTk()
         self.window.title("inicio de sesion")
         self.window.geometry("800x500")
         self.window.resizable(0,0)
-        self.window.iconbitmap(icon)
+        self.icon()
 
         utl.centrar_venta(self.window,800,500)
         #frame logo
-        logo = utl.leer_image("./image/logo.jpeg",(200,200))
+        logo = utl.leer_image("./image/logo.jpeg",(300,500))
         frame_logo = ctk.CTkFrame(self.window, border_width=0,width=300)
         frame_logo.pack(ipadx=10,ipady=10,side="left",expand=tk.NO,fill=tk.BOTH)
         #frame logo
@@ -40,7 +39,7 @@ class Form:
         #frame form top
         frame_form_top = ctk.CTkFrame(frame_form,height=50,border_width=0)
         frame_form_top.pack(side="top",fill=tk.X,pady=5,padx=10)
-        title = ctk.CTkLabel(frame_form_top,text="inicio de sesion",font=('Comic Sans MS',30))
+        title = ctk.CTkLabel(frame_form_top,text="Inicio de sesion",font=('Comic Sans MS',30))
         title.pack(pady=50,expand=tk.YES,fill=tk.BOTH)
         #end frame_form_top
 
@@ -48,9 +47,9 @@ class Form:
         frame_form_fill = ctk.CTkFrame(frame_form,height=50)
         frame_form_fill.pack(side="bottom",expand=tk.YES,fill=tk.BOTH,pady=5,padx=10)
 
-        label1 = ctk.CTkLabel(frame_form_fill,text="usuario",font=('Comic Sans MS',20),anchor="w")
+        label1 = ctk.CTkLabel(frame_form_fill,text="Usuario",font=('Comic Sans MS',20),anchor="w")
         label1.pack(fill=tk.X,padx=20,pady=5)
-        self.input1 = ctk.CTkEntry(frame_form_fill,font=('Comic Sans MS',20),height=40)
+        self.input1 = ctk.CTkEntry(frame_form_fill,font=('Comic Sans MS',20),height=40,placeholder_text="ejemplo@domain.com")
         self.input1.pack(fill=tk.X,padx=20,pady=10)
         label2 = ctk.CTkLabel(frame_form_fill,text="Contraseña",font=('Comic Sans MS',20),anchor="w")
         label2.pack(fill=tk.X,padx=20,pady=10)
@@ -67,11 +66,10 @@ class Form:
     def getData(self):
         user = self.input1.get()
         password = self.input2.get()
-
         if user == "" or password == "":
             messagebox.showerror(title="faltan campos por rellenar",message="por favor rellene todos los campos")
         else:
-            result = base_datos.consulta(f"SELECT * FROM users WHERE email = '{user}'")
+            result = base_datos.consulta(f"SELECT * FROM users WHERE email = '{user.lower()}'")
             data = result.fetchall()
             if data:
                 print(password)
