@@ -71,17 +71,14 @@ class Form(Base):
         else:
             result = base_datos.consulta(f"SELECT * FROM users WHERE email = '{user.lower()}'")
             data = result.fetchall()
-            print(data)
             if data:
                 savedPassword = data[0][3]
-                print(type(savedPassword))
                 result = matchPassword(password,savedPassword)
-                print(result)
-                # if password in data[0]:
-                #     self.window.destroy()
-                #     Application()
-                # else:
-                #     messagebox.showerror(title="contraseña invalida",message="la contraseña proporsionada es invalida")
+                if result:
+                    self.window.destroy()
+                    Application()
+                else:
+                    messagebox.showerror(title="contraseña invalida",message="la contraseña proporsionada es invalida")
             else:
                 messagebox.showerror(title="usuario o contraseña invalido",message="el usuario no se encuentra registrado")
     def show(self):
