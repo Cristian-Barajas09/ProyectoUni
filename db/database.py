@@ -32,6 +32,11 @@ class BaseDatos:
         return cursor
     # mostrar base de datos del servidor
 
+    #ejecutar consultas
+    def CRUD(self,sql):
+        self.cursor.execute(sql)
+        self.connector.commit()
+
     def mostrar_bd(self) -> list:
         self.cursor.execute("SHOW DATABASES")
         lista = []

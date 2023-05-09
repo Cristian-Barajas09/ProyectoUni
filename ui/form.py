@@ -5,23 +5,18 @@ from .application import Application
 from tkinter.font import BOLD
 import util.generic as utl
 import customtkinter as ctk
-from util.rutas import dir
-from .base import Base
-#formulario de entrada
+from .partials.base import Base
+from ui.register import Register
+from util.helpers import matchPassword
+import bcrypt
+#   formulario de entrada
 
 
 
-
-
-ctk.set_appearance_mode("System")
-ctk.set_default_color_theme("blue")
 class Form(Base):
     def __init__(self):
-
-        self.window = ctk.CTk()
-        self.window.title("inicio de sesion")
-        self.window.geometry("800x500")
-        self.window.resizable(0,0)
+        super().__init__("inicio de sesion","800x500")
+        self.resizable(0,0)
         self.icon()
 
         utl.centrar_venta(self.window,800,500)
@@ -58,10 +53,16 @@ class Form(Base):
         self.input2.configure(show="*")
         self.btnShow = ctk.CTkCheckBox(frame_form_fill,text="mostrar contraseña",command=self.show,font=('Comic Sans MS',15))
         self.btnShow.place(x=280,y=210)
+        self.registerBtn = ctk.CTkButton(frame_form_fill,text="registrarse",command=self.registro,font=('Comic Sans MS',20),height=5 ,bg_color="transparent")
+        self.registerBtn.place(x=10,y=210)
         # #end frame
-        btn = ctk.CTkButton(frame_form_fill,height=60,font=('Comic Sans MS',20,BOLD),text="iniciar sesion",command=self.getData)
+        btn = ctk.CTkButton(frame_form_fill,height=70,font=('Comic Sans MS',20,BOLD),text="iniciar sesion",command=self.getData)
         btn.pack(fill=tk.X,padx=20,pady=50)
         self.window.mainloop()
+
+    def registro(self):
+        self.window.destroy()
+        Register()
 
     def getData(self):
         user = self.input1.get()
@@ -72,12 +73,15 @@ class Form(Base):
             result = base_datos.consulta(f"SELECT * FROM users WHERE email = '{user.lower()}'")
             data = result.fetchall()
             if data:
-                print(password)
-                if password in data[0]:
-                    self.window.destroy()
-                    Application()
-                else:
-                    messagebox.showerror(title="contraseña invalida",message="la contraseña proporsionada es invalida")
+                savedPassword = data[0][3]
+                print(type(savedPassword))
+                # result = matchPassword(password,savedPassword)
+                # print(result)
+                # if password in data[0]:
+                #     self.window.destroy()
+                #     Application()
+                # else:
+                #     messagebox.showerror(title="contraseña invalida",message="la contraseña proporsionada es invalida")
             else:
                 messagebox.showerror(title="usuario o contraseña invalido",message="el usuario no se encuentra registrado")
     def show(self):
