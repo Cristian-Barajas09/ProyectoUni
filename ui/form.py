@@ -1,13 +1,13 @@
-import tkinter as tk
-from tkinter import messagebox
-from db.database import base_datos
-from .application import Application
-from tkinter.font import BOLD
-import util.generic as utl
-import customtkinter as ctk
-from .partials.base import Base
-from ui.register import Register
-from util.helpers import matchPassword
+import tkinter          as tk
+from   tkinter          import messagebox
+from   db.database      import base_datos
+from   .application     import Application
+from   tkinter.font     import BOLD
+import util.generic     as utl
+import customtkinter    as ctk
+from   .partials.base   import Base
+from   ui.register      import Register
+from   util.helpers     import matchPassword
 #   formulario de entrada
 
 
@@ -19,17 +19,19 @@ class Form(Base):
         self.icon()
 
         utl.centrar_venta(self.window,800,500)
+
         #frame logo
         logo = utl.leer_image("./image/logo.jpeg",(300,500))
         frame_logo = ctk.CTkFrame(self.window, border_width=0,width=300)
         frame_logo.pack(ipadx=10,ipady=10,side="left",expand=tk.NO,fill=tk.BOTH)
-        #frame logo
+        #endframe logo
+
         #frame form
         label1 = ctk.CTkLabel(frame_logo,image=logo,text="")
         label1.place(x=0,y=0,relwidth=1,relheight=1)
         frame_form = ctk.CTkFrame(self.window,border_width=0)
         frame_form.pack(side="right",expand=tk.YES,fill=tk.BOTH)
-        #frame form
+        #endframe form
         #frame form top
         frame_form_top = ctk.CTkFrame(frame_form,height=50,border_width=0)
         frame_form_top.pack(side="top",fill=tk.X,pady=5,padx=10)
@@ -54,7 +56,9 @@ class Form(Base):
         self.btnShow.place(x=280,y=210)
         self.registerBtn = ctk.CTkButton(frame_form_fill,text="registrarse",command=self.registro,font=('Comic Sans MS',20),height=5 ,bg_color="transparent")
         self.registerBtn.place(x=10,y=210)
-        # #end frame
+
+        # end frame form fill
+
         btn = ctk.CTkButton(frame_form_fill,height=70,font=('Comic Sans MS',20,BOLD),text="iniciar sesion",command=self.getData)
         btn.pack(fill=tk.X,padx=20,pady=50)
         self.window.mainloop()
@@ -63,6 +67,8 @@ class Form(Base):
         self.window.destroy()
         Register()
 
+
+    # revisamos los datos ingresados
     def getData(self):
         user = self.input1.get()
         password = self.input2.get()
@@ -81,6 +87,8 @@ class Form(Base):
                     messagebox.showerror(title="contraseña invalida",message="la contraseña proporsionada es invalida")
             else:
                 messagebox.showerror(title="usuario o contraseña invalido",message="el usuario no se encuentra registrado")
+
+    #mostramos contraseña
     def show(self):
         if self.input2.cget("show") == "*":
             self.input2.configure(show="")

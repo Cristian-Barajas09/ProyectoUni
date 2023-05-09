@@ -7,6 +7,7 @@ import util.generic as utl
 import customtkinter as ctk
 from .partials.base import Base
 from util.helpers import encryptPassword
+from tkcalendar import DateEntry,Calendar
 # from ui.form import Form
 
 class Register(Base):
@@ -48,6 +49,7 @@ class Register(Base):
         label8 = ctk.CTkLabel(frame_form_fill,text="cedula de identidad",height=10)
         label9 = ctk.CTkLabel(frame_form_fill,text="edad")
 
+
         self.input1 = ctk.CTkEntry(frame_form_fill)
         self.input2 = ctk.CTkEntry(frame_form_fill)
         self.input3 = ctk.CTkEntry(frame_form_fill)
@@ -55,7 +57,7 @@ class Register(Base):
         self.input4 = ctk.CTkEntry(frame_form_fill)
         self.input4.configure(show="*")
         self.input5 = ctk.CTkEntry(frame_form_fill)
-        self.input6 = ctk.CTkEntry(frame_form_fill)
+        self.input6 = DateEntry(frame_form_fill, width= 16, background= "black", foreground= "white",bd=2,state="readonly",)
         self.input7 = ctk.CTkEntry(frame_form_fill)
         self.input8 = ctk.CTkEntry(frame_form_fill)
 
@@ -97,7 +99,7 @@ class Register(Base):
         clave = self.input3.get()
         confirm = self.input4.get()
         correo = self.input5.get()
-        f_nacimiento = self.input6.get()
+        f_nacimiento = self.input6.get_date()
         cedula = self.input7.get()
         edad = self.input8.get()
         edad = int(edad)

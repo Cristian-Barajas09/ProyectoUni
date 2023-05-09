@@ -1,7 +1,5 @@
 import bcrypt
 
-palabra = "hola"
-
 def encryptPassword(password:str):
     salt          = bcrypt.gensalt(10)
     bytesPassword =  password.encode('utf-8')
@@ -18,4 +16,13 @@ def matchPassword(password,savedPassword):
         return False
 
 
-encryptPassword(palabra)
+def calendar_format(date:str):
+    lista = []
+    for i in date:
+        if i.isdigit():
+            lista.append(i)
+    print(lista)
+
+date = "08/30/04"
+
+# calendar_format(date)
