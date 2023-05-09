@@ -8,7 +8,6 @@ import customtkinter as ctk
 from .partials.base import Base
 from ui.register import Register
 from util.helpers import matchPassword
-import bcrypt
 #   formulario de entrada
 
 
@@ -72,11 +71,12 @@ class Form(Base):
         else:
             result = base_datos.consulta(f"SELECT * FROM users WHERE email = '{user.lower()}'")
             data = result.fetchall()
+            print(data)
             if data:
                 savedPassword = data[0][3]
                 print(type(savedPassword))
-                # result = matchPassword(password,savedPassword)
-                # print(result)
+                result = matchPassword(password,savedPassword)
+                print(result)
                 # if password in data[0]:
                 #     self.window.destroy()
                 #     Application()

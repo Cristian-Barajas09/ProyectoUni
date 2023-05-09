@@ -1,18 +1,21 @@
 import bcrypt
 
+palabra = "hola"
 
-def encryptPassword(password):
-    salt = bcrypt.gensalt(10)
-    bytes = password.encode('utf-8')
-    hashed = bcrypt.hashpw(bytes,salt)
+def encryptPassword(password:str):
+    salt          = bcrypt.gensalt(10)
+    bytesPassword =  password.encode('utf-8')
+    hashed        =  bcrypt.hashpw(bytesPassword,salt).decode()
+
     return hashed
 
 def matchPassword(password,savedPassword):
-    print(password,savedPassword)
     if not isinstance(savedPassword,bytes):
         savedPassword = bytes(savedPassword or "","utf-8")
-        print(type(savedPassword))
     try:
-        return bcrypt.checkpw(bytes(password,"utf-8"),savedPassword)
+        return  bcrypt.checkpw(bytes(password,"utf-8"),savedPassword)
     except ValueError:
         return False
+
+
+encryptPassword(palabra)

@@ -106,10 +106,10 @@ class Register(Base):
         elif clave != confirm:
             return messagebox.showerror("claves no coinciden","las claves ingresadas no son iguales")
 
-        newPassword = encryptPassword(clave)
+        newPassword =  encryptPassword(clave)
         sql.CRUD(f'''
         INSERT INTO users (nombres,apellidos,password,email,fecha_nacimiento,cedula,edad)
-        VALUES ("{nombres}","{apellidos}","{newPassword}","{correo}","{f_nacimiento}","{cedula}",{edad})
+        VALUES ("{nombres}","{apellidos}","{newPassword}","{correo.lower()}","{f_nacimiento}","{cedula}",{edad})
         ''')
 
         self.window.destroy()
