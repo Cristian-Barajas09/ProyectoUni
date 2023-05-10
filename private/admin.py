@@ -3,6 +3,13 @@ from .model import MysqlWindow
 from ui.main import Form,Control
 class Admin:
     def __init__(self):
+        texto = """esta ventana es exclusiva de los desarroladores
+no esta en produccion.
+si sale esta pestaña
+en produccion resale a diosito,
+o en lo creas ¯\_(ツ)_/¯
+        """
+
         self.window = ctk.CTk()
         self.window.geometry("500x500")
         self.window.title("panel de administrador")
@@ -14,7 +21,8 @@ class Admin:
         self.btn2.place(x=20,y=80)
         self.btn3 = ctk.CTkButton(frame1,text="control de personal",command=self.control)
         self.btn3.place(x=20,y=120)
-
+        label = ctk.CTkLabel(self.window,text=texto)
+        label.place(x=200,y=10)
         self.window.mainloop()
 
     def mysqlWindow(self):

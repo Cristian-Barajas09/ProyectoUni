@@ -6,7 +6,7 @@ import customtkinter as ctk
 from .partials.base import Base
 from util.helpers import matchPassword
 from util.helpers import encryptPassword
-from tkcalendar import DateEntry, Calendar
+from tkcalendar import DateEntry
 #   formulario de entrada
 
 
@@ -116,7 +116,7 @@ class Register(Base):
 
         utl.centrar_venta(self.window, 1000, 500)
         # frame logo
-        logo = utl.leer_image("./image/logo.jpeg", (300, 500))
+        logo = self.add_image("./image/logo.jpeg", (300, 500))
         frame_logo = ctk.CTkFrame(self.window, border_width=0, width=300)
         frame_logo.pack(ipadx=10, ipady=1, side="right",
                         expand=tk.NO, fill=tk.BOTH)
@@ -195,7 +195,7 @@ class Register(Base):
             frame_form_fill, text="registrarse", command=self.getData)
         btn.grid(row=7, column=2)
 
-        btnBack = ctk.CTkButton(frame_form_fill,text="ingresar",command=self.volver)
+        btnBack = ctk.CTkButton(frame_form_fill,text="volver",command=self.volver)
         btnBack.grid(row=7,column=3)
 
         self.window.mainloop()
@@ -209,12 +209,14 @@ class Register(Base):
         f_nacimiento = self.input6.get_date()
         cedula = self.input7.get()
         edad = self.input8.get()
-        if not edad.isdigit():
-            return messagebox.showerror("error", "edad es un numero")
+
         if not nombres or not apellidos or not clave or not confirm or not correo or not f_nacimiento or not cedula or not edad:
             return messagebox.showerror("faltan campos", "por favor rellene todos los campos")
         elif clave != confirm:
             return messagebox.showerror("claves no coinciden", "las claves ingresadas no son iguales")
+        elif not edad.isdigit():
+            return messagebox.showerror("error", "edad debe ser un numero")
+
 
         edad = int(edad)
         newPassword = encryptPassword(clave)
@@ -236,14 +238,20 @@ class Register(Base):
         else:
             self.input2.configure(show="*")
 
-
+# FRANK AND JHONDEIVI
 class Inscripciones(Base):
     def __init__(self) -> None:
         super().__init__("inscripciones","800x800")
         self.icon()
+        btnBack = ctk.CTkButton(self.window,text="volver",command=self.volver)
+        btnBack.pack()
         self.window.mainloop()
+    def volver(self):
+        self.window.destroy()
+        Application()
 
 
+###         OMAR           ###
 class Control(Base):
     def __init__(self):
         super().__init__("Control de Personal","673x500")
@@ -265,10 +273,12 @@ class Control(Base):
         comandos = ()
         self.select = ctk.CTkOptionMenu(self.frame1,values=valores,command=comandos)
         self.select.place(x=0,y=10)
+        btnBack = ctk.CTkButton(self.frame1,text="volver",command=self.volver)
+        btnBack.place(x=0,y=450)
         # frame 2
         self.search = ctk.CTkEntry(self.frame2,width=260,height=40,placeholder_text="Buscar",font=('Comic Sans MS',16,BOLD))
         self.search.place(x=0,y=0)
-        self.btnSearch = ctk.CTkButton(self.frame2,width=36,height=26,text="",image=self.imageSearch,bg_color="#2A2929",fg_color="#2A2929",hover_color="#222222")
+        self.btnSearch = ctk.CTkButton(self.frame2,width=36,height=26,text="",image=self.imageSearch,bg_color="#2A2929",fg_color="#2A2929",hover_color="#222222",command=self.search_user)
         self.btnSearch.place(x=200,y=3)
 
         # frame 3
@@ -285,6 +295,19 @@ class Control(Base):
             self.label1 = ctk.CTkLabel(self.frame3,text=f"{i[0]} {i[1]}")
             self.label1.place(x=10,y=y)
             y += 20
+    def search_user(self):
+
+        search = self.search.get()
+        print(search,type(search))
+        datos = self.sql.consulta("SELECT nombres,apellidos FROM users")
+        datos = datos.fetchall()
+        print(datos)
+
+
+    def volver(self):
+        self.window.destroy()
+        Application()
+
 
 class Application(Base):
     def __init__(self):

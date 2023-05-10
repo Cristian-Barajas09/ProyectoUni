@@ -2,7 +2,7 @@ import customtkinter as ctk
 import os
 from util.rutas import dir
 from db.database import base_datos
-
+from util.generic import leer_image
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 
@@ -20,3 +20,6 @@ class Base:
         carpeta_imagenes = os.path.join(dir,"image")
         icon = os.path.join(carpeta_imagenes,"logo.ico")
         self.window.iconbitmap(icon)
+
+    def add_image(self,path,image):
+        leer_image(path,image)
