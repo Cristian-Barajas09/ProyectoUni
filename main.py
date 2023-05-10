@@ -1,4 +1,4 @@
-from ui.form import Form
+from ui.main import Form
 from private.admin import Admin
 
 from util.rutas import dir

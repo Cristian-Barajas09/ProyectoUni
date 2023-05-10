@@ -1,7 +1,6 @@
 import customtkinter as ctk
 from .model import MysqlWindow
-from ui.form import Form
-from ui.control import Control
+from ui.main import Form,Control
 class Admin:
     def __init__(self):
         self.window = ctk.CTk()
