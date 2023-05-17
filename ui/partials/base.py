@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from customtkinter import CTkImage
 import os
 from util.rutas import dir
 from db.database import base_datos
@@ -21,5 +22,5 @@ class Base:
         icon = os.path.join(carpeta_imagenes,"logo.ico")
         self.window.iconbitmap(icon)
 
-    def add_image(self,path,image):
-        leer_image(path,image)
+    def add_image(self,path,image) -> CTkImage:
+        return leer_image(path,image)

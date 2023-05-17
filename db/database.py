@@ -1,8 +1,10 @@
-import mysql.connector
+
 import os
 import subprocess
-from mysql.connector import Error
+
 from .keys import keys_db
+import pymysql.cursors
+from pymysql.err import OperationalError
 # conexion a la base de datos
 
 # --> Rutas
@@ -13,9 +15,9 @@ carpeta_respaldo = os.path.join(carpeta_principal,"respaldo")
 class BaseDatos:
     def __init__(self, **kwargs):
         try:
-            self.connector = mysql.connector.connect(**kwargs)
+            self.connector = pymysql.connect(**kwargs)
             self.cursor = self.connector.cursor()
-        except Error as error:
+        except OperationalError as error:
             print("algo salio mal: \n",error)
             exit()
     #decorador para el reporte de base de datos en el servidor
