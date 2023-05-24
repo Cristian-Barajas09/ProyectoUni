@@ -1,6 +1,9 @@
 import customtkinter as ctk
 from .model import MysqlWindow
+from .empaquetar import Installer
 from ui.main import Form,Control
+
+
 class Admin:
     def __init__(self):
         texto = """esta ventana es exclusiva de los desarroladores
@@ -21,6 +24,8 @@ o en lo creas ¯\_(ツ)_/¯
         self.btn2.place(x=20,y=80)
         self.btn3 = ctk.CTkButton(frame1,text="control de personal",command=self.control)
         self.btn3.place(x=20,y=120)
+        self.btn4 = ctk.CTkButton(frame1,text="generar instalador",command=self.install)
+        self.btn4.place(x=20,y=160)
         label = ctk.CTkLabel(self.window,text=texto)
         label.place(x=200,y=10)
         self.window.mainloop()
@@ -38,3 +43,8 @@ o en lo creas ¯\_(ツ)_/¯
     def control(self):
         self.window.destroy()
         Control()
+
+    def install(self):
+        self.window.destroy()
+        Installer()
+

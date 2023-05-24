@@ -1,7 +1,7 @@
 
 import os
 import subprocess
-
+from tkinter import messagebox
 from .keys import keys_db
 import pymysql.cursors
 from pymysql.err import OperationalError
@@ -18,7 +18,7 @@ class BaseDatos:
             self.connector = pymysql.connect(**kwargs)
             self.cursor = self.connector.cursor()
         except OperationalError as error:
-            print("algo salio mal: \n",error)
+            messagebox.showerror("error",error)
             exit()
     #decorador para el reporte de base de datos en el servidor
     def reporte_bd(funcion_parametro):
@@ -68,6 +68,7 @@ class BaseDatos:
     def copia_bd(self,nombre_bd):
         with open(f'{carpeta_respaldo}/{nombre_bd}.sql','w') as out:
             subprocess.Popen(f'"C:/xampp/mysql/bin/"mysqldump -u root --databases {nombre_bd}', shell=True,stdout=out)
+        return messagebox.showinfo("exito","copia de seguridad de la base de datos generada con exito")
     #create table
     def create_table(self,table_name:str,numero_columnas:int,columna_detail:list) -> str:
         try:

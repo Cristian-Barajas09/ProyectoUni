@@ -1,6 +1,7 @@
 from dotenv import dotenv_values
 from private.connection_sql import App
 from pymysql.cursors import DictCursor
+from tkinter.messagebox import showerror
 config = dotenv_values('.env')
 
 try:
@@ -11,5 +12,5 @@ try:
         "cursorclass": DictCursor
     }
 except KeyError as error:
-    print("no se encontraron las variables de entorno")
+    showerror("error","no se encontraron las variables de entorno")
     App()
