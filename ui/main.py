@@ -141,11 +141,29 @@ class Register(Base):
         frame_form_fill.pack(side="bottom", expand=tk.YES,fill=tk.BOTH, pady=5, padx=10)
 
         # content
-        self.inputCalendar = DateEntry(frame_form_fill)
-        self.inputCalendar.pack()
+        self.label1 = ctk.CTkLabel(frame_form_fill,text="Nombre completo")
+        self.label2 = ctk.CTkLabel(frame_form_fill,text="Contraseña")
+        self.label3 = ctk.CTkLabel(frame_form_fill,text="Confirmar contraseña")
+        self.label4 = ctk.CTkLabel(frame_form_fill,text="correo electronico")
+        self.label5 = ctk.CTkLabel(frame_form_fill,text="cedula")
+        self.label6 = ctk.CTkLabel(frame_form_fill,text="edad")
+        self.label4 = ctk.CTkLabel(frame_form_fill,text="fecha de nacimiento")
+        self.label7 = ctk.CTkLabel(frame_form_fill,text="numero de telefono")
+        #content entry
+        self.nombre_completo = ctk.CTkEntry()
+
+        # posicion de labels
+        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
+        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
+        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
+        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
+        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
+        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
+
+
 
         btnEnviar = ctk.CTkButton(frame_form_fill,text="registrarse",command=self.getData)
-        btnEnviar.pack()
+        btnEnviar.place(relx=0.01,rely=0.9,relwidth=0.97,relheight=0.1)
 
         self.window.mainloop()
 
@@ -261,6 +279,7 @@ class Control(Base):
         btnBack = ctk.CTkButton(self.frame1,text="volver",command=self.volver)
         btnBack.place(x=0,y=450)
         # frame 2
+
         self.search = ctk.CTkEntry(self.frame2,width=260,height=40,placeholder_text="Buscar",font=('Comic Sans MS',16,BOLD))
         self.search.place(x=0,y=0)
         self.btnSearch = ctk.CTkButton(self.frame2,width=36,height=26,text="",image=self.imageSearch,bg_color="#2A2929",fg_color="#2A2929",hover_color="#222222",command=self.search_user)
@@ -276,15 +295,23 @@ class Control(Base):
         datos = self.sql.consulta("SELECT primer_nombre,primer_apellido FROM users")
         datos = datos.fetchall()
         y = 0
-        for i in datos:
-            self.label1 = ctk.CTkLabel(self.frame3,text=f"{i[0]} {i[1]}")
+        for elemento in datos:
+            self.label1 = ctk.CTkLabel(self.frame3,text=f"{elemento['primer_nombre']} {elemento['primer_apellido']}")
             self.label1.place(x=10,y=y)
             y += 20
     def search_user(self):
-        datos = self.sql.consulta("select * from users")
-        datos = datos.fetchall()
-        print(datos)
-
+        search = self.search.get().capitalize()
+        result = self.sql.consulta(f'SELECT primer_nombre,primer_apellido FROM users WHERE primer_nombre LIKE "{search}%"')
+        result = result.fetchall()
+        y = 0
+        if result != ():
+            self.windowDatos = ctk.CTkToplevel()
+            self.windowDatos.title = "datos encontrados"
+            for elemento in result:
+                self.label2 = ctk.CTkLabel(self.windowDatos,text=f"{elemento['primer_nombre']} {elemento['primer_apellido']}")
+                self.label2.place(x=10,y=y)
+                y += 20
+            self.windowDatos.mainloop()
 
     def volver(self):
         self.window.destroy()
