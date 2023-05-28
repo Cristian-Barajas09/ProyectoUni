@@ -7,6 +7,7 @@ from .partials.base import Base
 from util.helpers import matchPassword
 from util.helpers import encryptPassword
 from tkcalendar import DateEntry
+from util.generateWord import Word
 #   formulario de entrada
 
 
@@ -88,11 +89,11 @@ class Form(Base):
             result = self.sql.consulta(
                 f"SELECT * FROM users WHERE email = '{user.lower()}'")
             data = result.fetchall()
-            print(data)
             if data:
-                savedPassword = data["password"]
+                savedPassword = data[0]["password"]
                 result = matchPassword(password, savedPassword)
                 if result:
+                    messagebox.showinfo("bienvenido",f"bienveido {data[0]['primer_nombre']}")
                     self.window.destroy()
                     Application()
                 else:
@@ -112,59 +113,28 @@ class Form(Base):
 
 class Register(Base):
     def __init__(self):
-        super().__init__("registro de personal", "1000x500")
+        super().__init__("registro de personal", "500x500")
         self.icon()
 
-        utl.centrar_venta(self.window, 1000, 500)
-        # frame logo
-        logo = self.add_image("./image/logo.jpeg", (300, 500))
-        frame_logo = ctk.CTkFrame(self.window, border_width=0, width=300)
-        frame_logo.pack(ipadx=10, ipady=1, side="right",
-                        expand=tk.NO, fill=tk.BOTH)
-        # frame logo
-        # frame form
-        label_img = ctk.CTkLabel(frame_logo, image=logo, text="")
-        label_img.place(x=0, y=0, relwidth=1, relheight=1)
-        frame_form = ctk.CTkFrame(self.window, border_width=0)
-        frame_form.pack(side="left", expand=tk.YES, fill=tk.BOTH)
-        # frame form
-        # frame form top
-        frame_form_top = ctk.CTkFrame(frame_form, height=50, border_width=0)
-        frame_form_top.pack(side="top", fill=tk.X, pady=5, padx=10)
-        title = ctk.CTkLabel(
-            frame_form_top, text="Registro de personal", font=('Comic Sans MS', 30))
-        title.pack(pady=50, expand=tk.YES, fill=tk.BOTH)
-        # end frame_form_top
+        utl.centrar_venta(self.window, 500, 500)
+        
+        frame = ctk.CTkFrame(self.window)
+        frame.place(relx=0.04,rely=0.2,relwidth=0.92,relheight=0.6)
 
-        # frame form fill
-        frame_form_fill = ctk.CTkFrame(frame_form, height=50)
-        frame_form_fill.pack(side="bottom", expand=tk.YES,fill=tk.BOTH, pady=5, padx=10)
-
-        # content
-        self.label1 = ctk.CTkLabel(frame_form_fill,text="Nombre completo")
-        self.label2 = ctk.CTkLabel(frame_form_fill,text="Contraseña")
-        self.label3 = ctk.CTkLabel(frame_form_fill,text="Confirmar contraseña")
-        self.label4 = ctk.CTkLabel(frame_form_fill,text="correo electronico")
-        self.label5 = ctk.CTkLabel(frame_form_fill,text="cedula")
-        self.label6 = ctk.CTkLabel(frame_form_fill,text="edad")
-        self.label4 = ctk.CTkLabel(frame_form_fill,text="fecha de nacimiento")
-        self.label7 = ctk.CTkLabel(frame_form_fill,text="numero de telefono")
-        #content entry
-        self.nombre_completo = ctk.CTkEntry()
-
-        # posicion de labels
-        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
-        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
-        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
-        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
-        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
-        self.label1.place(relx=0.01,rely=0.02,relwidth=0.23,relheight=0.1)
-
-
-
-        btnEnviar = ctk.CTkButton(frame_form_fill,text="registrarse",command=self.getData)
-        btnEnviar.place(relx=0.01,rely=0.9,relwidth=0.97,relheight=0.1)
-
+        self.input1 = ctk.CTkEntry(frame,placeholder_text="Nombre Completo",border_width=0)
+        self.input1.place(relx=0.3,rely=0.04,relwidth=0.4,relheight=0.15)
+        self.input2 = ctk.CTkEntry(frame,placeholder_text="Correo Electronico",border_width=0)
+        self.input2.place(relx=0.01,rely=0.3,relwidth=0.4,relheight=0.15)
+        self.input3 = DateEntry(frame,textvariable="fecha de nacimiento",style="6F6C6C")
+        self.input3.place(relx=0.55,rely=0.3,relwidth=0.4,relheight=0.15)
+        self.input4 = ctk.CTkEntry(frame,placeholder_text="C.I",border_width=0)
+        self.input4.place(relx=0.01,rely=0.5,relwidth=0.4,relheight=0.15)
+        self.input5 = ctk.CTkEntry(frame,placeholder_text="sexo",border_width=0)
+        self.input5.place(relx=0.55,rely=0.5,relwidth=0.4,relheight=0.15)
+        self.input6 = ctk.CTkEntry(frame,placeholder_text="Contraseña",border_width=0)
+        self.input6.place(relx=0.01,rely=0.7,relwidth=0.4,relheight=0.15)
+        self.input7 = ctk.CTkEntry(frame,placeholder_text="Confirmar contraseña",border_width=0)
+        self.input7.place(relx=0.55,rely=0.7,relwidth=0.4,relheight=0.15)
         self.window.mainloop()
 
     def getData(self):
@@ -244,15 +214,19 @@ class Register(Base):
 # FRANK AND JHONDEIVI
 class Inscripciones(Base):
     def __init__(self) -> None:
-        super().__init__("inscripciones","800x800")
+        super().__init__("Inscripciones","800x800")
         self.icon()
+        self.generarWord()
         btnBack = ctk.CTkButton(self.window,text="volver",command=self.volver)
         btnBack.pack()
         self.window.mainloop()
     def volver(self):
         self.window.destroy()
         Application()
-
+    def generarWord(self):
+        elemento = Word("test.docx")
+        elemento.write("prueba desde python")
+        elemento.save()
 
 ###         OMAR           ###
 class Control(Base):
