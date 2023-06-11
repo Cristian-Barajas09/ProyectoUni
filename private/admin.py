@@ -5,6 +5,10 @@ from ui.main import Form,Control
 
 
 class Admin:
+    """
+        ventana para mantener un control a la hora del desarrollo
+        debe ser eliminada en produccion
+    """
     def __init__(self):
         texto = """esta ventana es exclusiva de los desarroladores
 no esta en produccion.

@@ -20,15 +20,21 @@ class App:
         self.label3.pack()
         self.input3 =ctk.CTkEntry(self.window,placeholder_text="test")
         self.input3.pack()
+        self.label4 = ctk.CTkLabel(self.window,text="Password: ")
+        self.label4.pack()
+        self.input4 =ctk.CTkEntry(self.window,placeholder_text="******")
+        self.input4.pack()
         self.button = ctk.CTkButton(self.window,text="Ingresar",command=self.getData)
         self.button.pack(pady=10)
         self.window.mainloop()
 
 
     def getData(self):
+        password:str
         self.host = self.input1.get()
         self.user = self.input2.get()
         self.data_base = self.input3.get()
+        
         if not self.host  or not self.user or not self.data_base:
             message.showerror(title="faltan campos",message="rellene todos los campos")
         else:
@@ -37,5 +43,8 @@ class App:
                 file.write(f"USER_DATABASE = {self.user}\n")
                 file.write(f"DATABASE = {self.data_base}\n")
                 file.write(f"HOST_DATABASE = {self.host}\n")
+                if self.input4.get() != "":
+                    file.write(f"PASSWORD_DATABASE = {self.input4.get()}\n")
+
             self.window.destroy()
 
