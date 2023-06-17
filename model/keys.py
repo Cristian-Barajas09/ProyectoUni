@@ -9,9 +9,11 @@ try:
         "host": config['HOST_DATABASE'],
         "user": config['USER_DATABASE'],
         "database": config['DATABASE'],
-        "password": config['PASSWORD_DATABASE'],
         "cursorclass": DictCursor
     }
+    if config['PASSWORD_DATABASE']:
+        keys_db["password"] = config['PASSWORD_DATABASE']
+
 except KeyError as error:
     showerror("error","no se encontraron las variables de entorno")
     App()
