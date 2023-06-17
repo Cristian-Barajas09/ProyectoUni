@@ -30,7 +30,7 @@ class App:
 
 
     def getData(self):
-        password:str
+
         self.host = self.input1.get()
         self.user = self.input2.get()
         self.data_base = self.input3.get()

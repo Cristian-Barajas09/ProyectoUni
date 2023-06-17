@@ -109,3 +109,11 @@ class RegisterController(BaseController):
 
         for i in lista:
             print(i)
+
+class ControlController(BaseController):
+    def get_user(self):
+        datos = self.sql.consulta(
+            "SELECT primer_nombre,primer_apellido FROM users")
+        datos = datos.fetchall()
+
+        return datos
