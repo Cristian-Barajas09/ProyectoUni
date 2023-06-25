@@ -4,3 +4,4 @@ venv
 comandos.txt
 especificaciones.txt
 .env
+*.exe

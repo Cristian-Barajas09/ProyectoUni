@@ -34,6 +34,8 @@ class BaseDatos:
             """
             messagebox.showerror("error",error)
             exit()
+        finally:
+            self.connector.close()
     #decorador para el reporte de base de datos en el servidor
     def reporte_bd(funcion_parametro):
         def interno(self,nombre_bd:str):
@@ -76,6 +78,7 @@ class BaseDatos:
         """
         self.cursor.execute(sql)
         self.connector.commit()
+        self.connector.close()
 
     def mostrar_bd(self) -> list:
         """

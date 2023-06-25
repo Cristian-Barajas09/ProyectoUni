@@ -121,7 +121,7 @@ class Register(BaseView):
         self.input4.place(relx=0.01, rely=0.5, relwidth=0.4, relheight=0.15)
         # sexo
         self.input5 = ctk.CTkEntry(
-            frame, placeholder_text="sexo", border_width=0)
+            frame, placeholder_text="sexo", border_width=0,)
         self.input5.place(relx=0.55, rely=0.5, relwidth=0.4, relheight=0.15)
         # clave
         self.input6 = ctk.CTkEntry(
@@ -147,9 +147,13 @@ class Register(BaseView):
         datos["sexo"] = self.input5.get()
         datos["clave"] = self.input6.get()
         datos["confirm"] = self.input7.get()
-        RegisterController().getData(
+        print(self.inputCalendar.get_date())
+        puedeEntrar = RegisterController().getData(
             **datos
         )
+        if puedeEntrar:
+            self.window.destroy()
+            Application()
 
 
     def volver(self):

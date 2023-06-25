@@ -46,13 +46,14 @@ class RegisterController(BaseController):
     """
         crear nuevos usuarios
     """
-    def getData(self,**kwargs) -> None:
+    def getData(self,**kwargs) -> bool:
         """
             obtener los datos para poder generar un nuevo usuario
             args:
                 **kwargs -> espera los campos pasados por la vista para poder crear nuevo usuario
         """
         edad:int
+
         if (
             not kwargs["nombre_completo"] or
             not kwargs["clave"] or
@@ -70,42 +71,48 @@ class RegisterController(BaseController):
             year_nac = int(sep[0])
             edad =  fecha.year - year_nac
 
-        if kwargs["clave"] != kwargs["confirm"]:
-            return messagebox.showerror("claves no coinciden", "las claves ingresadas no son iguales")
+            correo = kwargs["correo"]
+            cedula = kwargs["cedula"]
+            sexo = kwargs["sexo"]
+            clave = kwargs["clave"]
 
-        self.separarNombre(kwargs["nombre_completo"])
 
-        # newPassword = self.encryptPassword(kwargs["clave"])
-            # self.sql.CRUD(f'''
-            # INSERT INTO users(
-            #     primer_nombre,
-            #     segundo_nombre,
-            #     primer_apellido,
-            #     segundo_apellido,
-            #     password,
-            #     email,
-            #     fecha_nacimiento,
-            #     cedula,
-            #     edad,
-            #     n_telefono
-            # ) VALUES (
-            #     "{primer_nombre}",
-            #     "{segundo_nombre}",
-            #     "{primer_apellido}",
-            #     "{segundo_apellido}",
-            #     "{newPassword}",
-            #     "{correo}",
-            #     "{f_nacimiento}",
-            #     "{cedula}",
-            #     {edad},
-            #     "{n_telefono}"
-            #     );
-            # ''')
 
-            # self.window.destroy()
-            # Application()
+
+            if kwargs["clave"] != kwargs["confirm"]:
+                return messagebox.showerror("claves no coinciden", "las claves ingresadas no son iguales")
+
+            primer_nombre,segundo_nombre,primer_apellido,segundo_apellido = self.separarNombre(kwargs["nombre_completo"])
+
+
+            newPassword = self.encrypt(clave)
+            self.sql.CRUD(f'''
+                INSERT INTO users(
+                    primer_nombre,
+                    segundo_nombre,
+                    primer_apellido,
+                    segundo_apellido,
+                    password,
+                    email,
+                    fecha_nacimiento,
+                    cedula,
+                    edad
+                ) VALUES (
+                    "{primer_nombre}",
+                    "{segundo_nombre}",
+                    "{primer_apellido}",
+                    "{segundo_apellido}",
+                    "{newPassword}",
+                    "{correo}",
+                    "{f_nacimiento}",
+                    "{cedula}",
+                    {edad},
+                    "{sexo}"
+                    );
+                ''')
+            return True
+        return False
     def separarNombre(self,nombre_completo:str):
         lista = nombre_completo.split()
 
-        for i in lista:
-            print(i)
+        return lista
