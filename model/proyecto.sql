@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS users(
     cedula VARCHAR(10) UNIQUE NOT NULL,
     edad TINYINT NOT NULL,
     n_telefono VARCHAR(12),
+    sexo SET('M','F') NOT NULL,
     rol SET('admin','profesor') DEFAULT 'profesor',
     PRIMARY KEY (id)
 );

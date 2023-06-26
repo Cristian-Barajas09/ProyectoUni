@@ -7,6 +7,9 @@ def leer_image(path,size) -> CTkImage:
         size=size,
     )
 
+def leer_image_tkinter(path,size):
+    return ImageTk.PhotoImage(Image.open(path).resize(size,Image.ANTIALIAS))
+
 def centrar_venta(ventana,aplicacion_ancho,aplicacion_largo):
     pantalla_ancho = ventana.winfo_screenwidth()
     pantalla_largo = ventana.winfo_screenheight()

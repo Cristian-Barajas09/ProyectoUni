@@ -1,8 +1,7 @@
 import tkinter as tk
-from controller.main import FormController,RegisterController,ControlController
+from controller.main import FormController,RegisterController
 from tkinter.font import BOLD
 import util.generic as utl
-import customtkinter as ctk
 from .partials.base import BaseView
 from tkcalendar import DateEntry
 from util.generateWord import Word
@@ -18,56 +17,58 @@ class Form(BaseView):
         utl.centrar_venta(self.window, 800, 500)
 
         # frame logo
-        logo = self.add_image("./image/logo.jpeg", (300, 500))
-        frame_logo = ctk.CTkFrame(self.window, border_width=0, width=300)
+        logo = self.add_image_tkinter("./image/logo.jpeg", (400, 600))
+        frame_logo = tk.Frame(self.window, borderwidth=0, width=300)
         frame_logo.pack(ipadx=10, ipady=10, side="left",
                         expand=tk.NO, fill=tk.BOTH)
         # endframe logo
 
         # frame form
-        label1 = ctk.CTkLabel(frame_logo, image=logo, text="")
+        label1 = tk.Label(frame_logo, image=logo, text="")
         label1.place(x=0, y=0, relwidth=1, relheight=1)
-        frame_form = ctk.CTkFrame(self.window, border_width=0)
+
+        frame_form = tk.Frame(self.window, borderwidth=0)
         frame_form.pack(side="right", expand=tk.YES, fill=tk.BOTH)
         # endframe form
         # frame form top
-        frame_form_top = ctk.CTkFrame(frame_form, height=50, border_width=0)
+        frame_form_top = tk.Frame(frame_form, height=50, borderwidth=0,bg="#333")
         frame_form_top.pack(side="top", fill=tk.X, pady=5, padx=10)
-        title = ctk.CTkLabel(
-            frame_form_top, text="Inicio de sesion", font=('Comic Sans MS', 30))
+        title = tk.Label(
+            frame_form_top, text="Inicio de Sesión", font=('Comic Sans MS', 30),bg="#333",fg="#fff")
         title.pack(pady=50, expand=tk.YES, fill=tk.BOTH)
         # end frame_form_top
 
         # frame form fill
-        frame_form_fill = ctk.CTkFrame(frame_form, height=50)
+        frame_form_fill = tk.Frame(frame_form, height=50,bg="#333")
         frame_form_fill.pack(side="bottom", expand=tk.YES,
                             fill=tk.BOTH, pady=5, padx=10)
 
-        label1 = ctk.CTkLabel(frame_form_fill, text="Usuario", font=(
-            'Comic Sans MS', 20), anchor="w")
+        label1 = tk.Label(frame_form_fill, text="Usuario", font=(
+            'Comic Sans MS', 12), anchor="w",fg="#fff",bg="#333")
         label1.pack(fill=tk.X, padx=20, pady=5)
-        self.input1 = ctk.CTkEntry(frame_form_fill, font=(
-            'Comic Sans MS', 20), height=40, placeholder_text="ejemplo@domain.com")
+        self.input1 = tk.Entry(frame_form_fill, font=(
+            'Comic Sans MS', 15))
         self.input1.pack(fill=tk.X, padx=20, pady=10)
-        label2 = ctk.CTkLabel(frame_form_fill, text="Contraseña", font=(
-            'Comic Sans MS', 20), anchor="w")
-        label2.pack(fill=tk.X, padx=20, pady=10)
-        self.input2 = ctk.CTkEntry(
-            frame_form_fill, font=('Comic Sans MS', 20), height=40)
+        label2 = tk.Label(frame_form_fill, text="Contraseña", font=(
+            'Comic Sans MS', 12), anchor="w",fg="#fff",bg="#333")
+        label2.pack(fill=tk.X, padx=20, pady=10,)
+        self.input2 = tk.Entry(
+            frame_form_fill, font=('Comic Sans MS', 15))
         self.input2.pack(fill=tk.X, padx=20, pady=10)
         self.input2.configure(show="*")
-        self.btnShow = ctk.CTkCheckBox(
+        self.btnShow = tk.Radiobutton(
             frame_form_fill, text="mostrar contraseña", command=self.show, font=('Comic Sans MS', 15))
-        self.btnShow.place(x=280, y=210)
-        self.registerBtn = ctk.CTkButton(frame_form_fill, text="registrarse", command=self.registro, font=(
-            'Comic Sans MS', 20), height=5, bg_color="transparent")
-        self.registerBtn.place(x=10, y=210)
+        self.btnShow.place(x=280, y=230)
+
+        self.registerBtn = tk.Button(frame_form_fill, text="registrarse", command=self.registro, font=(
+            'Comic Sans MS', 12), height=1)
+        self.registerBtn.place(x=10, y=200)
 
         # end frame form fill
 
-        btn = ctk.CTkButton(frame_form_fill, height=70, font=(
-            'Comic Sans MS', 20, BOLD), text="iniciar sesion", command=self.getData)
-        btn.pack(fill=tk.X, padx=20, pady=50)
+        btn = tk.Button(frame_form_fill, font=(
+            'Comic Sans MS', 15, BOLD), text="iniciar sesion", command=self.getData,borderwidth=0)
+        btn.pack(fill=tk.X,pady=45)
         self.window.mainloop()
 
     def registro(self):
@@ -100,15 +101,15 @@ class Register(BaseView):
 
         utl.centrar_venta(self.window, 500, 500)
 
-        frame = ctk.CTkFrame(self.window)
+        frame = tk.Frame(self.window)
         frame.place(relx=0.04, rely=0.2, relwidth=0.92, relheight=0.6)
         #nombre
-        self.input1 = ctk.CTkEntry(
-            frame, placeholder_text="Nombre Completo", border_width=0)
+        self.input1 = tk.Entry(
+            frame, placeholder_text="Nombre Completo", borderwidth=0)
         self.input1.place(relx=0.3, rely=0.04, relwidth=0.4, relheight=0.15)
         # correo
-        self.input2 = ctk.CTkEntry(
-            frame, placeholder_text="Correo Electronico", border_width=0)
+        self.input2 = tk.Entry(
+            frame, placeholder_text="Correo Electronico", borderwidth=0)
         self.input2.place(relx=0.01, rely=0.3, relwidth=0.4, relheight=0.15)
         #fecha de nacimento
         self.inputCalendar = DateEntry(
@@ -116,24 +117,24 @@ class Register(BaseView):
         self.inputCalendar.place(
             relx=0.55, rely=0.3, relwidth=0.4, relheight=0.15)
         # cedula
-        self.input4 = ctk.CTkEntry(
-            frame, placeholder_text="C.I", border_width=0)
+        self.input4 = tk.Entry(
+            frame, placeholder_text="C.I", borderwidth=0)
         self.input4.place(relx=0.01, rely=0.5, relwidth=0.4, relheight=0.15)
         # sexo
-        self.input5 = ctk.CTkEntry(
-            frame, placeholder_text="sexo", border_width=0,)
+        self.input5 = tk.Entry(
+            frame, placeholder_text="sexo", borderwidth=0,)
         self.input5.place(relx=0.55, rely=0.5, relwidth=0.4, relheight=0.15)
         # clave
-        self.input6 = ctk.CTkEntry(
-            frame, placeholder_text="Contraseña", border_width=0)
+        self.input6 = tk.Entry(
+            frame, placeholder_text="Contraseña", borderwidth=0)
         self.input6.place(relx=0.01, rely=0.7, relwidth=0.4, relheight=0.15)
         #confirmar clave
-        self.input7 = ctk.CTkEntry(
-            frame, placeholder_text="Confirmar contraseña", border_width=0)
+        self.input7 = tk.Entry(
+            frame, placeholder_text="Confirmar contraseña", borderwidth=0)
         self.input7.place(relx=0.55, rely=0.7, relwidth=0.4, relheight=0.15)
 
-        btn = ctk.CTkButton(self.window, text="Registrarse",
-                            corner_radius=10, fg_color="gray", text_color='white', hover_color="black",cursor="",command=self.getData)
+        btn = tk.Button(self.window, text="Registrarse",
+                            corner_radius=10, fg_color="gray", fg='white', hover_color="black",cursor="",command=self.getData)
         btn.place(relx=0.35, rely=0.85, relwidth=0.3, relheight=0.1)
 
         self.window.mainloop()
@@ -174,7 +175,7 @@ class Inscripciones(BaseView):
         super().__init__("Inscripciones", "800x800")
         self.icon()
         self.generarWord()
-        btnBack = ctk.CTkButton(
+        btnBack = tk.Button(
             self.window, text="volver", command=self.volver)
         btnBack.pack()
         self.window.mainloop()
@@ -199,30 +200,30 @@ class Control(BaseView):
         self.imageSearch = utl.leer_image('./image/lupa-blanca.png', (36, 26))
 
         # frames
-        self.frame1 = ctk.CTkFrame(self.window, width=263, height=500)
+        self.frame1 = tk.Frame(self.window, width=263, height=500)
         self.frame1.place(x=0, y=0)
 
-        self.frame2 = ctk.CTkFrame(self.window, width=260, height=40)
+        self.frame2 = tk.Frame(self.window, width=260, height=40)
         self.frame2.place(x=340, y=10)
 
-        self.frame3 = ctk.CTkFrame(self.window, width=378, height=420)
+        self.frame3 = tk.Frame(self.window, width=378, height=420)
         self.frame3.place(x=283, y=60)
         # frame 1
         valores = ["profesores", "estudiantes"]
         comandos = ()
-        self.select = ctk.CTkOptionMenu(
+        self.select = tk.OptionMenu(
             self.frame1, values=valores, command=comandos)
         self.select.place(x=0, y=10)
-        btnBack = ctk.CTkButton(
+        btnBack = tk.Button(
             self.frame1, text="volver", command=self.volver)
         btnBack.place(x=0, y=450)
         # frame 2
 
-        self.search = ctk.CTkEntry(self.frame2, width=260, height=40,
+        self.search = tk.Entry(self.frame2, width=260, height=40,
                                    placeholder_text="Buscar", font=('Comic Sans MS', 16, BOLD))
         self.search.place(x=0, y=0)
-        self.btnSearch = ctk.CTkButton(self.frame2, width=36, height=26, text="", image=self.imageSearch,
-                                       bg_color="#2A2929", fg_color="#2A2929", hover_color="#222222", command=self.search_user)
+        self.btnSearch = tk.Button(self.frame2, width=36, height=26, text="", image=self.imageSearch,
+                                       bg="#2A2929", command=self.search_user)
         self.btnSearch.place(x=200, y=3)
 
         # frame 3
@@ -232,10 +233,12 @@ class Control(BaseView):
 
     # consulta a la base de datos
     def get_user(self):
-        datos = ControlController().get_user()
+        datos = self.sql.consulta(
+            "SELECT primer_nombre,primer_apellido FROM users")
+        datos = datos.fetchall()
         y = 0
         for elemento in datos:
-            self.label1 = ctk.CTkLabel(
+            self.label1 = tk.Label(
                 self.frame3, text=f"{elemento['primer_nombre']} {elemento['primer_apellido']}")
             self.label1.place(x=10, y=y)
             y += 20
@@ -247,10 +250,10 @@ class Control(BaseView):
         result = result.fetchall()
         y = 0
         if result != ():
-            self.windowDatos = ctk.CTkToplevel()
+            self.windowDatos = tk.Toplevel()
             self.windowDatos.title = "datos encontrados"
             for elemento in result:
-                self.label2 = ctk.CTkLabel(
+                self.label2 = tk.Label(
                     self.windowDatos, text=f"{elemento['primer_nombre']} {elemento['primer_apellido']}")
                 self.label2.place(x=10, y=y)
                 y += 20
@@ -266,9 +269,16 @@ class Application(BaseView):
         super().__init__("C.E.I Josefina Molina de Duque", "600x300")
         self.icon()
 
-        self.frame_menu = ctk.CTkFrame(self.window,width=50,height=45,)
-        self.frame_menu.grid_propagate(0)
-        self.frame_menu.grid(column=0, row = 1, sticky='nsew')
+        frame_1 = tk.Frame(self.window, width=200, height=300)
+        frame_1.pack(side="left")
+        label_1 = tk.Label(frame_1, text="Inicio")
+        label_1.place(x=20, y=20)
+        btn_1 = tk.Button(
+            master=frame_1, text="incripciones", command=self.inscripciones)
+        btn_1.place(x=20, y=50)
+        btn_2 = tk.Button(
+            master=frame_1, text="Control de personal", command=self.personal)
+        btn_2.place(x=20, y=100)
 
         self.window.mainloop()
 
