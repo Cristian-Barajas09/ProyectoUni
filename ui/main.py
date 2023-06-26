@@ -1,5 +1,5 @@
 import tkinter as tk
-from controller.main import FormController,RegisterController
+from controller.main import FormController,RegisterController,ControlController
 from tkinter.font import BOLD
 import util.generic as utl
 import customtkinter as ctk
@@ -232,9 +232,7 @@ class Control(BaseView):
 
     # consulta a la base de datos
     def get_user(self):
-        datos = self.sql.consulta(
-            "SELECT primer_nombre,primer_apellido FROM users")
-        datos = datos.fetchall()
+        datos = ControlController().get_user()
         y = 0
         for elemento in datos:
             self.label1 = ctk.CTkLabel(
@@ -268,16 +266,9 @@ class Application(BaseView):
         super().__init__("C.E.I Josefina Molina de Duque", "600x300")
         self.icon()
 
-        frame_1 = ctk.CTkFrame(self.window, width=200, height=300)
-        frame_1.pack(side="left")
-        label_1 = ctk.CTkLabel(frame_1, text="Inicio")
-        label_1.place(x=20, y=20)
-        btn_1 = ctk.CTkButton(
-            master=frame_1, text="incripciones", command=self.inscripciones)
-        btn_1.place(x=20, y=50)
-        btn_2 = ctk.CTkButton(
-            master=frame_1, text="Control de personal", command=self.personal)
-        btn_2.place(x=20, y=100)
+        self.frame_menu = ctk.CTkFrame(self.window,width=50,height=45,)
+        self.frame_menu.grid_propagate(0)
+        self.frame_menu.grid(column=0, row = 1, sticky='nsew')
 
         self.window.mainloop()
 

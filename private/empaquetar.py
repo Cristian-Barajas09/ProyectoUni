@@ -33,3 +33,9 @@ class Installer():
         build_path = os.path.join(self.__ruta_proyecto,"build")
         subprocess.Popen(".\\venv\\Scripts\\activate",shell=True,stdout=True)
         subprocess.Popen(f"pyinstaller {self.main} --specpath {build_path} --onefile",shell=True,stdout=True)
+
+
+
+if __name__ == "__main__":
+    install = Installer()
+    install.generar()
