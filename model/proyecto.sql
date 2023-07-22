@@ -1,3 +1,4 @@
+-- Active: 1687916797927@@127.0.0.1@3306@proyecto
 CREATE DATABASE proyecto;
 
 USE proyecto;
@@ -5,10 +6,8 @@ USE proyecto;
 DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users(
     id INT NOT NULL AUTO_INCREMENT,
-    primer_nombre VARCHAR(100) NOT NULL,
-    segundo_nombre VARCHAR(100) NOT NULL,
-    primer_apellido VARCHAR(100) NOT NULL,
-    segundo_apellido VARCHAR(100) NOT NULL,
+    nombres VARCHAR(50),
+    apellidos VARCHAR(50),
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     fecha_nacimiento DATE NOT NULL,
@@ -37,10 +36,8 @@ CREATE TABLE IF NOT EXISTS estudiantes(
 DROP TABLE IF EXISTS representantes;
 CREATE TABLE IF NOT EXISTS representantes(
     id INT NOT NULL AUTO_INCREMENT,
-    primer_nombre VARCHAR(100) NOT NULL,
-    segundo_nombre VARCHAR(100) NOT NULL,
-    primer_apellido VARCHAR(100) NOT NULL,
-    segundo_apellido VARCHAR(100) NOT NULL,
+    nombres VARCHAR(50),
+    apellidos VARCHAR(50), 
     email VARCHAR(255) NOT NULL UNIQUE,
     fecha_nacimiento DATE NOT NULL,
     cedula VARCHAR(10) UNIQUE NOT NULL,
@@ -58,7 +55,16 @@ CREATE TABLE IF NOT EXISTS secciones(
 );
 
 
+CREATE TABLE sessions(
+    user_id INT NOT NULL,
+    status BOOLEAN DEFAULT FALSE,
+    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
+    CONSTRAINT fk_session FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+DROP DATABASE proyecto;
 
 
 

@@ -1,8 +1,8 @@
-from ui.main import Form
+from ui.Form import Form
 from private.admin import Admin
 
 # desactivar si ya quieres iniciar produccion
-DEBUG: bool = False
+DEBUG: bool = True
 
 
 def run():
