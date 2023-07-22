@@ -1,6 +1,7 @@
 from util.rutas import dir
 import subprocess
 import os
+import shutil
 
 class Installer():
     __ruta_proyecto = dir
@@ -9,9 +10,9 @@ class Installer():
         self.main = os.path.join(self.__ruta_proyecto,"main.py")
         self.deactiveDebug()
         self.generar()
+        exit()
 
     def deactiveDebug(self):
-        print(self.main)
         lines = open(self.main,'r').readlines()
         if "DEBUG: bool = True\n" in lines:
             index = lines.index("DEBUG: bool = True\n")
@@ -24,8 +25,13 @@ class Installer():
             out.writelines(lines)
             out.close()
 
+    def moveFiles(self):
+        with open(f'{os.path.join(self.__ruta_proyecto,"dist",".env")}','w+') as file :
+            env_debug = open(f'{os.path.join(self.__ruta_proyecto,".env")}','r')
+            file.writelines(env_debug)
+            file.close()
+
     def generar(self):
-        print(self.main)
         if os.path.exists(os.path.join(self.__ruta_proyecto,"build")):
             os.rmdir(os.path.join(self.__ruta_proyecto,"build"))
         else:
@@ -36,6 +42,6 @@ class Installer():
 
 
 
+
 if __name__ == "__main__":
     install = Installer()
-    install.generar()
