@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from .empaquetar import Installer
 from ui.Form import Form
+from ui.main import App
 from util.generateWord import Word
 
 
@@ -30,6 +31,8 @@ o en lo creas ¯\_(ツ)_/¯
         self.btn3.place(x=20,y=120)
         self.btn4 = ttk.Button(frame1,text="generar instalador",command=self.install)
         self.btn4.place(x=20,y=160)
+        self.btn5 = ttk.Button(frame1,text="Aplicacion principal",command=self.app)
+        self.btn5.place(x=20,y=180)
         label = ttk.Label(self.window,text=texto)
         label.place(x=200,y=10)
         self.window.mainloop()
@@ -48,6 +51,9 @@ o en lo creas ¯\_(ツ)_/¯
         archivo.copy()
         archivo.save()
 
+    def app(self):
+        self.window.destroy()
+        App()
     # def control(self):
     #     self.window.destroy()
     #     Control()
