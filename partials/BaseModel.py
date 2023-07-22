@@ -67,17 +67,16 @@ class BaseModel :
 
 
     # consultas a la base datos
-
-    def consulta(self, sql:str) -> Cursor:
+    @query
+    def consulta(self,con,cur ,sql:str) -> Cursor:
         """
             metodo solo para consultas que nos permite solo realizar consultas a
             la base de datos
             args:
                 sql:str -> espera una consulta
         """
-        conn,cursor = self.connect()
-        cursor.execute(sql)
-        return cursor
+        cur.execute(sql)
+        return cur
     # mostrar base de datos del servidor
 
     #ejecutar consultas
@@ -94,6 +93,7 @@ class BaseModel :
 
         cur.execute(sql)
         con.commit()
+        return cur.rowcount
 
 
 

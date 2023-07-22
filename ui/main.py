@@ -8,7 +8,7 @@ from util.generateWord import Word
 
 class App(BaseView):
     def __init__(self):
-        super().__init__(title="nombre_colegio",geometry="700x700",controller=Controller)
+        super().__init__(title="nombre_colegio",geometry="700x500",controller=Controller)
 
 
         self.main()
@@ -32,15 +32,41 @@ class App(BaseView):
 
         self.notebook.place(relx=0,rely=0,relwidth=1,relheight=1)
 
+    def validate_search(self, event):
+        result = self.get_user()
+        if self.search.get() == "":
+            self.tree.delete(*self.tree.get_children())
+            for item in result:
+                if item[1] == "admin" or item[1] == self.session[1]:
+                    continue
+                self.tree.insert('', self.tk.END, values=(
+                    item[0], item[1], item[2]))
+            self.frame1.update()
+
+
     def inscripcion(self):
         pass
 
 
     def controlPersonas(self):
-        self.search = self.ttk.Entry(self.frame1,)
-        self.search.place(relx=0.2,rely=0.01,relwidth=0.1)
-        self.btnSearch = self.ttk.Button(self.frame1, text="search",command=self.render_user)
-        self.btnSearch.place(relx=0.3,rely=0.01)
+        frame_search = self.ttk.Frame(self.frame1)
+        frame_search.place(relx=0, rely=0, relwidth=1, relheight=0.3)
+        self.search = self.ttk.Entry(frame_search, justify="right",validate="key",validatecommand=(self.frame1.register(self.validate_entry_number), "%S"))
+        self.search.place(relx=0.26, rely=0.2, width=180, height=25)
+        self.search.bind("<FocusOut>", self.validate_search)
+
+
+        self.select = self.ttk.Combobox(frame_search, values=(
+            "cedula", "nombres", "apellidos"), state="readonly")
+        self.select.current(0)
+        self.select.place(relx=0.26, rely=0.21, width=50)
+
+        self.select.bind("<<ComboboxSelected>>",lambda event: self.validate_param(self.select.get()))
+
+        btn_search = self.ttk.Button(frame_search, text="buscar", command=lambda: self.search_user(
+            self.search.get(), self.select.get()))
+        btn_search.place(relx=0.57, rely=0.2, width=50, height=25)
+
 
         columns = ("nombres","apellidos")
         self.tree = self.ttk.Treeview(self.frame1,columns=columns,show="headings")
@@ -53,34 +79,47 @@ class App(BaseView):
 
         self.tree.bind('<<TreeviewSelect>>', self.item_selected)
 
-        self.tree.place(relx=0,rely=0,relwidth=1,relheight=1)
+        self.tree.place(relx=0,rely=0.3,relwidth=1,relheight=0.6)
 
 
         scrollbar = self.ttk.Scrollbar(self.frame1, orient=self.tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscroll=scrollbar.set)
-        scrollbar.grid(row=0, column=1, sticky='ns',ipadx=10,ipady=10)
+        scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
+
+    # def buscar(self, search, param):
+    #     if search.get() == "":
+    #         return self.root.bell()
+
+    #     self.carga = tk.Toplevel()
+    #     self.carga.wm_geometry("200x30")
+    #     carga = ttk.Progressbar(self.carga)
+
+    #     carga.pack()
+    #     carga.start(30)
+
+    #     result = self.ctrl.busqueda(search.get(), param.get())
+
+    #     if not (isinstance(result, list)):
+    #         messagebox.showerror("Error", result)
+    #     else:
+    #         if len(result) > 0:
+    #             self.carga.destroy()
+    #             self.tree.delete(*self.tree.get_children())
+    #             for item in result:
+    #                 self.tree.insert('', tk.END, values=(
+    #                     item[0], item[1], item[2]))
+    #             self.frame1.update()
 
 
-    def searchUser(self):
-        search = self.search.get()
-        result = self._controller.search_user(search.capitalize())
+    def search_user(self,search,param):
+
+        result = self._controller.search_user(search.capitalize(),param)
         if result != ():
             return result
         return []
 
-    def render_user(self):
-        search = self.searchUser()
-        if search != []:
-            self.tree.delete(*self.tree.get_children())
-            for item in search:
-                self.tree.insert('',self.tk.END,values=(item["nombres"],item["apellidos"]))
-        else:
-            self.tree.delete(*self.tree.get_children())
-            data = self.getUser()
-            for item in data:
-                self.tree.insert('',self.tk.END,values=(item["nombres"],item["apellidos"]))
 
-    def getUser(self):
+    def get_user(self):
         return self._controller.get_user()
 
     def item_selected(self,event):
@@ -89,3 +128,32 @@ class App(BaseView):
             record = item['values']
             self.person = self.tk.Toplevel()
             self.person.wm_title("usuario")
+
+
+    def validate_entry_number(self,text):
+
+
+        if not(text.isdecimal()):
+            self.root.bell()
+            return False
+        return True
+
+    def validate_entry_text(self,text):
+
+
+        for item in text:
+            if item.isdigit():
+                self.root.bell()
+
+
+                return False
+            return True
+        
+
+    def validate_param(self,param):
+        if param == "cedula":
+            self.search.delete(0,'end')
+            self.search["validatecommand"] = (self.frame1.register(self.validate_entry_number), "%S")
+        else:
+            self.search.delete(0,'end')
+            self.search["validatecommand"] = (self.frame1.register(self.validate_entry_text), "%S")
