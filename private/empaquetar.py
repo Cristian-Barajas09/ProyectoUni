@@ -2,7 +2,7 @@ from util.rutas import dir
 import subprocess
 import os
 import shutil
-
+from tkinter import filedialog
 class Installer():
     __ruta_proyecto = dir
     __user = os.getlogin()
@@ -32,11 +32,17 @@ class Installer():
             file.close()
 
     def generar(self):
-        if os.path.exists(os.path.join(self.__ruta_proyecto,"build")):
-            os.rmdir(os.path.join(self.__ruta_proyecto,"build"))
+
+        path =  filedialog.askdirectory()
+
+        if os.path.exists(os.path.join(path,"build")):
+            os.rmdir(os.path.join(path,"build"))
         else:
-            os.mkdir(os.path.join(self.__ruta_proyecto,"build"))
-        build_path = os.path.join(self.__ruta_proyecto,"build")
+            os.mkdir(os.path.join(path,"build"))
+
+
+
+        build_path = os.path.join(path,"build")
         subprocess.Popen(".\\venv\\Scripts\\activate",shell=True,stdout=True)
         subprocess.Popen(f"pyinstaller {self.main} --specpath {build_path} --onefile",shell=True,stdout=True)
 

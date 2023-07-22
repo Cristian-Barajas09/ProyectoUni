@@ -1,14 +1,14 @@
 from ui.Form import Form
-from private.admin import Admin
+#from private.admin import Admin
 
 # desactivar si ya quieres iniciar produccion
-DEBUG: bool = True
+DEBUG: bool = False
 
 
 def run():
     if DEBUG:
         print("estas en modo desarrolador")
-        Admin()
+#        Admin()
     else:
         Form()
 
