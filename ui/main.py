@@ -11,15 +11,17 @@ class App(BaseView):
         super().__init__(title="nombre_colegio",geometry="700x700",controller=Controller)
 
 
+        self.main()
+
         self.window.mainloop()
 
 
     def main(self):
-        self.notebook = self.ttk.Notebook(self.window,width=700,height=700)
+        self.notebook = self.ttk.Notebook(self.window)
         self.frame1 = self.ttk.Frame(self.notebook)
-        self.frame1.pack()
+        self.frame1.place(relx=0,rely=0,relwidth=1,relheight=1)
         self.frame2 = self.ttk.Frame(self.notebook)
-        self.frame2.pack()
+        self.frame2.place(relx=0,rely=0)
 
 
         self.controlPersonas()
@@ -35,7 +37,7 @@ class App(BaseView):
 
 
     def controlPersonas(self):
-        self.search = self.ttk.Entry(self.frame1, )
+        self.search = self.ttk.Entry(self.frame1,)
         self.search.place(relx=0.2,rely=0.01,relwidth=0.1)
         self.btnSearch = self.ttk.Button(self.frame1, text="search",command=self.render_user)
         self.btnSearch.place(relx=0.3,rely=0.01)
@@ -51,7 +53,7 @@ class App(BaseView):
 
         self.tree.bind('<<TreeviewSelect>>', self.item_selected)
 
-        self.tree.grid(row=1, column=0, sticky='nsew',ipadx=10)
+        self.tree.place(relx=0,rely=0,relwidth=1,relheight=1)
 
 
         scrollbar = self.ttk.Scrollbar(self.frame1, orient=self.tk.VERTICAL, command=self.tree.yview)

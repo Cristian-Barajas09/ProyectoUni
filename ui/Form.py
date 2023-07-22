@@ -5,16 +5,14 @@ from controller.main import Controller
 from .main import App
 class Form(BaseView):
     def __init__(self):
-        super().__init__(title="",geometry="",controller=Controller)
-
+        super().__init__(title="Ingresar",geometry="500x500",controller=Controller)
+        self.resizable(0,0)
         self.main()
 
+        self.window.mainloop()
 
     def main(self):
-        self.window.wm_geometry("500x500")
-        self.window.wm_protocol('WM_DELETE_WINDOW',self.window.destroy)
-        self.window.wm_attributes('-topmost',1)
-        self.window.wm_resizable(0,0)
+
 
         notebook = self.ttk.Notebook(self.window,width=500,height=500)
 
