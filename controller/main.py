@@ -96,15 +96,17 @@ class  Controller(BaseController):
 
 
 
-    def get_user(self):
+    def get_users(self) :
         datos = self.sql.consulta(
             "SELECT nombres,apellidos FROM users")
         datos = datos.fetchall()
 
         return datos
-    def search_user(self,search):
+
+
+    def search_user(self,search,param):
         result = self.sql.consulta(
-            f'SELECT nombres,apellidos FROM users WHERE nombres LIKE "{search}%"')
+            f'SELECT nombres,apellidos FROM users WHERE {param} LIKE "{search}%"')
         result = result.fetchall()
 
         return result

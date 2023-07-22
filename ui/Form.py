@@ -7,13 +7,15 @@ class Form(BaseView):
     def __init__(self):
         super().__init__(title="Ingresar",geometry="500x500",controller=Controller)
         self.resizable(0,0)
+
         self.main()
 
         self.window.mainloop()
 
     def main(self):
 
-
+        s = self.ttk.Style(self.window)
+        s.configure('TNotebook',bg="#71FA1D")
         notebook = self.ttk.Notebook(self.window,width=500,height=500)
 
         frame1 = self.ttk.Frame(self.window,width=500,height=500)
@@ -45,7 +47,7 @@ class Form(BaseView):
         btnShow = self.ttk.Checkbutton(labelFrame2,text="mostrar contraseña",command=lambda:self.show(self.input2))
 
 
-        btn = self.ttk.Button(frame1,text="iniciar sesion",command=self.verificarUsuario)
+        btn = self.tk.Button(frame1,text="iniciar sesion",command=self.verificarUsuario)
         self.input1.pack(expand=True)
         self.input2.pack(expand=True)
         btnShow.pack()
@@ -125,16 +127,16 @@ class Form(BaseView):
         label10 = self.ttk.LabelFrame(frame,text="Confirmar Contraseña")
         label10.place(relx=0.53,rely=0.45,relwidth=0.5,relheight=0.15)
 
-        self.input3 = self.ttk.Entry(
+        self.input3 = self.tk.Entry(
             label3,)
         self.input3.place(relx=0, rely=0, relwidth=1, relheight=1)
         #apellidos
-        self.inputApellidos = self.ttk.Entry(
+        self.inputApellidos = self.tk.Entry(
             label4
         )
         self.inputApellidos.place(relx=0,rely=0,relheight=1,relwidth=1)
         # correo
-        self.input4 = self.ttk.Entry(
+        self.input4 = self.tk.Entry(
             label5, )
         self.input4.place(relx=0, rely=0, relwidth=1, relheight=1)
         #fecha de nacimento
@@ -143,7 +145,7 @@ class Form(BaseView):
         self.inputCalendar.place(
             relx=0.1, rely=0, relwidth=0.8, relheight=1)
         # cedula
-        self.input5 = self.ttk.Entry(
+        self.input5 = self.tk.Entry(
             label7)
         self.input5.place(relx=0, rely=0, relwidth=1, relheight=1)
         # sexo
@@ -153,7 +155,7 @@ class Form(BaseView):
             state="readonly")
         self.input6.place(relx=0.1, rely=0, relwidth=0.8, relheight=1)
         # clave
-        self.input7 = self.ttk.Entry(
+        self.input7 = self.tk.Entry(
             label9, show="*" )
         self.input7.place(relx=0, rely=0, relwidth=1, relheight=0.5)
         btn1 = self.ttk.Checkbutton(label9,text="mostrar contraseña",command=lambda: self.show(self.input7))
@@ -161,11 +163,11 @@ class Form(BaseView):
 
 
         #confirmar clave
-        self.input8 = self.ttk.Entry(
+        self.input8 = self.tk.Entry(
             label10,show="*")
         self.input8.place(relx=0, rely=0, relwidth=1, relheight=0.5)
         btn1 = self.ttk.Checkbutton(label10,text="mostrar contraseña",command=lambda: self.show(self.input8))
         btn1.place(relx=0,rely=0.5)
 
-        btn3 = self.ttk.Button(frame, text="Registrarse",command=self.registrarUsuario)
+        btn3 = self.tk.Button(frame, text="Registrarse",command=self.registrarUsuario)
         btn3.place(relx=0.35, rely=0.7, relwidth=0.3, relheight=0.1)

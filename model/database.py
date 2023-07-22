@@ -1,5 +1,5 @@
 from partials.BaseModel import BaseModel
-
+from pymysql.cursors import Cursor
 
 
 class BaseDatos(BaseModel):
@@ -33,11 +33,11 @@ class BaseDatos(BaseModel):
                     "{sexo}"
                 );
                 ''')
-        
+    
 
 
     def getUsuario(self,email):
-        result = self.consulta(
+        result:Cursor = self.consulta(
             sql=f"SELECT * FROM users WHERE email = '{email}'"
         )
         result = result.fetchall()
