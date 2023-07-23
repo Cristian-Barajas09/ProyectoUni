@@ -25,6 +25,7 @@ class  Controller(BaseController):
                                 message="por favor rellene todos los campos")
         else:
             data = self.sql.getUsuario(email=user)
+            print(data)
 
             if data:
                 savedPassword = data[0]["password"]
