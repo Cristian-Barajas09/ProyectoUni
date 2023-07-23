@@ -7,14 +7,17 @@ config = dotenv_values('.env')
 
 try:
     keys_db = {
-        "host": config.get("HOST_DATABASE"),
-        "user": config.get("USER_DATABASE"),
-        "database": config.get("DATABASE"),
+        "host": config["HOST_DATABASE"],
+        "user": config["USER_DATABASE"],
+        "database": config["DATABASE"],
         "cursorclass": DictCursor
     }
     if config['PASSWORD_DATABASE']:
-        keys_db["password"] = config.get("PASSWORD_DATABASE")
+        keys_db["password"] = config["PASSWORD_DATABASE"]
+
+
 
 except KeyError as error:
     showerror("error","no se encontraron las variables de entorno")
+
     App()

@@ -12,7 +12,7 @@ class BaseDatos(BaseModel):
 
     def registrarUsuario(self,nombres,apellidos,password,email,f_nacimiento,cedula,edad,sexo):
 
-        self.CRUD(f'''
+        return self.CRUD(f'''
                 INSERT INTO users(
                     nombres,
                     apellidos,
@@ -33,6 +33,7 @@ class BaseDatos(BaseModel):
                     "{sexo}"
                 );
                 ''')
+
 
 
 
