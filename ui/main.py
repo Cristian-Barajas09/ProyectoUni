@@ -18,7 +18,7 @@ class App(BaseView):
 
     def main(self):
         self.notebook = self.ttk.Notebook(self.window)
-        self.frame1 = self.ttk.Frame(self.notebook)
+        self.frame1 = self.tk.Frame(self.notebook,bg="#000")
         self.frame1.place(relx=0,rely=0,relwidth=1,relheight=1)
         self.frame2 = self.ttk.Frame(self.notebook)
         self.frame2.place(relx=0,rely=0)
@@ -49,33 +49,35 @@ class App(BaseView):
 
 
     def controlPersonas(self):
-        frame_search = self.ttk.Frame(self.frame1)
+        frame_search = self.tk.Frame(self.frame1,bg="#000")
         frame_search.place(relx=0, rely=0, relwidth=1, relheight=0.3)
         self.search = self.ttk.Entry(frame_search, justify="right",validate="key",validatecommand=(self.frame1.register(self.validate_entry_number), "%S"))
-        self.search.place(relx=0.26, rely=0.2, width=180, height=25)
+        self.search.place(relx=0.34, rely=0.2, width=220, height=25)
         self.search.bind("<FocusOut>", self.validate_search)
 
 
         self.select = self.ttk.Combobox(frame_search, values=(
-            "cedula", "nombres", "apellidos"), state="readonly")
+            "nombres", "apellidos", "cedula"), state="readonly")
         self.select.current(0)
-        self.select.place(relx=0.26, rely=0.21, width=50)
+        self.select.place(relx=0.34, rely=0.21, width=70,)
 
         self.select.bind("<<ComboboxSelected>>",lambda event: self.validate_param(self.select.get()))
 
-        btn_search = self.ttk.Button(frame_search, text="buscar", command=lambda: self.search_user(
+        btn_search = self.tk.Button(frame_search,bg="#041d9b",border=0,fg="#fff", text="Buscar", command=lambda: self.search_user(
             self.search.get(), self.select.get()))
-        btn_search.place(relx=0.57, rely=0.2, width=50, height=25)
+        btn_search.place(relx=0.46, rely=0.6, width=60, height=35)
 
 
-        columns = ("nombres","apellidos")
+        columns = ("nombres","apellidos","cedula")
         self.tree = self.ttk.Treeview(self.frame1,columns=columns,show="headings")
 
         self.tree.heading("nombres",text="nombres")
         self.tree.heading("apellidos",text="apellidos")
+        self.tree.heading("cedula",text="cedula")
 
 
-        self.render_user()
+
+        # self.get_user()
 
         self.tree.bind('<<TreeviewSelect>>', self.item_selected)
 
