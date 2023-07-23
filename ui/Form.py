@@ -17,10 +17,10 @@ class Form(BaseView):
 
         notebook = self.ttk.Notebook(self.window,width=500,height=500)
 
-        frame1 = self.ttk.Frame(self.window,width=500,height=500)
+        frame1 = self.tk.Frame(self.window,width=500,height=500,bg="#222")
         frame1.place(relx=0,rely=0)
 
-        self.frame2 = self.ttk.Frame(self.window,width=500,height=500)
+        self.frame2 = self.tk.Frame(self.window,width=500,height=500)
         self.frame2.place(relx=0,rely=0,relwidth=1,relheight=1)
 
         notebook.add(frame1,text="iniciar sesion")
@@ -35,21 +35,21 @@ class Form(BaseView):
         # frame4 = self.ttk.Frame(frame1)
         # frame4.pack(side="right")
 
-        labelFrame1 = self.ttk.LabelFrame(frame1,text="Correo")
+        labelFrame1 = self.tk.LabelFrame(frame1,text="Correo",background="#222",fg="#fff",border=0)
         labelFrame1.place(relx=0.25,rely=0.1,relwidth=0.5,relheight=0.09)
-        labelFrame2 = self.ttk.LabelFrame(frame1,text="Contraseña")
-        labelFrame2.place(relx=0.25,rely=0.2,relwidth=0.5,relheight=0.1)
+        labelFrame2 = self.tk.LabelFrame(frame1,text="Contraseña",background="#222",fg="#fff",border=0)
+        labelFrame2.place(relx=0.25,rely=0.2,relwidth=0.5,relheight=0.15)
 
 
-        self.input1 = self.ttk.Entry(labelFrame1)
-        self.input2 = self.ttk.Entry(labelFrame2,show="*")
-        btnShow = self.ttk.Checkbutton(labelFrame2,text="mostrar contraseña",command=lambda:self.show(self.input2))
+        self.input1 = self.tk.Entry(labelFrame1,border=0)
+        self.input2 = self.tk.Entry(labelFrame2,show="*",border=0)
+        btnShow = self.tk.Checkbutton(labelFrame2,background='#222',fg='#fff',text="mostrar contraseña",command=lambda:self.show(self.input2))
 
 
-        btn = self.tk.Button(frame1,text="iniciar sesion",command=self.verificarUsuario)
+        btn = self.tk.Button(frame1,text="iniciar sesion",command=self.verificarUsuario,border=0,background="#041d9b",foreground="#fff")
         self.input1.place(relwidth=1,relheight=0.80)
-        self.input2.place(relwidth=1,relheight=0.80)
-        btnShow.pack()
+        self.input2.place(relwidth=1,relheight=0.50)
+        btnShow.place(rely=0.5)
         btn.place(relx=0.25,rely=0.4,relwidth=0.5,relheight=0.10)
 
         # registro
@@ -97,33 +97,38 @@ class Form(BaseView):
                 self.window.wm_title("iniciar sesion")
             else:
                 self.window.wm_title("registrarse")
+
+
+
     def registrar(self):
-        frame = self.tk.Frame(self.frame2,bg="#041D9B")
+        frame = self.tk.Frame(self.frame2,bg="#222")
         frame.place(relx=0, rely=0, relwidth=1, relheight=1)
 
+        
+
         #nombres
-        label3 = self.ttk.LabelFrame(frame,text="Nombres",)
+        label3 = self.tk.LabelFrame(frame,text="Nombres",bg="#222",fg="#fff",border=0)
         label3.place(relx=0.01,rely=0.10,relwidth=0.5,relheight=0.09)
         #Apellidos
-        label4 = self.ttk.LabelFrame(frame,text="Apellidos")
+        label4 = self.tk.LabelFrame(frame,text="Apellidos",bg="#222",fg="#fff",border=0)
         label4.place(relx=0.52,rely=0.10,relwidth=0.5,relheight=0.09)
         #correo
-        label5 = self.ttk.LabelFrame(frame,text="Correo")
+        label5 = self.tk.LabelFrame(frame,text="Correo",bg="#222",fg="#fff",border=0)
         label5.place(relx=0.01,rely=0.25,relwidth=0.5,relheight=0.09)
         #f_nacimiento
-        label6 = self.ttk.LabelFrame(frame,text="Fecha de nacimiento")
+        label6 = self.tk.LabelFrame(frame,text="Fecha de nacimiento",bg="#222",fg="#fff",border=0)
         label6.place(relx=0.52,rely=0.25,relwidth=0.5,relheight=0.09)
         #cedula
-        label7 = self.ttk.LabelFrame(frame,text="Cedula")
+        label7 = self.tk.LabelFrame(frame,text="Cedula",bg="#222",fg="#fff",border=0)
         label7.place(relx=0.01,rely=0.40,relwidth=0.5,relheight=0.09)
         #sexo
-        label8 = self.ttk.LabelFrame(frame,text="Sexo")
+        label8 = self.tk.LabelFrame(frame,text="Sexo",bg="#222",fg="#fff",border=0)
         label8.place(relx=0.52,rely=0.40,relwidth=0.5,relheight=0.09)
         #contraseña
-        label9 = self.ttk.LabelFrame(frame,text="Contraseña")
+        label9 = self.tk.LabelFrame(frame,text="Contraseña",bg="#222",fg="#fff",border=0)
         label9.place(relx=0.01,rely=0.55,relwidth=0.5,relheight=0.15)
         #confirmar
-        label10 = self.ttk.LabelFrame(frame,text="Confirmar Contraseña")
+        label10 = self.tk.LabelFrame(frame,text="Confirmar Contraseña",bg="#222",fg="#fff",border=0)
         label10.place(relx=0.52,rely=0.55,relwidth=0.5,relheight=0.15)
 
         self.input3 = self.tk.Entry(
@@ -158,7 +163,7 @@ class Form(BaseView):
         self.input7 = self.tk.Entry(
             label9, show="*" )
         self.input7.place(relx=0, rely=0, relwidth=1, relheight=0.5)
-        btn1 = self.ttk.Checkbutton(label9,text="mostrar contraseña",command=lambda: self.show(self.input7))
+        btn1 = self.tk.Checkbutton(label9,text="mostrar contraseña",command=lambda: self.show(self.input7),bg="#222",fg="#fff")
         btn1.place(relx=0,rely=0.5)
 
 
@@ -166,7 +171,7 @@ class Form(BaseView):
         self.input8 = self.tk.Entry(
             label10,show="*")
         self.input8.place(relx=0, rely=0, relwidth=1, relheight=0.5)
-        btn1 = self.ttk.Checkbutton(label10,text="mostrar contraseña",command=lambda: self.show(self.input8))
+        btn1 = self.tk.Checkbutton(label10,text="mostrar contraseña",command=lambda: self.show(self.input8),bg='#222',fg='#fff')
         btn1.place(relx=0,rely=0.5)
 
         btn3 = self.tk.Button(frame, text="Registrarse",command=self.registrarUsuario)
