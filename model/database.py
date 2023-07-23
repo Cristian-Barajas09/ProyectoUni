@@ -36,7 +36,6 @@ class BaseDatos(BaseModel):
 
 
 
-
     def getUsuario(self,email):
         result:Cursor = self.consulta(
             sql=f"SELECT * FROM users WHERE email = '{email}'"

@@ -66,6 +66,11 @@ CREATE TABLE IF NOT EXISTS estudiantes (
 );
 
 CREATE TABLE gustos(
+
+);
+
+CREATE TABLE juegos(
+
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     id_estudiante INT NOT NULL,
     gusto VARCHAR(20),
@@ -77,6 +82,7 @@ CREATE TABLE juegos(
     id_estudiante INT NOT NULL,
     juego VARCHAR(20),
     CONSTRAINT fk_estudiante_juegos FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id)
+
 );
 
 CREATE TABLE actividades(
@@ -84,6 +90,7 @@ CREATE TABLE actividades(
     id_estudiante INT NOT NULL,
     actividad VARCHAR(20),
     CONSTRAINT fk_estudiante_actividades FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id)
+
 );
 
 
@@ -92,6 +99,7 @@ CREATE TABLE vacunas(
     id_estudiante INT NOT NULL,
     vacuna VARCHAR(20),
     CONSTRAINT fk_estudiante_vacunas FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id)
+
 );
 
 CREATE TABLE alergias(
@@ -106,6 +114,7 @@ CREATE TABLE enfermedades(
     id_estudiante INT NOT NULL,
     enfermedad VARCHAR(20),
     CONSTRAINT fk_estudiante_enfermedades FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id)
+
 );
 
 DROP TABLE IF EXISTS representantes;
@@ -115,6 +124,7 @@ CREATE TABLE IF NOT EXISTS representantes(
     profesion VARCHAR(20),
     nombres VARCHAR(50),
     apellidos VARCHAR(50),
+
     vive_con_el BOOLEAN NOT NULL
 
 );
@@ -127,11 +137,11 @@ CREATE TABLE direcciones(
 );
 
 CREATE TABLE telefonos(
+
     cedula VARCHAR(10) UNIQUE NOT NULL,
     n_telefono VARCHAR(12),
     CONSTRAINT fk_telefono FOREIGN KEY (cedula) REFERENCES representantes(cedula)
 );
-
 
 DROP TABLE IF EXISTS annos;
 CREATE TABLE IF NOT EXISTS annos(
