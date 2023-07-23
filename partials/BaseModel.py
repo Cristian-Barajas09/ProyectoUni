@@ -39,17 +39,6 @@ class BaseModel :
             messagebox.showerror("error",error)
             exit()
     #decorador para el reporte de base de datos en el servidor
-    def query(func):
-        def intern(self,*args,**kwargs):
-            con,cur = BaseModel().connect()
-            try:
-                func(self,con,cur,*args,**kwargs)
-            except:
-                print("ocurrio un error")
-            finally:
-                con.close()
-                cur.close()
-        return intern
     def reporte_bd(funcion_parametro):
         def interno(self,nombre_bd:str):
             """
@@ -67,21 +56,22 @@ class BaseModel :
 
 
     # consultas a la base datos
-    @query
-    def consulta(self,con,cur ,sql:str) -> Cursor:
+    # @query
+    def consulta(self,sql:str) -> Cursor:
         """
             metodo solo para consultas que nos permite solo realizar consultas a
             la base de datos
             args:
                 sql:str -> espera una consulta
         """
+        con,cur = self.connect()
         cur.execute(sql)
         return cur
     # mostrar base de datos del servidor
 
     #ejecutar consultas
-    @query
-    def CRUD(self,con,cur:Cursor,sql):
+    # @query
+    def CRUD(self,sql):
         """
             metodo que nos permite realizar los metodos basicos de un crud
             CREATE, READ,UPDATE,DELETE
@@ -90,7 +80,7 @@ class BaseModel :
                 sql:str -> espera la operacion a ejecutar
 
         # """
-
+        con,cur = self.connect()
         cur.execute(sql)
         con.commit()
         return cur.rowcount
