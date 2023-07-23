@@ -14,15 +14,14 @@ class Form(BaseView):
 
     def main(self):
 
-        s = self.ttk.Style(self.window)
-        s.configure('TNotebook',bg="#71FA1D")
+
         notebook = self.ttk.Notebook(self.window,width=500,height=500)
 
         frame1 = self.ttk.Frame(self.window,width=500,height=500)
         frame1.place(relx=0,rely=0)
 
         self.frame2 = self.ttk.Frame(self.window,width=500,height=500)
-        self.frame2.place(relx=0,rely=0)
+        self.frame2.place(relx=0,rely=0,relwidth=1,relheight=1)
 
         notebook.add(frame1,text="iniciar sesion")
         notebook.add(self.frame2,text="registrarse")
@@ -37,9 +36,9 @@ class Form(BaseView):
         # frame4.pack(side="right")
 
         labelFrame1 = self.ttk.LabelFrame(frame1,text="Correo")
-        labelFrame1.place(relx=0.35,rely=0.2)
+        labelFrame1.place(relx=0.25,rely=0.1,relwidth=0.5,relheight=0.09)
         labelFrame2 = self.ttk.LabelFrame(frame1,text="Contraseña")
-        labelFrame2.place(relx=0.35,rely=0.3)
+        labelFrame2.place(relx=0.25,rely=0.2,relwidth=0.5,relheight=0.1)
 
 
         self.input1 = self.ttk.Entry(labelFrame1)
@@ -48,10 +47,10 @@ class Form(BaseView):
 
 
         btn = self.tk.Button(frame1,text="iniciar sesion",command=self.verificarUsuario)
-        self.input1.pack(expand=True)
-        self.input2.pack(expand=True)
+        self.input1.place(relwidth=1,relheight=0.80)
+        self.input2.place(relwidth=1,relheight=0.80)
         btnShow.pack()
-        btn.place(relx=0.35,rely=0.5,relwidth=0.25)
+        btn.place(relx=0.25,rely=0.4,relwidth=0.5,relheight=0.10)
 
         # registro
 
@@ -99,37 +98,38 @@ class Form(BaseView):
             else:
                 self.window.wm_title("registrarse")
     def registrar(self):
-        frame = self.ttk.Frame(self.frame2)
-        frame.place(relx=0.04, rely=0.2, relwidth=0.92, relheight=1)
+        frame = self.tk.Frame(self.frame2,bg="#041D9B")
+        frame.place(relx=0, rely=0, relwidth=1, relheight=1)
 
         #nombres
-        label3 = self.ttk.LabelFrame(frame,text="Nombres")
-        label3.place(relx=0.01,rely=0.01,relwidth=0.5,relheight=0.12)
+        label3 = self.ttk.LabelFrame(frame,text="Nombres",)
+        label3.place(relx=0.01,rely=0.10,relwidth=0.5,relheight=0.09)
         #Apellidos
         label4 = self.ttk.LabelFrame(frame,text="Apellidos")
-        label4.place(relx=0.53,rely=0.01,relwidth=0.5,relheight=0.12)
+        label4.place(relx=0.52,rely=0.10,relwidth=0.5,relheight=0.09)
         #correo
         label5 = self.ttk.LabelFrame(frame,text="Correo")
-        label5.place(relx=0.01,rely=0.15,relwidth=0.5,relheight=0.12)
+        label5.place(relx=0.01,rely=0.25,relwidth=0.5,relheight=0.09)
         #f_nacimiento
         label6 = self.ttk.LabelFrame(frame,text="Fecha de nacimiento")
-        label6.place(relx=0.53,rely=0.15,relwidth=0.5,relheight=0.12)
+        label6.place(relx=0.52,rely=0.25,relwidth=0.5,relheight=0.09)
         #cedula
         label7 = self.ttk.LabelFrame(frame,text="Cedula")
-        label7.place(relx=0.01,rely=0.3,relwidth=0.5,relheight=0.12)
+        label7.place(relx=0.01,rely=0.40,relwidth=0.5,relheight=0.09)
         #sexo
         label8 = self.ttk.LabelFrame(frame,text="Sexo")
-        label8.place(relx=0.53,rely=0.3,relwidth=0.5,relheight=0.12)
+        label8.place(relx=0.52,rely=0.40,relwidth=0.5,relheight=0.09)
         #contraseña
         label9 = self.ttk.LabelFrame(frame,text="Contraseña")
-        label9.place(relx=0.01,rely=0.45,relwidth=0.5,relheight=0.15)
+        label9.place(relx=0.01,rely=0.55,relwidth=0.5,relheight=0.15)
         #confirmar
         label10 = self.ttk.LabelFrame(frame,text="Confirmar Contraseña")
-        label10.place(relx=0.53,rely=0.45,relwidth=0.5,relheight=0.15)
+        label10.place(relx=0.52,rely=0.55,relwidth=0.5,relheight=0.15)
 
         self.input3 = self.tk.Entry(
             label3,)
         self.input3.place(relx=0, rely=0, relwidth=1, relheight=1)
+
         #apellidos
         self.inputApellidos = self.tk.Entry(
             label4
@@ -170,4 +170,4 @@ class Form(BaseView):
         btn1.place(relx=0,rely=0.5)
 
         btn3 = self.tk.Button(frame, text="Registrarse",command=self.registrarUsuario)
-        btn3.place(relx=0.35, rely=0.7, relwidth=0.3, relheight=0.1)
+        btn3.place(relx=0.35, rely=0.8, relwidth=0.3, relheight=0.1)
