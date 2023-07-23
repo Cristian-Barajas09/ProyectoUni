@@ -17,7 +17,7 @@ class Form(BaseView):
 
         notebook = self.ttk.Notebook(self.window,width=500,height=500)
 
-        frame1 = self.tk.Frame(self.window,width=500,height=500,bg="#222")
+        frame1 = self.tk.Frame(self.window,width=500,height=500,bg="#000")
         frame1.place(relx=0,rely=0)
 
         self.frame2 = self.tk.Frame(self.window,width=500,height=500)
@@ -36,9 +36,9 @@ class Form(BaseView):
         # frame4.pack(side="right")
 
         labelFrame1 = self.tk.LabelFrame(frame1,text="Correo",background="#222",fg="#fff",border=0)
-        labelFrame1.place(relx=0.25,rely=0.1,relwidth=0.5,relheight=0.09)
+        labelFrame1.place(relx=0.25,rely=0.2,relwidth=0.5,relheight=0.10)
         labelFrame2 = self.tk.LabelFrame(frame1,text="Contraseña",background="#222",fg="#fff",border=0)
-        labelFrame2.place(relx=0.25,rely=0.2,relwidth=0.5,relheight=0.15)
+        labelFrame2.place(relx=0.25,rely=0.3,relwidth=0.5,relheight=0.15)
 
 
         self.input1 = self.tk.Entry(labelFrame1,border=0)
@@ -50,7 +50,7 @@ class Form(BaseView):
         self.input1.place(relwidth=1,relheight=0.80)
         self.input2.place(relwidth=1,relheight=0.50)
         btnShow.place(rely=0.5)
-        btn.place(relx=0.25,rely=0.4,relwidth=0.5,relheight=0.10)
+        btn.place(relx=0.25,rely=0.5,relwidth=0.5,relheight=0.10)
 
         # registro
 
@@ -101,7 +101,7 @@ class Form(BaseView):
 
 
     def registrar(self):
-        frame = self.tk.Frame(self.frame2,bg="#222")
+        frame = self.tk.Frame(self.frame2,bg="#000")
         frame.place(relx=0, rely=0, relwidth=1, relheight=1)
 
         
@@ -174,5 +174,5 @@ class Form(BaseView):
         btn1 = self.tk.Checkbutton(label10,text="mostrar contraseña",command=lambda: self.show(self.input8),bg='#222',fg='#fff')
         btn1.place(relx=0,rely=0.5)
 
-        btn3 = self.tk.Button(frame, text="Registrarse",command=self.registrarUsuario)
+        btn3 = self.tk.Button(frame, text="Registrarse",command=self.registrarUsuario, background="#041d9b",foreground="#fff",border=0)
         btn3.place(relx=0.35, rely=0.8, relwidth=0.3, relheight=0.1)
