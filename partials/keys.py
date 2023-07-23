@@ -12,12 +12,11 @@ try:
         "database": config["DATABASE"],
         "cursorclass": DictCursor
     }
-    if config['PASSWORD_DATABASE']:
-        keys_db["password"] = config["PASSWORD_DATABASE"]
-
+    
+    if config.get('PASSWORD_DATABASE'):
+        keys_db["password"] = config.get("PASSWORD_DATABASE")
 
 
 except KeyError as error:
     showerror("error","no se encontraron las variables de entorno")
-
     App()
