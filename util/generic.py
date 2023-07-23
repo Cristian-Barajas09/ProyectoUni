@@ -16,3 +16,6 @@ def centrar_ventana(ventana,aplicacion_ancho,aplicacion_largo):
     x = int((pantalla_ancho / 2) - (pantalla_ancho / 2))
     y = int((pantalla_largo / 2) - (pantalla_largo / 2))
     return ventana.geometry(f"{aplicacion_ancho}x{aplicacion_largo}+{x}+{y}")
+
+def get_font(size):
+    return('Cambria',size)
