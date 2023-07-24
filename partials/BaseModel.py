@@ -1,11 +1,12 @@
 import os
 import subprocess
 import pymysql.cursors
-from pymysql.err import OperationalError
+from pymysql.err import OperationalError,Error
 from pymysql.cursors import Cursor
 from partials.keys import keys_db
 from tkinter import messagebox
 import pymysql.cursors
+from typing import Tuple,Any
 
 class BaseModel :
 
@@ -27,7 +28,7 @@ class BaseModel :
         """
         self.kwargs = kwargs
 
-    def connect(self):
+    def connect(self) -> Tuple[Any,Cursor]:
         try:
             connector = pymysql.connect(**self.kwargs)
             cursor = connector.cursor()
@@ -71,7 +72,7 @@ class BaseModel :
 
     #ejecutar consultas
     # @query
-    def CRUD(self,sql):
+    def CRUD(self,sql:str):
         """
             metodo que nos permite realizar los metodos basicos de un crud
             CREATE, READ,UPDATE,DELETE
@@ -80,11 +81,13 @@ class BaseModel :
                 sql:str -> espera la operacion a ejecutar
 
         # """
-        con,cur = self.connect()
-        cur.execute(sql)
-        con.commit()
-        return cur.rowcount
-
+        try:
+            con,cur = self.connect()
+            cur.execute(sql)
+            con.commit()
+            return cur.rowcount
+        except Error as error:
+            print(error)
 
 
     def mostrar_bd(self) -> list:

@@ -32,6 +32,7 @@ class BaseView:
         self.window = self.tk.Tk()
         self.window.title(title)
         self.window.geometry(geometry)
+        
         self._controller = controller()
 
     def resizable(self,width:int,height:int):

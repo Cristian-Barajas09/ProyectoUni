@@ -3,7 +3,7 @@ from controller.main import Controller
 from tkcalendar import DateEntry
 from tkinter.font import BOLD
 from typing import List
-from util.generateWord import Word
+
 
 
 class App(BaseView):
@@ -37,11 +37,12 @@ class App(BaseView):
         # self.notebook2.place(x=0,y=400,width=120,height=20)
 
     def validate_search(self, event):
-        result = self.get_user()
+        result = self.get_users_all()
+        print(result)
         if self.search.get() == "":
             self.tree.delete(*self.tree.get_children())
             for item in result:
-                if item[1] == "admin" or item[1] == self.session[1]:
+                if item['rol'] == "admin" or item['rol'] == self.session['rol']:
                     continue
                 self.tree.insert('', self.tk.END, values=(
                     item[0], item[1], item[2]))
@@ -391,6 +392,15 @@ class App(BaseView):
 
 
 
+    def register_child(self,aquiIranTodosLosParametros):
+        datos = {
+            "dato":aquiIranTodosLosParametros,
+            "dato2":aquiIranTodosLosParametros,
+            "dato":aquiIranTodosLosParametros,
+        }
+
+        self._controller.registerChild(**datos)
+
 
 
 
@@ -425,7 +435,8 @@ class App(BaseView):
 
 
 
-        # self.get_user()
+        for item in self.get_users():
+            self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
 
         self.tree.bind('<<TreeviewSelect>>', self.item_selected)
 
@@ -464,13 +475,17 @@ class App(BaseView):
     def search_user(self,search,param):
 
         result = self._controller.search_user(search.capitalize(),param)
+
         if result != ():
             return result
         return []
 
 
-    def get_user(self):
-        return self._controller.get_user()
+    def get_users(self):
+        return self._controller.get_users_tree()
+
+    def get_users_all(self):
+        return self._controller.get_users()
 
     def item_selected(self,event):
         for selected_item in self.tree.selection():
@@ -480,20 +495,17 @@ class App(BaseView):
             self.person.wm_title("usuario")
 
 
-    def validate_entry_number(self,text):
-
-
+    def validate_entry_number(self,text:str):
         if not(text.isdecimal()):
-            self.root.bell()
+            self.window.bell()
             return False
         return True
 
-    def validate_entry_text(self,text):
-
+    def validate_entry_text(self,text:str):
 
         for item in text:
             if item.isdigit():
-                self.root.bell()
+                self.window.bell()
 
 
                 return False
@@ -501,6 +513,7 @@ class App(BaseView):
         
 
     def validate_param(self,param):
+        print(param)
         if param == "cedula":
             self.search.delete(0,'end')
             self.search["validatecommand"] = (self.frame1.register(self.validate_entry_number), "%S")

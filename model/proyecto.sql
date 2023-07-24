@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS users(
     n_telefono VARCHAR(12),
     sexo SET('M','F') NOT NULL,
     rol SET('admin','profesor','administracion') DEFAULT 'profesor',
+    status SET ('activo','inactivo'),
     PRIMARY KEY (cedula)
 );
 
@@ -61,16 +62,13 @@ CREATE TABLE IF NOT EXISTS estudiantes (
     id_representante  VARCHAR(10) UNIQUE NOT NULL,
     id_anno INT NOT NULL,
     PRIMARY KEY(id),
+    status SET ('activo','inactivo'),
+
     CONSTRAINT fk_representante FOREIGN KEY (id_representante) REFERENCES representantes(cedula),
     CONSTRAINT fk_annos FOREIGN KEY (id_anno) REFERENCES annos(anno)
 );
 
 CREATE TABLE gustos(
-
-);
-
-CREATE TABLE juegos(
-
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     id_estudiante INT NOT NULL,
     gusto VARCHAR(20),
@@ -124,9 +122,8 @@ CREATE TABLE IF NOT EXISTS representantes(
     profesion VARCHAR(20),
     nombres VARCHAR(50),
     apellidos VARCHAR(50),
-
-    vive_con_el BOOLEAN NOT NULL
-
+    vive_con_el BOOLEAN NOT NULL,
+    status SET ('activo','inactivo')
 );
 
 CREATE TABLE direcciones(
@@ -154,16 +151,14 @@ CREATE TABLE IF NOT EXISTS annos(
 
 
 CREATE TABLE sessions(
-    user_id INT NOT NULL,
+    user_ced VARCHAR(12) NOT NULL,
     status BOOLEAN DEFAULT FALSE,
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_session FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_session FOREIGN KEY (user_ced) REFERENCES users(cedula)
 );
 
 SHOW TABLES;
-
-DROP DATABASE proyecto;
 
 
 

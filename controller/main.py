@@ -2,10 +2,12 @@ from tkinter import messagebox
 from partials.BaseController import BaseController
 from datetime import datetime
 from model.database import BaseDatos
+from typing import Any
 
 class  Controller(BaseController):
     def __init__(self):
         super().__init__(BaseDatos)
+
     """
         valida los datos para poder ingresar al sistema
     """
@@ -94,12 +96,87 @@ class  Controller(BaseController):
             return result
 
 
+    def registerChild(self,**kwargs:dict[str,Any]):
+        nombres:str = kwargs["nombres"]
+        apellidos:str = kwargs["apellidos"]
+        fecha_nacimiento = kwargs["fecha_nacimiento"]
+        edad:int = kwargs["edad"]
+        sexo:str = kwargs["sexo"]
+        lugar_nacimiento:str = kwargs["lugar_nacimiento"]
+        entidad_federal:str = kwargs["entidad_federal"]
+        nacionalidad:str = kwargs["nacionalidad"]
+        cedula_escolar:int = kwargs["cedula_escolar"]
+        turno:str = kwargs["turno"]
+        instituto_procedencia:str = kwargs["instituto_procedencia"]
+        parto:str = kwargs["parto"]
+        proceso_nacimiento:str = kwargs["proceso_nacimiento"]
+        mano_dominante:str = kwargs["mano_dominante"]
+        peso:float = kwargs["peso"]
+        talla:int = kwargs["talla"]
+        talla_comisa:int = kwargs["talla_comisa"]
+        talla_pantalon:int = kwargs["talla_pantalon"]
+        zapatos:int = kwargs["zapatos"]
+        con_quien_vive:str = kwargs["con_quien_vive"]
+        cuando_hablo:int = kwargs["cuando_hablo"]
+        cuando_camino:int = kwargs["cuando_camino"]
+        duerme_con:str = kwargs["duerme_con"]
+        tiene_hermanos:bool = kwargs["tiene_hermanos"]
+        donde_estudian_hermanos:str = kwargs["donde_estudian_hermanos"]
+        habla_correctamente:bool = kwargs["habla_correctamente"]
+        con_quien_juega:str = kwargs["con_quien_juega"]
+        status:bool = True
+        juegos:list | str = kwargs["juegos"]
+        actividades = kwargs["actividades"]
+        alergias=kwargs["alergias"]
+        enfermedades =kwargs["enfermedades"]
+        vacunas= kwargs["vacunas"]
+        gustos =kwargs["gustos"]
+        self.sql.register_child(
+                nombres,
+                apellidos,
+                fecha_nacimiento,
+                edad,
+                sexo,
+                lugar_nacimiento,
+                entidad_federal,
+                nacionalidad,
+                cedula_escolar,
+                turno,
+                instituto_procedencia,
+                parto,
+                proceso_nacimiento,
+                mano_dominante,
+                peso,
+                talla,
+                talla_comisa,
+                talla_pantalon,
+                zapatos,
+                con_quien_vive,
+                cuando_hablo,
+                cuando_camino,
+                duerme_con,
+                tiene_hermanos,
+                donde_estudian_hermanos,
+                habla_correctamente,
+                con_quien_juega,
+                status)
+
+        result =self.get_child(cedula_escolar)
+
+        self.sql.set_juegos(result[0]['id'],juegos)
+        self.sql.set_actividades(result[0]['id'],actividades)
+        self.sql.set_alergias(result[0]['id'],alergias)
+        self.sql.set_enfermedades(result[0]['id'],enfermedades)
+        self.sql.set_vacunas(result[0]['id'],vacunas)
+        self.sql.set_gustos(result[0]['id'],gustos)
 
 
 
-    def get_users(self) :
+
+
+    def get_users_tree(self) :
         datos = self.sql.consulta(
-            "SELECT nombres,apellidos FROM users")
+            "SELECT nombres,apellidos,cedula FROM users")
         datos = datos.fetchall()
 
         return datos
@@ -112,3 +189,9 @@ class  Controller(BaseController):
 
         return result
 
+    def get_users(self):
+        return self.sql.get_usuarios()
+
+
+    def get_child(self,cedula:int):
+        return self.sql.get_child(cedula)
