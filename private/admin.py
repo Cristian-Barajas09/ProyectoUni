@@ -4,7 +4,7 @@ from tkinter import ttk
 from .empaquetar import Installer
 from ui.Form import Form
 from ui.main import App
-from util.generateWord import Word
+from util.pdf import Word
 
 
 class Admin:
@@ -28,8 +28,6 @@ o en lo creas ¯\_(ツ)_/¯
         frame1.place(x=0,y=10)
         self.btn2 = tk.Button(frame1,text="iniciar aplicacion",command=self.form,border=0,background="#041d9b",foreground="#fff")
         self.btn2.place(x=30,y=120,relwidth=0.7,relheight=0.10)
-        self.btn3 = tk.Button(frame1,text="Word",command=self.generateWord,border=0,background="#041d9b",foreground="#fff")
-        self.btn3.place(x=30,y=180,relwidth=0.7,relheight=0.10)
         self.btn4 = tk.Button(frame1,text="generar instalador",command=self.install,border=0,background="#041d9b",foreground="#fff")
         self.btn4.place(x=30,y=240,relwidth=0.7,relheight=0.10)
         self.btn5 = tk.Button(frame1,text="Aplicacion principal",command=self.app,border=0,background="#041d9b",foreground="#fff")
@@ -43,14 +41,6 @@ o en lo creas ¯\_(ツ)_/¯
     def form(self):
         self.window.destroy()
         Form()
-
-
-    def generateWord(self):
-        archivo = Word("test.docx")
-
-        file = archivo.read_template()
-        archivo.copy()
-        archivo.save()
 
     def app(self):
         self.window.destroy()
