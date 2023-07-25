@@ -97,6 +97,54 @@ class  Controller(BaseController):
 
 
     def registerChild(self,**kwargs:dict[str,Any]):
+        """
+        :param **kwargs -> {
+            nombres:str
+            apellidos:str
+            fecha_nacimiento
+            edad:int
+            sexo:str
+            lugar_nacimiento:str
+            entidad_federal:str
+            nacionalidad:str
+            cedula_escolar:int
+            turno:str
+            instituto_procedencia:str
+            parto:str
+            proceso_nacimiento:str
+            mano_dominante:str
+            peso:float
+            talla:int
+            talla_comisa:int
+            talla_pantalon
+            zapatos
+            con_quien_vive
+            cuando_hablo
+            cuando_camino
+            duerme_con
+            tiene_hermanos
+            donde_estudian_hermanos
+            habla_correctamente
+            con_quien_juega
+            status
+            juegos
+            actividades
+            alergias
+            enfermedades
+            vacunas
+            gustos
+            cedula
+            nacionalidad
+            profesion
+            nombre
+            apellidos
+            vive_con_el
+            n_telefono
+            direccion
+        }
+        """
+
+
         nombres:str = kwargs["nombres"]
         apellidos:str = kwargs["apellidos"]
         fecha_nacimiento = kwargs["fecha_nacimiento"]
@@ -131,7 +179,7 @@ class  Controller(BaseController):
         enfermedades =kwargs["enfermedades"]
         vacunas= kwargs["vacunas"]
         gustos =kwargs["gustos"]
-        self.sql.register_child(
+        results = self.sql.register_child(
                 nombres,
                 apellidos,
                 fecha_nacimiento,
@@ -171,15 +219,40 @@ class  Controller(BaseController):
         self.sql.set_gustos(result[0]['id'],gustos)
 
 
+        self.set_representante(**kwargs)
+
+        return results
 
 
+
+    def set_representante(self,**kwargs):
+
+        cedula = kwargs["cedula"]
+        nacionalidad = kwargs["nacionalidad"]
+        profesion = kwargs["profesion"]
+        nombre = kwargs["nombre"]
+        apellidos = kwargs["apellidos"]
+        vive_con_el = kwargs["vive_con_el"]
+        n_telefono = kwargs["n_telefono"]
+        direccion = kwargs["direccion"]
+
+
+        self.sql.set_representantes(cedula,nacionalidad,profesion,nombre,apellidos,vive_con_el)
+
+        self.sql.set_telefono(cedula,n_telefono)
+        self.sql.set_direccion(cedula,direccion)
 
     def get_users_tree(self) :
         datos = self.sql.consulta(
-            "SELECT nombres,apellidos,cedula FROM users")
+            "SELECT nombres,apellidos,cedula FROM users"
+        )
         datos = datos.fetchall()
 
         return datos
+
+
+    def set_sessions(self,cedula:int):
+        self.sql.set_session(cedula)
 
 
     def search_user(self,search,param):

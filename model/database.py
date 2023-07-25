@@ -179,7 +179,7 @@ class BaseDatos(BaseModel):
 
     def set_representantes(self,cedula:int,nacionalidad:str,profesion:str,nombres:str,apellidos:str,vive_con_el:bool):
         return self.CRUD (
-            sql=f"INSERT INTO representante (cedula,nacionalidad,profesion,nombre,apellidos,vive_con_el,status) VALUES ({cedula},'{nacionalidad}','{profesion}','{nombres}','{apellidos}',{vive_con_el}')"
+            sql=f"INSERT INTO representante (cedula,nacionalidad,profesion,nombre,apellidos,vive_con_el,status) VALUES ({cedula},'{nacionalidad}','{profesion}','{nombres}','{apellidos}',{vive_con_el}',TRUE)"
         )
 
 

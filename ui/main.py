@@ -510,7 +510,7 @@ class App(BaseView):
 
                 return False
             return True
-        
+
 
     def validate_param(self,param):
         print(param)
