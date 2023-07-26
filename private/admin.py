@@ -4,7 +4,6 @@ from tkinter import ttk
 from .empaquetar import Installer
 from ui.Form import Form
 from ui.main import App
-from util.pdf import Word
 
 
 class Admin:

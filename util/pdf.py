@@ -1,7 +1,7 @@
 from jinja2 import Environment,FileSystemLoader
-from rutas import dir
+from .rutas import dir
 import os
-
+from datetime import datetime
 import pdfkit
 
 planilla = {
@@ -83,7 +83,6 @@ planilla = {
         'ced_pa':'_',
         'nac_pa':'_',
         'pro_pa':'_',
-        'hab_pa':'_',
         'tel_pa':'_',
         'trabajo_pa':'_',
         'tel_pa_tra':'_',
@@ -137,8 +136,7 @@ def generate_planilla(**kwargs):
 def generate_report(**kwargs):
     template = env.get_template("informe_user.html")
     html = template.render(kwargs)
-    nombre = kwargs["nombre"]
-    ruta = os.path.join(public,f"{nombre}.html")
+    ruta = os.path.join(public,f"reporte-{datetime.now()}.html")
     f = open(ruta,'w',encoding="utf-8")
     f.write(html)
     f.close()

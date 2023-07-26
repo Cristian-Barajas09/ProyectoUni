@@ -3,7 +3,7 @@ from partials.BaseController import BaseController
 from datetime import datetime
 from model.database import BaseDatos
 from typing import Any
-
+from util.pdf import generate_planilla
 class  Controller(BaseController):
     def __init__(self):
         super().__init__(BaseDatos)
@@ -143,7 +143,7 @@ class  Controller(BaseController):
             direccion
         }
         """
-
+        print(kwargs)
 
         nombres:str = kwargs["nombres"]
         apellidos:str = kwargs["apellidos"]
@@ -221,6 +221,10 @@ class  Controller(BaseController):
 
         self.set_representante(**kwargs)
 
+
+
+
+        
         return results
 
 
@@ -237,10 +241,16 @@ class  Controller(BaseController):
         direccion = kwargs["direccion"]
 
 
+
         self.sql.set_representantes(cedula,nacionalidad,profesion,nombre,apellidos,vive_con_el)
 
         self.sql.set_telefono(cedula,n_telefono)
         self.sql.set_direccion(cedula,direccion)
+
+    def set_planilla(self,**kwargs):
+
+
+        generate_planilla(       )
 
     def get_users_tree(self) :
         datos = self.sql.consulta(
