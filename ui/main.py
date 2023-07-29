@@ -3,6 +3,8 @@ from controller.main import Controller
 from tkcalendar import DateEntry
 from tkinter.font import BOLD
 from typing import List
+from babel.numbers import *
+from datetime import date
 
 
 
@@ -12,6 +14,7 @@ class App(BaseView):
 
 
         self.main()
+        self.resizable(0,0)
 
         self.window.mainloop()
 
@@ -20,7 +23,7 @@ class App(BaseView):
         self.notebook = self.ttk.Notebook(self.window)
         self.frame1 = self.tk.Frame(self.notebook)
         self.frame1.place(relx=0,rely=0,relwidth=1,relheight=1)
-        self.frame2 = self.tk.Frame(self.notebook,bg="")
+        self.frame2 = self.tk.Frame(self.notebook,bg="#19E9E2")
         self.frame2.place(relx=0,rely=0)
 
 
@@ -37,16 +40,15 @@ class App(BaseView):
         # self.notebook2.place(x=0,y=400,width=120,height=20)
 
     def validate_search(self, event):
-        result = self.get_users_all()
-        print(result)
+        result = self.get_userss_all()
         if self.search.get() == "":
             self.tree.delete(*self.tree.get_children())
             for item in result:
                 if item['rol'] == "admin" or item['rol'] == self.session['rol']:
                     continue
                 self.tree.insert('', self.tk.END, values=(
-                    item[0], item[1], item[2]))
-            self.frame1.update()
+                    item['nombres'], item['apellidos'], item['cedula']))
+            self.controlPersonas()
 
     def inscripcion(self):
         self.notebook2 = self.ttk.Notebook(self.frame2)
@@ -67,6 +69,8 @@ class App(BaseView):
         self.notebook2.add(self.frame7, text="5")
         self.notebook2.place(relx=0,rely=0.25,relwidth=1,relheight=0.7)
         membrete = self.tk.Frame(self.frame2,border=3,relief="groove")
+
+        ## TODO : acomodar las keys (Frank)
         membrete.place(x=205,y=10,width=300,height=120)
         lb1 = self.tk.Label(membrete,text="Republica Bolivariana de Venezuela.")
         lb1.pack()
@@ -85,12 +89,12 @@ class App(BaseView):
         datos.place(x=25,y=15,width=650,height=310)
 
         nombre = self.tk.Label(datos,text="Nombres:").place(x=4,y=12,width=60)
-        nombre2 =self.tk.Entry(datos,border=3,relief="ridge")
-        nombre2.place(x=65,y=12,width=100)
+        nombre_es2 =self.tk.Entry(datos,border=3,relief="ridge")
+        nombre_es2.place(x=65,y=12,width=100)
 
         apellido = self.tk.Label(datos,text="Apellido:").place(x=170,y=12,width=80)
-        apellido2 = self.tk.Entry(datos,border="2",relief="ridge")
-        apellido2.place(x=235,y=12,width=100)
+        apellido_es = self.tk.Entry(datos,border="2",relief="ridge")
+        apellido_es.place(x=235,y=12,width=100)
 
         fecha_nacimiento = self.tk.Label(datos,text="Fecha de Nacimiento :").place(x=370,y=12,width=115)
         fecha_nacimiento1 =DateEntry(datos,state="readonly")
@@ -125,13 +129,17 @@ class App(BaseView):
         cdula_escolar2 = self.tk.Entry(datos,border=3,relief='ridge')
         cdula_escolar2.place(x=340,y=120,width=140)
 
+
+        manana_key=self.tk.StringVar
+        tarde_key = self.tk.StringVar
+
         turno = self.tk.Label(datos, text="Turno:")
         turno.place(x=5,y=150,width=40)
 
-        manana = self.tk.Checkbutton(datos,text="Mañana")
+        manana = self.tk.Checkbutton(datos,text="Mañana",command=manana_key)
         manana.place(x=50,y=150,width=80)
 
-        tarde =self.tk. Checkbutton(datos,text="Tarde")
+        tarde =self.tk. Checkbutton(datos,text="Tarde",command=tarde_key)
         tarde.place(x=130,y=150,width=60)
 
 
@@ -144,23 +152,24 @@ class App(BaseView):
         seccion =self.tk. Label(datos,text="Seccion:").place(x=200,y=150,width=50)
         seccion2 =self.tk. Entry(datos,border=3,relief='ridge')
         seccion2.place(x=250,y=150,width=18)
-
-##grupo
+#grupo
         grupo = self.tk.Label(datos,text="Grupo a cursar:").place(x=280,y=150,width=100)
 
-# cont = IntVar
-# cont2 = IntVar
-# cont3 = IntVar
+
+
+        cont =self.tk.IntVar
+        cont2 = self.tk.IntVar
+        cont3 = self.tk.IntVar
 
 #recicla la funcion
 
-        A = self.tk.Checkbutton(datos,text="A")
+        A = self.tk.Checkbutton(datos,text="A",command=cont)
         A.place(x=380,y=150,width=40)
 
-        B = self.tk.Checkbutton(datos,text="B")
+        B = self.tk.Checkbutton(datos,text="B",command=cont2)
         B.place(x=420,y=150,width=40)
 
-        C = self.tk.Checkbutton(datos,text="C")
+        C = self.tk.Checkbutton(datos,text="C",command=cont3)
         C.place(x=460,y=150,width=40)
 
 
@@ -178,47 +187,47 @@ class App(BaseView):
         parto2.place(x=80,y=210,width=30)
 
 ##gemelo
-# gemelocontrol = IntVar
-# gemelocontrol2 = IntVar
+        gemelocontrol =self.tk. StringVar
+        gemelocontrol2 = self.tk. StringVar
 
         gemelotext =self.tk. Label(datos,text="Gemelos:").place(x=120,y=210,width=80)
-        gemelo = self.tk.Checkbutton(datos,text="1ero")
+        gemelo = self.tk.Checkbutton(datos,text="1ero",command=gemelocontrol)
         gemelo.place(x=200,y=210,width=40)
-        gemelo2 =self.tk. Checkbutton(datos,text="2do")
+        gemelo2 =self.tk. Checkbutton(datos,text="2do",command=gemelocontrol2)
         gemelo2.place(x=240,y=210,width=60)
 ##
 
 
 ##trillizos
-# trillizoscontrol = IntVar
-# trillizoscontrol2 = IntVar
-# trillizoscontrol3 = IntVar
+        trillizoscontrol = self.tk.StringVar
+        trillizoscontrol2 = self.tk.StringVar
+        trillizoscontrol3 = self.tk.StringVar
 
         trillizostext = self.tk.Label(datos,text="Trillizos:").place(x=300,y=210,width=60)
-        trillizos = self.tk.Checkbutton(datos,text="1ero")
+        trillizos = self.tk.Checkbutton(datos,text="1ero",command=trillizoscontrol)
         trillizos.place(x=360,y=210,width=40)
 
-        trillizos2 = self.tk.Checkbutton(datos,text="2do")
+        trillizos2 = self.tk.Checkbutton(datos,text="2do",command=trillizoscontrol2)
         trillizos2.place(x=410,y=210,width=40)
 
-        trillizos3=self.tk. Checkbutton(datos,text="3ero")
+        trillizos3=self.tk. Checkbutton(datos,text="3ero",command=trillizoscontrol3)
         trillizos3.place(x=460,y=210,width=40)
 
 ##
         proceso_nacimiento =self.tk.Label(datos,text="Proceso de Nacimiento:").place(x=4,y=240,width=130)
 
-# nacimientocontrol = IntVar
-# nacimientocontrol2 = IntVar
-# nacimientocontrol3 = IntVar
-# nacimientocontrol4 = IntVar
+        nacimientocontrol = self.tk.StringVar
+        nacimientocontrol2 = self.tk.StringVar
+        nacimientocontrol3 = self.tk.StringVar
+        nacimientocontrol4 = self.tk.StringVar
 
-        normal = self.tk.Checkbutton(datos,text="Normal")
+        normal = self.tk.Checkbutton(datos,text="Normal",command=nacimientocontrol)
         normal.place(x=135,y=240,width=80)
-        cesarea = self.tk.Checkbutton(datos,text="Cesarea")
+        cesarea = self.tk.Checkbutton(datos,text="Cesarea",command=nacimientocontrol2)
         cesarea.place(x=220,y=240,width=80)
-        con_forceps= self.tk.Checkbutton(datos,text="Con Forceps")
+        con_forceps= self.tk.Checkbutton(datos,text="Con Forceps",command=nacimientocontrol3)
         con_forceps.place(x=300,y=240,width=100)
-        a_termino= self.tk.Checkbutton(datos,text="A termino")
+        a_termino= self.tk.Checkbutton(datos,text="A termino",command=nacimientocontrol4)
         a_termino.place(x=400,y=240,width=100)
 
 ##
@@ -228,60 +237,83 @@ class App(BaseView):
         datos2.place(x=25,y=15,width=650,height=310)
 
         enfermedades = self.tk.Label(datos2,text="Enfermedades padecidas :").place(x=4,y=10,width=135)
+        
 
-        # enfermedadcontrol = IntVar
-        # enfermedadcontrol2=IntVar
-        # enfermedadcontrol3 = IntVar
-        # enfermedadcontrol4=IntVar
+        #####Keys
 
-        sarampion =self.tk. Checkbutton(datos2,text="Sarampion")
+        enfermedadcontrol = self.tk.StringVar
+        enfermedadcontrol2= self.tk.StringVar
+        enfermedadcontrol3 = self.tk.StringVar
+        enfermedadcontrol4= self.tk.StringVar
+
+        enfermedadcontrol5 = self.tk.StringVar
+        enfermedadcontrol6= self.tk.StringVar
+        enfermedadcontrol7 = self.tk.StringVar
+        enfermedadcontrol8= self.tk.StringVar
+
+        sarampion =self.tk. Checkbutton(datos2,text="Sarampion",command=enfermedadcontrol)
         sarampion.place(x=147,y=10,width=80)
-        rubeola = self.tk.Checkbutton(datos2,text="Rubeola")
+        rubeola = self.tk.Checkbutton(datos2,text="Rubeola",command=enfermedadcontrol2)
         rubeola.place(x=225,y=10,width=80)
-        lechina = self.tk.Checkbutton(datos2,text="Lechina")
+        lechina = self.tk.Checkbutton(datos2,text="Lechina",command=enfermedadcontrol3)
         lechina.place(x=300,y=10,width=80)
-        tosferina = self.tk.Checkbutton(datos2,text="Tosferina")
+        tosferina = self.tk.Checkbutton(datos2,text="Tosferina",command=enfermedadcontrol4)
         tosferina.place(x=370,y=10,width=80)
-        meningitis =self.tk.Checkbutton(datos2,text="Meningitis")
+        meningitis =self.tk.Checkbutton(datos2,text="Meningitis",command=enfermedadcontrol5)
         meningitis.place(x=450,y=10,width=80)
-        hepatitis = self.tk.Checkbutton(datos2,text="Hepatitis")
+        hepatitis = self.tk.Checkbutton(datos2,text="Hepatitis",command=enfermedadcontrol6)
         hepatitis.place(x=535,y=10,width=85)
-        parotiditis = self.tk.Checkbutton(datos2,text="Parotiditis")
+        parotiditis = self.tk.Checkbutton(datos2,text="Parotiditis",command=enfermedadcontrol7)
         parotiditis.place(x=4,y=45,width=80)
-        otras = self.tk.Checkbutton(datos2,text="Otras")
+        otras = self.tk.Checkbutton(datos2,text="Otras",command=enfermedadcontrol8)
         otras.place(x=90,y=45,width=60)
         cuales= self.tk.Label(datos2,text="Cuales:")
         cuales.place(x=155,y=45,width=60)
         cuales2 =self.tk. Entry(datos2,border=3,relief="ridge")
         cuales2.place(x=210,y=45,width=100)
-        # ##
+        # ######
+        
+        
+        vacunascontrol = self.tk.StringVar
+        vacunascontrol2= self.tk.StringVar
+        vacunascontrol3 = self.tk.StringVar
+        vacunascontrol4= self.tk.StringVar
+
+        vacunascontrol5 = self.tk.StringVar
+        vacunascontrol6= self.tk.StringVar
+        vacunascontrol7 = self.tk.StringVar
 
         vacunas = self.tk.Label(datos2,text="Vacunas recibidas:").place(x=330,y=45,width=100)
-        bcg = self.tk.Checkbutton(datos2,text="BCG")
+        bcg = self.tk.Checkbutton(datos2,text="BCG",command=vacunascontrol)
         bcg.place(x=435,y=45,width=45)
-        antitetanica = self.tk.Checkbutton(datos2,text="Antitetanica")
+        antitetanica = self.tk.Checkbutton(datos2,text="Antitetanica",command=vacunascontrol2)
         antitetanica.place(x=480,y=45,width=90)
-        rubeola = self.tk.Checkbutton(datos2,text="Rubeola")
+        rubeola = self.tk.Checkbutton(datos2,text="Rubeola",command=vacunascontrol3)
         rubeola.place(x=4,y=80,width=80)
-        triple =self.tk.Checkbutton(datos2,text="Triple")
+        triple =self.tk.Checkbutton(datos2,text="Triple",command=vacunascontrol4)
         triple.place(x=90,y=80,width=60)
-        fiebre_amarilla =self.tk. Checkbutton(datos2,text="Fiebre Amarilla")
+        fiebre_amarilla =self.tk. Checkbutton(datos2,text="Fiebre Amarilla",command=vacunascontrol5)
         fiebre_amarilla.place(x=150,y=80,width=120)
-        polio = self.tk.Checkbutton(datos2,text="Polio")
+        polio = self.tk.Checkbutton(datos2,text="Polio",command=vacunascontrol6)
         polio.place(x=260,y=80,width=60)
-        otras = self.tk.Checkbutton(datos2,text="Otras")
+        otras = self.tk.Checkbutton(datos2,text="Otras",command=vacunascontrol7)
         otras.place(x=320,y=80,width=60)
 
         alergia = self.tk.Label(datos2,text="Alergico(a):").place(x=380,y=80,width=80)
         alergia2 = self.tk.Entry(datos2,border=3,relief="ridge")
         alergia2.place(x=460,y=80,width=120)
 
+###
+        derechacontrol= self.tk.StringVar
+        izquierdacontrol = self.tk.StringVar
+        ambascontrol= self.tk.StringVar
+
         mano = self.tk.Label(datos2,text="Que mano usa frecuentemente:").place(x=0,y=115,width=185)
-        derecha = self.tk.Checkbutton(datos2,text="Derecha")
+        derecha = self.tk.Checkbutton(datos2,text="Derecha",command=derechacontrol)
         derecha.place(x=180,y=115,width=60)
-        izquierda =self.tk. Checkbutton(datos2,text="Izquierda")
+        izquierda =self.tk. Checkbutton(datos2,text="Izquierda",command=izquierdacontrol)
         izquierda.place(x=254,y=115,width=80)
-        ambas = self.tk.Checkbutton(datos2,text="Ambas")
+        ambas = self.tk.Checkbutton(datos2,text="Ambas",command=ambascontrol)
         ambas.place(x=330,y=115,width=80)
 
 
@@ -306,14 +338,21 @@ class App(BaseView):
         talla3.place(x=450,y=150,width=30)
 
 
+
+###
+        padrecontrol= self.tk.StringVar
+        madrecontrol = self.tk.StringVar
+        abueloscontro= self.tk.StringVar
+        otrocontrol= self.tk.StringVar
+
         nino_vive = self.tk.Label(datos2,text="El niño vive con:").place(x=4,y=180,width=85)
-        padre = self.tk.Checkbutton(datos2,text="Padre")
+        padre = self.tk.Checkbutton(datos2,text="Padre",command=padrecontrol)
         padre.place(x=90,y=185,width=70)
-        madre= self.tk.Checkbutton(datos2,text="Madre")
+        madre= self.tk.Checkbutton(datos2,text="Madre",command=madrecontrol)
         madre.place(x=150,y=185,width=70)
-        abuelos = self.tk.Checkbutton(datos2,text="Abuelos")
+        abuelos = self.tk.Checkbutton(datos2,text="Abuelos",command=abueloscontro)
         abuelos.place(x=220,y=185,width=62)
-        otro = self.tk.Checkbutton (datos2,text="Otro :")
+        otro = self.tk.Checkbutton (datos2,text="Otro :",command=otrocontrol)
         otro.place(x=300,y=185,width=60)
         otro2 = self.tk.Entry(datos2,border=2,relief="ridge")
         otro2.place(x=370,y=185,width=100)
@@ -336,9 +375,14 @@ class App(BaseView):
 
         hermano_nino = self.tk.Label(datos3,text="Tiene hermanos en otro grupo o Primaria:").place(x=2,y=40,width=235)
 
-        hermano_nino2 = self.tk.Checkbutton(datos3,text="Si")
+        
+        hermanocontrol= self.tk.StringVar
+        hermano2control = self.tk.StringVar
+
+
+        hermano_nino2 = self.tk.Checkbutton(datos3,text="Si",command=hermanocontrol)
         hermano_nino2.place(x=230,y=40,width=40)
-        hermano_nino3 = self.tk.Checkbutton(datos3,text="No")
+        hermano_nino3 = self.tk.Checkbutton(datos3,text="No",command=hermano2control)
         hermano_nino3.place(x=280,y=40,width=40)
         hermano_nino4 = self.tk.Label(datos3,text="Grado(s):")
         hermano_nino4.place(x=320,y=40,width=60)
@@ -376,64 +420,69 @@ class App(BaseView):
         juegos_realiza2 =self.tk. Entry(datos3,border=2,relief="ridge")
         juegos_realiza2.place(x=180,y=160,width=100)
 
-##Datos del padre
+        ##Datos del padre ==================================================
 
         padre = self.tk.LabelFrame(self.frame6,text="Datos del Padre",border=3,relief="groove")
         padre.place(x=25,y=10,width=300,height=300)
 
         nombre = self.tk.Label(padre,text="Nombres :")
         nombre.place(x=0,y=3,width=80)
-        nombre2 = self.tk.Entry(padre,border=2,relief="groove")
-        nombre2.place(x=85,y=3,width=140)
+        nombre_pa2 = self.tk.Entry(padre,border=2,relief="groove")
+        nombre_pa2.place(x=85,y=3,width=140)
         
         apellido =self.tk.Label(padre,text="Apellidos:")
         apellido.place(x=0,y=28,width=60)
-        apellido2 = self.tk.Entry(padre,border=2,relief="groove")
-        apellido2.place(x=70,y=30,width=140)
+        apellido_pa = self.tk.Entry(padre,border=2,relief="groove")
+        apellido_pa.place(x=70,y=30,width=140)
 
         ci =self.tk. Label(padre,text="C.I").place(x=0,y=60,width=20)
-        ci2 =self.tk. Entry(padre,border=2,relief="groove")
-        ci2.place(x=30,y=60,width=60)
+        ci_pa =self.tk. Entry(padre,border=2,relief="groove")
+        ci_pa.place(x=30,y=60,width=60)
 
         nacionalidad = self.tk.Label(padre,text="Nacionalidad :").place(x=110,y=60,width=90)
-        nacionalidad2 = self.tk.Entry(padre,border=2,relief="groove")
-        nacionalidad2.place(x=200,y=60,width=90)
+        nacionalidad_pa = self.tk.Entry(padre,border=2,relief="groove")
+        nacionalidad_pa.place(x=200,y=60,width=90)
 
         profesion =self.tk.Label(padre,text="Profesion:").place(x=0,y=95,width=70)
-        profesion2 =self.tk. Entry(padre,border=2,relief="groove")
-        profesion2.place(x=70,y=95,width=100)
+        profesion_pa =self.tk. Entry(padre,border=2,relief="groove")
+        profesion_pa.place(x=70,y=95,width=100)
 
         habitacion =self.tk. Label(padre,text="Direccion de Habitacion :").place(x=0,y=130,width=140)
-        habitacion2 =self.tk. Entry(padre,border="2",relief="groove")
-        habitacion2.place(x=140,y=130,width=140)
+        habitacion_pa =self.tk. Entry(padre,border="2",relief="groove")
+        habitacion_pa.place(x=140,y=130,width=140)
 
         telefonoh =self.tk. Label(padre,text="Telf :").place(x=0,y=160,width=30)
-        telefonoh2 =self.tk. Entry(padre,border=2,relief="groove")
-        telefonoh2.place(x=40,y=160,width=80)
+        telefonoh_pa =self.tk. Entry(padre,border=2,relief="groove")
+        telefonoh_pa.place(x=40,y=160,width=80)
 
         trabajo = self.tk.Label(padre,text="Direccion de Trabajo :").place(x=0,y=190,width=120)
-        trabajo2 =self.tk. Entry(padre,border=2,relief="groove")
-        trabajo2.place(x=140,y=190,width=140)
+        trabajo_pa =self.tk. Entry(padre,border=2,relief="groove")
+        trabajo_pa.place(x=140,y=190,width=140)
 
         telefonot = self.tk.Label(padre,text="Telf :").place(x=0,y=220,width=30)
-        telefonot2 = self.tk.Entry(padre,border=2,relief="groove")
-        telefonot2.place(x=50,y=220,width=80)
+        telefonot_pa = self.tk.Entry(padre,border=2,relief="groove")
+        telefonot_pa.place(x=50,y=220,width=80)
+
+
+
+        viveninocontrol= self.tk.StringVar
+        vivenino2control = self.tk.StringVar
 
         vive = self.tk.Label(padre,text="Vive con el niño(a) :").place(x=0,y=250,width=120)
-        si = self.tk.Checkbutton(padre,text="Si")
-        si.place(x=120,y=250,width=40)
-        no = self.tk.Checkbutton(padre,text="No")
+        si = self.tk.Checkbutton(padre,text="Si",command=viveninocontrol)
+        si.place(x=120,y=250,width=40,)
+        no = self.tk.Checkbutton(padre,text="No",command=vivenino2control)
         no.place(x=170,y=250,width=40)
 
-###Datos de la madre
+        ###Datos de la madre ===================================================
 
         madre = self.tk.LabelFrame(self.frame6,text="Datos de la Madre",border=3,relief="groove")
         madre.place(x=370,y=3,width=300,height=300)
 
         nombre_madre = self.tk.Label(madre,text="Nombres y apellidos:")
         nombre_madre.place(x=0,y=3,width=120)
-        # nombre_madre2 = self.tk.Entry(madre,border=2,relief="groove")
-        # nombre_madre2.place(x=140,y=3,width=140)
+        nombre_madre2 = self.tk.Entry(madre,border=2,relief="groove")
+        nombre_madre2.place(x=140,y=3,width=140)
 
         apellido_madre =self.tk.Label(madre,text="Apellidos:")
         apellido_madre.place(x=0,y=28,width=60)
@@ -442,113 +491,150 @@ class App(BaseView):
 
 
         ci =self.tk. Label(madre,text="C.I").place(x=0,y=60,width=20)
-        ci2 =self.tk. Entry(madre,border=2,relief="groove")
-        ci2.place(x=30,y=60,width=60)
+        ci_ma =self.tk. Entry(madre,border=2,relief="groove")
+        ci_ma.place(x=30,y=60,width=60)
 
         nacionalidad = self.tk.Label(madre,text="Nacionalidad :").place(x=110,y=60,width=90)
-        nacionalidad2 = self.tk.Entry(madre,border=2,relief="groove")
-        nacionalidad2.place(x=200,y=60,width=90)
+        nacionalidad_ma = self.tk.Entry(madre,border=2,relief="groove")
+        nacionalidad_ma.place(x=200,y=60,width=90)
 
         profesion =self.tk.Label(madre,text="Profesion:").place(x=0,y=95,width=70)
-        profesion2 =self.tk. Entry(madre,border=2,relief="groove")
-        profesion2.place(x=70,y=95,width=100)
+        profesion_ma =self.tk. Entry(madre,border=2,relief="groove")
+        profesion_ma.place(x=70,y=95,width=100)
 
         habitacion =self.tk. Label(madre,text="Direccion de Habitacion :").place(x=0,y=130,width=140)
-        habitacion2 =self.tk. Entry(madre,border="2",relief="groove")
-        habitacion2.place(x=140,y=130,width=140)
+        habitacion_ma =self.tk. Entry(madre,border="2",relief="groove")
+        habitacion_ma.place(x=140,y=130,width=140)
 
         telefonoh =self.tk. Label(madre,text="Telf :").place(x=0,y=160,width=30)
-        telefonoh2 =self.tk. Entry(madre,border=2,relief="groove")
-        telefonoh2.place(x=40,y=160,width=80)
+        telefonoh_ma =self.tk. Entry(madre,border=2,relief="groove")
+        telefonoh_ma.place(x=40,y=160,width=80)
 
         trabajo = self.tk.Label(madre,text="Direccion de Trabajo :").place(x=0,y=190,width=120)
-        trabajo2 =self.tk. Entry(madre,border=2,relief="groove")
-        trabajo2.place(x=140,y=190,width=140)
+        trabajo_ma =self.tk. Entry(madre,border=2,relief="groove")
+        trabajo_ma.place(x=140,y=190,width=140)
 
         telefonot = self.tk.Label(madre,text="Telf :").place(x=0,y=220,width=30)
-        telefonot2 = self.tk.Entry(madre,border=2,relief="groove")
-        telefonot2.place(x=50,y=220,width=80)
+        telefonot_ma = self.tk.Entry(madre,border=2,relief="groove")
+        telefonot_ma.place(x=50,y=220,width=80)
+
+        vive_con_control_ma= self.tk.StringVar
+        vive_con_contro2_ma = self.tk.StringVar
 
         vive = self.tk.Label(madre,text="Vive con el niño(a) :").place(x=0,y=250,width=120)
-        si2 = self.tk.Checkbutton(madre,text="Si")
+        si2 = self.tk.Checkbutton(madre,text="Si",command=vive_con_control_ma)
         si2.place(x=120,y=250,width=40)
-        no2 = self.tk.Checkbutton(madre,text="No")
+        no2 = self.tk.Checkbutton(madre,text="No",command=vive_con_contro2_ma)
         no2.place(x=170,y=250,width=40)
 
-### Datos representante
+        # TODO: acomodar los campos de representantes y agregar los faltantes
+### Datos representante ====================================================================================
         representante =self.tk.LabelFrame(self.frame7,border=2,relief="groove",text="Datos Representantes")
         representante.place(x=120,y=45,width=450,height=260)
 
         nombre = self.tk. Label(representante,text="Nombre:").place(x=0,y=5,width=60)
-        nombre2 =self.tk. Entry(representante,border=2,relief="groove")
-        nombre2.place(x=100,y=5,width=140)
+        nombre_re2 =self.tk. Entry(representante,border=2,relief="groove")
+        nombre_re2.place(x=100,y=5,width=140)
 
         apellido_representante = self.tk.Label(representante,text="Apellido").place(x=0,y=40,width=60)
-        apellido2 =self.tk. Entry(representante,border=2,relief="groove")
-        apellido2.place(x=100,y=40,width=140)
+        apellido_re2 =self.tk. Entry(representante,border=2,relief="groove")
+        apellido_re2.place(x=100,y=40,width=140)
 
         ci = self.tk.Label(representante,text="C.I").place(x=280,y=40,width=20)
-        ci2 =self.tk. Entry(representante,border=2,relief="groove")
-        ci2.place(x=300,y=40,width=60)
+        ci_re =self.tk. Entry(representante,border=2,relief="groove")
+        ci_re.place(x=300,y=40,width=60)
 
         nacionalidad =self.tk. Label(representante,text="Nacionalidad :").place(x=0,y=70,width=90)
-        nacionalidad2 = self.tk.Entry(representante,border=2,relief="groove")
-        nacionalidad2.place(x=90,y=70,width=90)
+        nacionalidad_re2 = self.tk.Entry(representante,border=2,relief="groove")
+        nacionalidad_re2.place(x=90,y=70,width=90)
 
         profesion =self.tk.Label(representante,text="Profesion:").place(x=190,y=70,width=60)
-        profesion2 =self.tk.Entry(representante,border=2,relief="groove")
-        profesion2.place(x=250,y=70,width=100)
+        profesion_re2 =self.tk.Entry(representante,border=2,relief="groove")
+        profesion_re2.place(x=250,y=70,width=100)
 
         habitacion =self.tk.Label(representante,text="Direccion de Habitacion :").place(x=0,y=100,width=140)
-        habitacion2 =self.tk.Entry(representante,border="2",relief="groove")
-        habitacion2.place(x=150,y=100,width=140)
+        habitacion_re2 =self.tk.Entry(representante,border="2",relief="groove")
+        habitacion_re2.place(x=150,y=100,width=140)
 
         telefonoh =self.tk.Label(representante,text="Telf :").place(x=0,y=140,width=30)
-        telefonoh2 =self.tk.Entry(representante,border=2,relief="groove")
-        telefonoh2.place(x=30,y=140,width=80)
+        telefonoh_re2 =self.tk.Entry(representante,border=2,relief="groove")
+        telefonoh_re2.place(x=30,y=140,width=80)
 
         trabajo =self.tk.Label(representante,text="Direccion de Trabajo :").place(x=120,y=140,width=120)
-        trabajo2 =self.tk.Entry(representante,border=2,relief="groove")
-        trabajo2.place(x=250,y=140,width=140)
+        trabajo_re2 =self.tk.Entry(representante,border=2,relief="groove")
+        trabajo_re2.place(x=250,y=140,width=140)
 
         telefonot =self.tk.Label(representante,text="Telf :").place(x=0,y=180,width=30)
-        telefonot2 =self.tk. Entry(representante,border=2,relief="groove")
-        telefonot2.place(x=40,y=180,width=80)
+        telefonot_re2 =self.tk. Entry(representante,border=2,relief="groove")
+        telefonot_re2.place(x=40,y=180,width=80)
+
+        vive_si_re = self.tk.StringVar
+        vive_no_re = self.tk.StringVar
 
         vive =self.tk.Label(representante,text="Vive con el niño(a) :").place(x=120,y=180,width=120)
-        si3=self.tk.Checkbutton(representante,text="Si")
+        si3=self.tk.Checkbutton(representante,text="Si",command=vive_si_re)
         si3.place(x=240,y=180,width=40)
-        no3 = self.tk.Checkbutton(representante,text="No")
+        no3 = self.tk.Checkbutton(representante,text="No",command=vive_no_re)
         no3.place(x=290,y=180,width=40)
 
-        btn = self.tk.Button(self.frame7,text="Guardar",command=lambda: self.register_child())
+        fecha:date  = fecha_nacimiento1.get_date()
+
+        btn = self.tk.Button(self.frame7,text="Guardar",command=lambda: self.register_child(
+            anno_cursar = ano2.get(),nombre=nombre_es2.get(),apellido=apellido_es.get(),f_di=fecha.day,f_m=fecha.month,
+            f_an=fecha.year,e_a=edad_anos2.get(),e_m=meses2.get(),sex=sexo_combo.get(),l_n=lugar_nacimiento2.get(),
+            en_fed=entidad_federal2.get(),nacionalidad=nacionalidad2,ced_escolar=cdula_escolar2.get(),man=manana_key.get(),
+            tar=tarde_key.get(),secc=seccion2.get(),A=cont.get(),B=cont2.get(),C=cont3.get(),instituto_pro=institucion2.get(),
+            del_hogar=del_hogar2.get(),senci=parto2.get(),gem="",g_1=gemelocontrol.get(),g_2=gemelocontrol2.get(),trill="",
+            t_1=trillizoscontrol.get(),t_2=trillizoscontrol2.get(),t_3=trillizoscontrol3.get(),nor=nacimientocontrol.get(),
+            ces=nacimientocontrol2.get(),forcep=nacimientocontrol3.get(),term=nacimientocontrol4.get(),
+            saram=enfermedadcontrol.get(),ru=enfermedadcontrol2.get(),lec=enfermedadcontrol3.get(),osf=enfermedadcontrol4.get(),
+            me=enfermedadcontrol5.get(),he=enfermedadcontrol6.get(),pa=enfermedadcontrol7.get(),otras=enfermedadcontrol8.get(),
+            cuales=cuales2.get(),BGC=vacunascontrol.get(),anti=vacunascontrol2.get(),rube=vacunascontrol3.get(),
+            tripe=vacunascontrol4.get(),f_a=vacunascontrol5.get(),pol=vacunascontrol6.get(),otras_2=vacunascontrol7.get(),
+            der=derechacontrol.get(),izq=izquierdacontrol.get(),amb=ambascontrol.get(),peso=pesa.get(),altura=mide.get(),
+            talla=talla.get(),pantalon=talla2.get(),zap=talla3.get(),padre=padrecontrol.get(),madre=madrecontrol.get(),
+            abuelos=abueloscontro.get(),otro_fami=otrocontrol.get(),empezo_hab=edad_hablar2.get(),quien_duer=duerme_nino2.get(),
+            si_her=hermano_nino2.get(),no_her=hermano_nino3.get(),gra_her=hermano_nino5.get(),
+            hab_correc=habla_correctamente2.get(),canta=cantar2.get(),baila=bailar2.get(),historias=contar_historias2,
+            si_dep=actividades_fisicas2,cual_dep=actividades_fisicas4,juega_con=juega2,juegos_casa=juegos_realiza2.get(),
+            nom_pa=nombre_pa2.get(),ape_pa=apellido_pa.get(),ced_pa=ci_pa.get(),nac_pa=nacionalidad_pa.get(),
+            pro_pa=profesion_pa.get(),hab_pa=habitacion_pa.get(),tel_pa=telefonoh_pa.get(),trabajo_pa=trabajo_pa.get(),
+            tel_pa_tra=telefonoh_pa,vi_si=viveninocontrol.get(),vi_no=vivenino2control.get(),nombre_ma=nombre_madre.get(),
+            ape_ma=apellido_madre2.get(),ced_ma=ci_ma.get(),nac_ma=nacionalidad_ma.get(),pro_ma=profesion_ma.get(),
+            hab_ma=habitacion_ma.get(),tel_ma=telefonoh_ma.get(),tra_ma=trabajo_ma.get(),tel_ma_trab=telefonot_ma.get(),
+            vive_con_el_si=vive_con_control_ma.get(),vive_con_el_no=vive_con_contro2_ma.get(),nombre_re=nombre_re2.get(),
+            apellido_re=apellido_re2.get(),parentesco="",cedula=ci_re.get(),telefono="",direccion_casa=habitacion_re2.get(),
+            telefono_hab_re=telefonoh_re2.get(),direccion_trabajo=trabajo_re2.get(),telefono_t_re=telefonot_re2.get(),
+            telefono_cer_re="",dir_cer_re=""
+        ))
+        btn.place(relx=0.9,rely=0.8)
 
 
 
-    def register_child(self,
-                    anno_cursar,
-                    nombre,
-                    apellido,
-                    f_di,
-                    f_m,
-                    f_an,
-                    e_a,
-                    e_m,
-                    sex,
-                    l_n,
-                    en_fed,
-                    nacionalidad,
-                    ced_escolar,
-                    man,
-                    tar,
-                    secc,
-                    A,
-                    B,
-                    C,
-                    instituto_pro,
-                    del_hogar,
-                    senci,
-                    gem,
+    def register_child(self,*,
+                    anno_cursar:int,
+                    nombre:str,
+                    apellido:str,
+                    f_di:date,
+                    f_m:date,
+                    f_an:date,
+                    e_a:int,
+                    e_m:int,
+                    sex:str,
+                    l_n:str,
+                    en_fed:str,
+                    nacionalidad:str,
+                    ced_escolar:int,
+                    man:str,
+                    tar:str,
+                    secc:str,
+                    A:str,
+                    B:str,
+                    C:str,
+                    instituto_pro:str,
+                    del_hogar:str,
+                    senci:str,
+                    gem:str,
                     g_1,
                     g_2,
                     trill,
@@ -558,6 +644,7 @@ class App(BaseView):
                     nor,
                     ces,
                     forcep,
+                    term,
                     saram,
                     ru,
                     lec,
@@ -618,6 +705,7 @@ class App(BaseView):
                     hab_ma,
                     tel_ma,
                     tra_ma,
+                    tel_ma_trab,
                     vive_con_el_si,
                     vive_con_el_no,
                     nombre_re,
@@ -632,6 +720,7 @@ class App(BaseView):
                     telefono_cer_re,
                     dir_cer_re,
                     ):
+        print(nombre)
         datos = {
         'anno_cursar':anno_cursar,
         'nombre':nombre,
@@ -649,9 +738,9 @@ class App(BaseView):
         'man':man,
         'tar':tar,
         'secc':secc,
-        'A':A,
-        'B':B,
-        'C':C,
+        'A': 'A' if not(A)  else '',
+        'B':'B' if not(B)  else '',
+        'C':'C' if not(C) else '',
         'instituto_pro':instituto_pro,
         'del_hogar':del_hogar,
         'senci':senci,
@@ -665,6 +754,7 @@ class App(BaseView):
         'nor':nor,
         'ces':ces,
         'forcep':forcep,
+        'term':term,
         'saram':saram,
         'ru':ru,
         'lec':lec,
@@ -723,9 +813,9 @@ class App(BaseView):
         'nac_ma':nac_ma,
         'pro_ma':pro_ma,
         'hab_ma':hab_ma,
-        'tel_ma':tel_ma,
+        'tel_hab_ma':tel_ma,
         'tra_ma':tra_ma,
-        'tel_ma':tel_ma,
+        'tel_trab_ma':tel_ma_trab,
         'vive_con_el_si':vive_con_el_si,
         'vive_con_el_no':vive_con_el_no,
         'nombre_re':nombre_re,
@@ -741,8 +831,9 @@ class App(BaseView):
         'dir_cer_re':dir_cer_re,
         }
 
+        print(datos)
 
-        self._controller.registerChild(**datos)
+        self._controller.registerChild("2004-08-30",**datos)
 
 
 
@@ -752,7 +843,7 @@ class App(BaseView):
     def controlPersonas(self):
         frame_search = self.tk.Frame(self.frame1,bg="#000")
         frame_search.place(relx=0, rely=0, relwidth=1, relheight=0.3)
-        self.search = self.ttk.Entry(frame_search, justify="right",validate="key",validatecommand=(self.frame1.register(self.validate_entry_number), "%S"))
+        self.search = self.ttk.Entry(frame_search, justify="right",validate="key",validatecommand=(self.frame1.register(self.validate_entry_text), "%S"))
         self.search.place(relx=0.34, rely=0.2, width=220, height=25)
         self.search.bind("<FocusOut>", self.validate_search)
 
@@ -826,9 +917,6 @@ class App(BaseView):
 
     def get_users(self):
         return self._controller.get_users_tree()
-
-    def get_users_all(self):
-        return self._controller.get_users()
 
     def item_selected(self,event):
         for selected_item in self.tree.selection():

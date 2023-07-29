@@ -1,5 +1,6 @@
 from util.rutas import dir
 import subprocess
+from subprocess import SubprocessError
 import os
 import shutil
 from tkinter import filedialog
@@ -8,11 +9,10 @@ class Installer():
     __user = os.getlogin()
     def __init__(self) -> None:
         self.main = os.path.join(self.__ruta_proyecto,"main.py")
-        self.path = filedialog.askdirectory()
         self.deactiveDebug()
-        self.validate_folder()
+        # self.validate_folder()
         self.generar()
-        exit()
+
 
     def deactiveDebug(self):
         lines = open(self.main,'r').readlines()
@@ -28,25 +28,25 @@ class Installer():
             out.close()
 
     def moveFiles(self):
-        with open(f'{os.path.join(self.path,"dist",".env")}','w+') as file :
+        with open(f'{os.path.join(self.main,"dist",".env")}','w+') as file :
             env_debug = open(f'{os.path.join(self.__ruta_proyecto,".env")}','r')
             file.writelines(env_debug)
             file.close()
 
-    def validate_folder(self):
-        if os.path.exists(os.path.join(self.path,"production_uni")):
-            os.rmdir(os.path.join(self.path,"production_uni"))
-        else:
-            os.mkdir(os.path.join(self.path,"production_uni"))
+    # def validate_folder(self):
+    #     if os.path.exists(os.path.join(self.path,"production_uni")):
+    #         os.rmdir(os.path.join(self.main,"production_un"))
+    #     else:
+    #         os.mkdir(os.path.join(self.path,"production_uni"))
 
     def generar(self):
-
-
-        build_path = os.path.join(self.path,"build")
-        dist_path = os.path.join(self.path,"dist")
-        subprocess.Popen(".\\venv\\Scripts\\activate",shell=True,stdout=True)
-        subprocess.Popen(f"pyinstaller {self.main} --workpath {build_path} --distpath {dist_path} --onefile",shell=True,stdout=True)
-
+        try:
+            subprocess.Popen(".\\venv\\Scripts\\activate",shell=True,stdout=True)
+            subprocess.Popen(f"pyinstaller {self.main}",shell=True,stdout=True)
+        except SubprocessError as error:
+            print(error)
+        finally:
+            exit()
 
 
 

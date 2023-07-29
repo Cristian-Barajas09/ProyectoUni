@@ -82,7 +82,7 @@ class Form(BaseView):
 
         if result:
             self.window.destroy()
-            self.main()
+            App()
 
     def verificarUsuario(self):
         user = self.input1.get()

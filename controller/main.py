@@ -96,7 +96,7 @@ class  Controller(BaseController):
             return result
 
 
-    def registerChild(self,**kwargs:dict[str,Any]):
+    def registerChild(self,fecha_nacimiento:datetime,**kwargs:dict[str,Any]):
         """
         :param **kwargs -> {
             nombres:str
@@ -143,89 +143,99 @@ class  Controller(BaseController):
             direccion
         }
         """
-        print(kwargs)
-
-        nombres:str = kwargs["nombres"]
-        apellidos:str = kwargs["apellidos"]
-        fecha_nacimiento = kwargs["fecha_nacimiento"]
-        edad:int = kwargs["edad"]
-        sexo:str = kwargs["sexo"]
-        lugar_nacimiento:str = kwargs["lugar_nacimiento"]
-        entidad_federal:str = kwargs["entidad_federal"]
-        nacionalidad:str = kwargs["nacionalidad"]
-        cedula_escolar:int = kwargs["cedula_escolar"]
-        turno:str = kwargs["turno"]
-        instituto_procedencia:str = kwargs["instituto_procedencia"]
-        parto:str = kwargs["parto"]
-        proceso_nacimiento:str = kwargs["proceso_nacimiento"]
-        mano_dominante:str = kwargs["mano_dominante"]
-        peso:float = kwargs["peso"]
-        talla:int = kwargs["talla"]
-        talla_comisa:int = kwargs["talla_comisa"]
-        talla_pantalon:int = kwargs["talla_pantalon"]
-        zapatos:int = kwargs["zapatos"]
-        con_quien_vive:str = kwargs["con_quien_vive"]
-        cuando_hablo:int = kwargs["cuando_hablo"]
-        cuando_camino:int = kwargs["cuando_camino"]
-        duerme_con:str = kwargs["duerme_con"]
-        tiene_hermanos:bool = kwargs["tiene_hermanos"]
-        donde_estudian_hermanos:str = kwargs["donde_estudian_hermanos"]
-        habla_correctamente:bool = kwargs["habla_correctamente"]
-        con_quien_juega:str = kwargs["con_quien_juega"]
-        status:bool = True
-        juegos:list | str = kwargs["juegos"]
-        actividades = kwargs["actividades"]
-        alergias=kwargs["alergias"]
-        enfermedades =kwargs["enfermedades"]
-        vacunas= kwargs["vacunas"]
-        gustos =kwargs["gustos"]
-        results = self.sql.register_child(
-                nombres,
-                apellidos,
-                fecha_nacimiento,
-                edad,
-                sexo,
-                lugar_nacimiento,
-                entidad_federal,
-                nacionalidad,
-                cedula_escolar,
-                turno,
-                instituto_procedencia,
-                parto,
-                proceso_nacimiento,
-                mano_dominante,
-                peso,
-                talla,
-                talla_comisa,
-                talla_pantalon,
-                zapatos,
-                con_quien_vive,
-                cuando_hablo,
-                cuando_camino,
-                duerme_con,
-                tiene_hermanos,
-                donde_estudian_hermanos,
-                habla_correctamente,
-                con_quien_juega,
-                status)
-
-        result =self.get_child(cedula_escolar)
-
-        self.sql.set_juegos(result[0]['id'],juegos)
-        self.sql.set_actividades(result[0]['id'],actividades)
-        self.sql.set_alergias(result[0]['id'],alergias)
-        self.sql.set_enfermedades(result[0]['id'],enfermedades)
-        self.sql.set_vacunas(result[0]['id'],vacunas)
-        self.sql.set_gustos(result[0]['id'],gustos)
-
-
-        self.set_representante(**kwargs)
-
-
-
-
         
-        return results
+        anno_cursar = kwargs["anno_cursar"]
+        nombres:str = kwargs["nombre"]
+        apellidos:str = kwargs["apellido"]
+        edad:int = kwargs["e_a"]
+        sexo:str = kwargs["sex"]
+        lugar_nacimiento:str = kwargs["l_n"]
+        entidad_federal:str = kwargs["en_fed"]
+        nacionalidad:str = kwargs["nacionalidad"]
+        cedula_escolar:int = kwargs["ced_escolar"]
+        turno:str = kwargs["man"] if kwargs["tar"] == "" else kwargs["tar"]
+        seccion:int
+        if kwargs["A"] == 'A':
+            seccion = 'A'
+        elif kwargs["B"] == 'B':
+            seccion = 'B'
+        elif kwargs["C"] == 'C':
+            seccion = 'C'
+
+        # instituto_procedencia:str = kwargs["instituto_pro"] if kwargs["instituto_pro"] else kwargs["del_hogar"]
+        # parto:str = kwargs["parto"]
+        # proceso_nacimiento:str = kwargs["proceso_nacimiento"]
+        # mano_dominante:str = kwargs["mano_dominante"]
+        # peso:float = kwargs["peso"]
+        # talla:int = kwargs["talla"]
+        # talla_comisa:int = kwargs["talla_comisa"]
+        # talla_pantalon:int = kwargs["talla_pantalon"]
+        # zapatos:int = kwargs["zapatos"]
+        # con_quien_vive:str = kwargs["con_quien_vive"]
+        # cuando_hablo:int = kwargs["cuando_hablo"]
+        # cuando_camino:int = kwargs["cuando_camino"]
+        # duerme_con:str = kwargs["duerme_con"]
+        # tiene_hermanos:bool = kwargs["tiene_hermanos"]
+        # donde_estudian_hermanos:str = kwargs["donde_estudian_hermanos"]
+        # habla_correctamente:bool = kwargs["habla_correctamente"]
+        # con_quien_juega:str = kwargs["con_quien_juega"]
+        # status:bool = True
+        
+
+        # dic_juegos = {}
+        # if kwargs["si_dep"] :
+        #     dic_juegos
+        
+        # juegos:list | str = kwargs["juegos"]
+        # actividades = kwargs["actividades"]
+        # alergias=kwargs["alergias"]
+        # enfermedades =kwargs["enfermedades"]
+        # vacunas= kwargs["vacunas"]
+        # gustos =kwargs["gustos"]
+        # results = self.sql.register_child(
+        #         nombres,
+        #         apellidos,
+        #         fecha_nacimiento,
+        #         edad,
+        #         sexo,
+        #         lugar_nacimiento,
+        #         entidad_federal,
+        #         nacionalidad,
+        #         cedula_escolar,
+        #         turno,
+        #         instituto_procedencia,
+        #         parto,
+        #         proceso_nacimiento,
+        #         mano_dominante,
+        #         peso,
+        #         talla,
+        #         talla_comisa,
+        #         talla_pantalon,
+        #         zapatos,
+        #         con_quien_vive,
+        #         cuando_hablo,
+        #         cuando_camino,
+        #         duerme_con,
+        #         tiene_hermanos,
+        #         donde_estudian_hermanos,
+        #         habla_correctamente,
+        #         con_quien_juega,)
+
+        # result =self.get_child(cedula_escolar)
+
+        # self.sql.set_juegos(result[0]['id'],juegos)
+        # self.sql.set_actividades(result[0]['id'],actividades)
+        # self.sql.set_alergias(result[0]['id'],alergias)
+        # self.sql.set_enfermedades(result[0]['id'],enfermedades)
+        # self.sql.set_vacunas(result[0]['id'],vacunas)
+        # self.sql.set_gustos(result[0]['id'],gustos)
+
+        self.set_planilla(**kwargs)
+
+
+        # self.set_representante(**kwargs)
+
+        # return results
 
 
 
@@ -250,12 +260,11 @@ class  Controller(BaseController):
     def set_planilla(self,**kwargs):
 
 
-        generate_planilla(       )
+        generate_planilla(  **kwargs   )
 
     def get_users_tree(self) :
         datos = self.sql.consulta(
-            "SELECT nombres,apellidos,cedula FROM users"
-        )
+            "SELECT nombres,apellidos,cedula FROM users")
         datos = datos.fetchall()
 
         return datos
@@ -267,14 +276,8 @@ class  Controller(BaseController):
 
     def search_user(self,search,param):
         result = self.sql.consulta(
-            f'SELECT nombres,apellidos FROM users WHERE {param} LIKE "{search}%"')
+            f'SELECT nombres,apellidos,cedula FROM users WHERE {param} LIKE "{search}%"')
         result = result.fetchall()
 
         return result
 
-    def get_users(self):
-        return self.sql.get_usuarios()
-
-
-    def get_child(self,cedula:int):
-        return self.sql.get_child(cedula)
