@@ -953,9 +953,9 @@ class App(BaseView):
         self.tree.configure(yscroll=scrollbar.set)
         scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
         
-        btn_search = self.tk.Button(self.frame1,bg="#041d9b",border=0,fg="#fff", text="Buscar", command=lambda: self.search_user(
+        btn_search = self.tk.Button(self.frame1,bg="#041d9b",border=0,fg="#fff", text="Generar Planilla del Personal", command=lambda: self.search_user(
             self.search.get(), self.select.get()))
-        btn_search.place(relx=0.46, rely=0.92, width=60, height=35)
+        btn_search.place(relx=0.38, rely=0.92, width=160, height=35)
         
         
 
