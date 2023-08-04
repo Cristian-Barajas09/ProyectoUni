@@ -644,24 +644,24 @@ class App(BaseView):
         btn = self.tk.Button(self.frame7,text="Guardar",command=lambda: self.register_child(
             anno_cursar = ano2.get(),nombre=nombre_es2.get(),apellido=apellido_es.get(),f_di=fecha.day,f_m=fecha.month,
             f_an=fecha.year,e_a=edad_anos2.get(),e_m=meses2.get(),sex=sexo_combo.get(),l_n=lugar_nacimiento2.get(),
-            en_fed=entidad_federal2.get(),nacionalidad=nacionalidad2,ced_escolar=cdula_escolar2.get(),man=manana_key.get(),
+            en_fed=entidad_federal2.get(),nacionalidad=nacionalidad2.get(),ced_escolar=cdula_escolar2.get(),man=manana_key.get(),
             tar=tarde_key.get(),secc=seccion2.get(),A=cont.get(),B=cont2.get(),C=cont3.get(),instituto_pro=institucion2.get(),
             del_hogar=del_hogar2.get(),senci=parto2.get(),gem="",g_1=gemelocontrol.get(),g_2=gemelocontrol2.get(),trill="",
             t_1=trillizoscontrol.get(),t_2=trillizoscontrol2.get(),t_3=trillizoscontrol3.get(),nor=nacimientocontrol.get(),
             ces=nacimientocontrol2.get(),forcep=nacimientocontrol3.get(),term=nacimientocontrol4.get(),
             saram=enfermedadcontrol.get(),ru=enfermedadcontrol2.get(),lec=enfermedadcontrol3.get(),osf=enfermedadcontrol4.get(),
             me=enfermedadcontrol5.get(),he=enfermedadcontrol6.get(),pa=enfermedadcontrol7.get(),otras=enfermedadcontrol8.get(),
-            cuales=cuales2.get(),BGC=vacunascontrol.get(),anti=vacunascontrol2.get(),rube=vacunascontrol3.get(),
+            cuales=cuales2.get(),BCG=vacunascontrol.get(),anti=vacunascontrol2.get(),rube=vacunascontrol3.get(),
             tripe=vacunascontrol4.get(),f_a=vacunascontrol5.get(),pol=vacunascontrol6.get(),otras_2=vacunascontrol7.get(),
             der=derechacontrol.get(),izq=izquierdacontrol.get(),amb=ambascontrol.get(),peso=pesa.get(),altura=mide.get(),
             talla=talla.get(),pantalon=talla2.get(),zap=talla3.get(),padre=padrecontrol.get(),madre=madrecontrol.get(),
             abuelos=abueloscontrol.get(),otro_fami=otrocontrol.get(),empezo_hab=edad_hablar2.get(),quien_duer=duerme_nino2.get(),
-            si_her=hermano_nino2.get(),no_her=hermano_nino3.get(),gra_her=hermano_nino5.get(),
-            hab_correc=habla_correctamente2.get(),canta=cantar2.get(),baila=bailar2.get(),historias=contar_historias2,
-            si_dep=actividades_fisicas2,cual_dep=actividades_fisicas4,juega_con=juega2,juegos_casa=juegos_realiza2.get(),
+            si_her=hermanocontrol.get(),no_her=hermano2control.get(),gra_her=hermano_nino5.get(),
+            hab_correc=habla_correctamente2.get(),canta=cantar2.get(),baila=bailar2.get(),historias=contar_historias2.get(),
+            si_dep=actividades_fisicas2.get(),cual_dep=actividades_fisicas4.get(),juega_con=juega2.get(),juegos_casa=juegos_realiza2.get(),
             nom_pa=nombre_pa2.get(),ape_pa=apellido_pa.get(),ced_pa=ci_pa.get(),nac_pa=nacionalidad_pa.get(),
             pro_pa=profesion_pa.get(),hab_pa=habitacion_pa.get(),tel_pa=telefonoh_pa.get(),trabajo_pa=trabajo_pa.get(),
-            tel_pa_tra=telefonoh_pa,vi_si=viveninocontrol.get(),vi_no=vivenino2control.get(),nombre_ma=nombre_madre.get(),
+            tel_pa_tra=telefonoh_pa.get(),vi_si=viveninocontrol.get(),vi_no=vivenino2control.get(),nombre_ma=nombre_madre2.get(),
             ape_ma=apellido_madre2.get(),ced_ma=ci_ma.get(),nac_ma=nacionalidad_ma.get(),pro_ma=profesion_ma.get(),
             hab_ma=habitacion_ma.get(),tel_ma=telefonoh_ma.get(),tra_ma=trabajo_ma.get(),tel_ma_trab=telefonot_ma.get(),
             vive_con_el_si=vive_con_control_ma.get(),vive_con_el_no=vive_con_contro2_ma.get(),nombre_re=nombre_re2.get(),
@@ -669,7 +669,7 @@ class App(BaseView):
             telefono_hab_re=telefonoh_re2.get(),direccion_trabajo=trabajo_re2.get(),telefono_t_re=telefonot_re2.get(),
             telefono_cer_re="",dir_cer_re=""
         ))
-        btn.place(relx=0.9,rely=0.8)
+        btn.place( relx=0.9,rely=0.8 )
 
 
 
