@@ -600,43 +600,51 @@ class App(BaseView):
         # TODO: acomodar los campos de representantes y agregar los faltantes
 ### Datos representante ====================================================================================
         representante =self.tk.LabelFrame(self.frame7,border=2,relief="groove",text="Datos Representantes")
-        representante.place(x=120,y=45,width=450,height=260)
+        representante.place(x=105,y=40,width=500,height=250)
 
         nombre = self.tk. Label(representante,text="Nombre:").place(x=0,y=5,width=60)
         nombre_re2 =self.tk. Entry(representante,border=2,relief="groove")
-        nombre_re2.place(x=100,y=5,width=140)
+        nombre_re2.place(x=60,y=5,width=180)
 
-        apellido_representante = self.tk.Label(representante,text="Apellido").place(x=0,y=40,width=60)
+        apellido_representante = self.tk.Label(representante,text="Apellido").place(x=240,y=5,width=60)
         apellido_re2 =self.tk. Entry(representante,border=2,relief="groove")
-        apellido_re2.place(x=100,y=40,width=140)
+        apellido_re2.place(x=300,y=5,width=180)
 
-        ci = self.tk.Label(representante,text="C.I").place(x=280,y=40,width=20)
+        parentesco = self.tk.Label(representante,text="Parentesco").place(x=5, y=40, width=60)
+        parentesco_re1 =self.tk. Entry(representante,border=2,relief="groove")
+        parentesco_re1.place(x=70,y=40,width=155)
+
+        ci = self.tk.Label(representante,text="C.I:").place(x=230,y=40,width=20)
         ci_re =self.tk. Entry(representante,border=2,relief="groove")
-        ci_re.place(x=300,y=40,width=60)
+        ci_re.place(x=260,y=40,width=80)
+        
+        phone_re = self.tk.Label(representante,text="Telf:").place(x=350,y=40,width=20)
+        phone_re =self.tk. Entry(representante,border=2,relief="groove")
+        phone_re.place(x=380,y=40,width=100)
 
-        nacionalidad =self.tk. Label(representante,text="Nacionalidad :").place(x=0,y=70,width=90)
-        nacionalidad_re2 = self.tk.Entry(representante,border=2,relief="groove")
-        nacionalidad_re2.place(x=90,y=70,width=90)
+        direccion_hab =self.tk. Label(representante,text="Direccion de Habitación").place(x=5,y=70,width=130)
+        direccion_hab = self.tk.Entry(representante,border=2,relief="groove")
+        direccion_hab.place(x=140,y=70,width=200)
 
-        profesion =self.tk.Label(representante,text="Profesion:").place(x=190,y=70,width=60)
-        profesion_re2 =self.tk.Entry(representante,border=2,relief="groove")
-        profesion_re2.place(x=250,y=70,width=100)
+        phone_re1 =self.tk.Label(representante,text="Telf:").place(x=350,y=70,width=20)
+        phone_re1 =self.tk.Entry(representante,border=2,relief="groove")
+        phone_re1.place(x=380,y=70,width=100)
 
-        habitacion =self.tk.Label(representante,text="Direccion de Habitacion :").place(x=0,y=100,width=140)
-        habitacion_re2 =self.tk.Entry(representante,border="2",relief="groove")
-        habitacion_re2.place(x=150,y=100,width=140)
+        direccion_tra =self.tk. Label(representante,text="Direccion de Trabajo").place(x=5.5,y=105,width=109)
+        direccion_tra = self.tk.Entry(representante,border=2,relief="groove")
+        direccion_tra.place(x=120,y=105,width=220)
 
-        telefonoh =self.tk.Label(representante,text="Telf :").place(x=0,y=140,width=30)
-        telefonoh_re2 =self.tk.Entry(representante,border=2,relief="groove")
-        telefonoh_re2.place(x=30,y=140,width=80)
+        phone_re2 =self.tk.Label(representante,text="Telf:").place(x=350,y=105,width=20)
+        phone_re2 =self.tk.Entry(representante,border=2,relief="groove")
+        phone_re2.place(x=380,y=105,width=100)
 
-        trabajo =self.tk.Label(representante,text="Direccion de Trabajo :").place(x=120,y=140,width=120)
-        trabajo_re2 =self.tk.Entry(representante,border=2,relief="groove")
-        trabajo_re2.place(x=250,y=140,width=140)
+        direccion_f_Cer =self.tk.Label(representante,text="Direccion de Familiar Cercano:").place(x=4,y=140,width=170)
+        direccion_f_Cer =self.tk.Entry(representante,border=2,relief="groove")
+        direccion_f_Cer.place(x=175,y=140,width=305)
 
-        telefonot =self.tk.Label(representante,text="Telf :").place(x=0,y=180,width=30)
+        telefonot =self.tk.Label(representante,text="Telf de Familiar Cercano:").place(x=5,y=180,width=140)
         telefonot_re2 =self.tk. Entry(representante,border=2,relief="groove")
-        telefonot_re2.place(x=40,y=180,width=80)
+        telefonot_re2.place(x=150,y=180,width=170)
 
 
         fecha:date  = fecha_nacimiento1.get_date()
@@ -669,7 +677,7 @@ class App(BaseView):
             telefono_hab_re=telefonoh_re2.get(),direccion_trabajo=trabajo_re2.get(),telefono_t_re=telefonot_re2.get(),
             telefono_cer_re="",dir_cer_re=""
         ))
-        btn.place( relx=0.9,rely=0.8 )
+        btn.place( relx=0.9,rely=0.8)
 
 
 
