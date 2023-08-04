@@ -2,7 +2,7 @@ from jinja2 import Environment,FileSystemLoader
 from .rutas import dir
 import os
 from datetime import datetime
-import pdfkit
+
 
 planilla = {
         'anno_cursar':2,
@@ -135,7 +135,7 @@ def generate_planilla(**kwargs):
 
 
 def generate_report(**kwargs):
-    template = env.get_template("informe_user.html")
+    template = env.get_template("Plantilla impresión Proyecto 2/index.html")
     html = template.render(kwargs)
     ruta = os.path.join(public,f"reporte-{datetime.now()}.html")
     f = open(ruta,'w',encoding="utf-8")
@@ -144,4 +144,13 @@ def generate_report(**kwargs):
 
 if __name__ == '__main__':
 
-    generate_planilla(**planilla)
+    user_ex = {
+        "nombres":"Cristian",
+        "apellidos":"Barajas",
+        'cedula':31357876,
+        'grupo':'A',
+        'seccion':'A',
+        'docente':'Andi'
+    }
+
+    generate_report(**user_ex)
