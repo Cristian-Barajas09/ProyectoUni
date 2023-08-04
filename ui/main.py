@@ -130,16 +130,18 @@ class App(BaseView):
         cdula_escolar2.place(x=340,y=120,width=140)
 
 
-        manana_key=self.tk.StringVar
-        tarde_key = self.tk.StringVar
+        manana_key=self.tk.StringVar()
+        tarde_key = self.tk.StringVar()
 
         turno = self.tk.Label(datos, text="Turno:")
         turno.place(x=5,y=150,width=40)
 
-        manana = self.tk.Checkbutton(datos,text="Mañana",command=manana_key)
+        manana = self.tk.Checkbutton(datos,text="Mañana",variable=manana_key,onvalue="Si",offvalue="")
+        manana.deselect()
         manana.place(x=50,y=150,width=80)
 
-        tarde =self.tk. Checkbutton(datos,text="Tarde",command=tarde_key)
+        tarde =self.tk. Checkbutton(datos,text="Tarde",command=tarde_key,onvalue="Si",offvalue="")
+        tarde.deselect()
         tarde.place(x=130,y=150,width=60)
 
 
@@ -157,19 +159,22 @@ class App(BaseView):
 
 
 
-        cont =self.tk.IntVar
-        cont2 = self.tk.IntVar
-        cont3 = self.tk.IntVar
+        cont =self.tk.StringVar()
+        cont2 = self.tk.StringVar()
+        cont3 = self.tk.StringVar()
 
 #recicla la funcion
 
-        A = self.tk.Checkbutton(datos,text="A",command=cont)
+        A = self.tk.Checkbutton(datos,text="A",variable=cont,onvalue="Si",offvalue="")
+        A.deselect()
         A.place(x=380,y=150,width=40)
 
-        B = self.tk.Checkbutton(datos,text="B",command=cont2)
+        B = self.tk.Checkbutton(datos,text="B",variable=cont2,onvalue="Si",offvalue="")
+        B.deselect()
         B.place(x=420,y=150,width=40)
 
-        C = self.tk.Checkbutton(datos,text="C",command=cont3)
+        C = self.tk.Checkbutton(datos,text="C",variable=cont3,onvalue="Si",offvalue="")
+        C.deselect()
         C.place(x=460,y=150,width=40)
 
 
@@ -187,47 +192,59 @@ class App(BaseView):
         parto2.place(x=80,y=210,width=30)
 
 ##gemelo
-        gemelocontrol =self.tk. StringVar
-        gemelocontrol2 = self.tk. StringVar
+        gemelocontrol =self.tk. StringVar()
+        gemelocontrol2 = self.tk. StringVar()
 
         gemelotext =self.tk. Label(datos,text="Gemelos:").place(x=120,y=210,width=80)
-        gemelo = self.tk.Checkbutton(datos,text="1ero",command=gemelocontrol)
+        gemelo = self.tk.Checkbutton(datos,text="1ero",variable=gemelocontrol,onvalue="Si",offvalue="")
+        gemelo.deselect()
         gemelo.place(x=200,y=210,width=40)
-        gemelo2 =self.tk. Checkbutton(datos,text="2do",command=gemelocontrol2)
+        gemelo2 =self.tk. Checkbutton(datos,text="2do",command=gemelocontrol2,onvalue="Si",offvalue="")
+        gemelo2.deselect()
         gemelo2.place(x=240,y=210,width=60)
 ##
 
 
 ##trillizos
-        trillizoscontrol = self.tk.StringVar
-        trillizoscontrol2 = self.tk.StringVar
-        trillizoscontrol3 = self.tk.StringVar
+        trillizoscontrol = self.tk.StringVar()
+        trillizoscontrol2 = self.tk.StringVar()
+        trillizoscontrol3 = self.tk.StringVar()
 
         trillizostext = self.tk.Label(datos,text="Trillizos:").place(x=300,y=210,width=60)
-        trillizos = self.tk.Checkbutton(datos,text="1ero",command=trillizoscontrol)
+        trillizos = self.tk.Checkbutton(datos,text="1ero",variable=trillizoscontrol,onvalue="Si",offvalue="")
+        trillizos.deselect()
         trillizos.place(x=360,y=210,width=40)
 
-        trillizos2 = self.tk.Checkbutton(datos,text="2do",command=trillizoscontrol2)
+        trillizos2 = self.tk.Checkbutton(datos,text="2do",variable=trillizoscontrol2,onvalue="Si",offvalue="")
+        trillizos2.deselect()
         trillizos2.place(x=410,y=210,width=40)
 
-        trillizos3=self.tk. Checkbutton(datos,text="3ero",command=trillizoscontrol3)
+        trillizos3=self.tk. Checkbutton(datos,text="3ero",variable=trillizoscontrol3,onvalue="Si",offvalue="")
+        trillizos3.deselect()
         trillizos3.place(x=460,y=210,width=40)
 
 ##
         proceso_nacimiento =self.tk.Label(datos,text="Proceso de Nacimiento:").place(x=4,y=240,width=130)
 
-        nacimientocontrol = self.tk.StringVar
-        nacimientocontrol2 = self.tk.StringVar
-        nacimientocontrol3 = self.tk.StringVar
-        nacimientocontrol4 = self.tk.StringVar
+        nacimientocontrol = self.tk.StringVar()
+        nacimientocontrol2 = self.tk.StringVar()
+        nacimientocontrol3 = self.tk.StringVar()
+        nacimientocontrol4 = self.tk.StringVar()
 
-        normal = self.tk.Checkbutton(datos,text="Normal",command=nacimientocontrol)
+        normal = self.tk.Checkbutton(datos,text="Normal",variable=nacimientocontrol,onvalue="Si",offvalue="")
+        normal.deselect()
         normal.place(x=135,y=240,width=80)
-        cesarea = self.tk.Checkbutton(datos,text="Cesarea",command=nacimientocontrol2)
+
+        cesarea = self.tk.Checkbutton(datos,text="Cesarea",variable=nacimientocontrol2,onvalue="Si",offvalue="")
+        cesarea.deselect()
         cesarea.place(x=220,y=240,width=80)
-        con_forceps= self.tk.Checkbutton(datos,text="Con Forceps",command=nacimientocontrol3)
+
+        con_forceps= self.tk.Checkbutton(datos,text="Con Forceps",variable=nacimientocontrol3,onvalue="Si",offvalue="")
+        con_forceps.deselect()
         con_forceps.place(x=300,y=240,width=100)
-        a_termino= self.tk.Checkbutton(datos,text="A termino",command=nacimientocontrol4)
+
+        a_termino= self.tk.Checkbutton(datos,text="A termino",variable=nacimientocontrol4,onvalue="Si",offvalue="")
+        a_termino.deselect()
         a_termino.place(x=400,y=240,width=100)
 
 ##
@@ -241,32 +258,48 @@ class App(BaseView):
 
         #####Keys
 
-        enfermedadcontrol = self.tk.StringVar
-        enfermedadcontrol2= self.tk.StringVar
-        enfermedadcontrol3 = self.tk.StringVar
-        enfermedadcontrol4= self.tk.StringVar
+        enfermedadcontrol = self.tk.StringVar()
+        enfermedadcontrol2= self.tk.StringVar()
+        enfermedadcontrol3 = self.tk.StringVar()
+        enfermedadcontrol4= self.tk.StringVar()
 
-        enfermedadcontrol5 = self.tk.StringVar
-        enfermedadcontrol6= self.tk.StringVar
-        enfermedadcontrol7 = self.tk.StringVar
-        enfermedadcontrol8= self.tk.StringVar
+        enfermedadcontrol5 = self.tk.StringVar()
+        enfermedadcontrol6= self.tk.StringVar()
+        enfermedadcontrol7 = self.tk.StringVar()
+        enfermedadcontrol8= self.tk.StringVar()
 
-        sarampion =self.tk. Checkbutton(datos2,text="Sarampion",command=enfermedadcontrol)
+        sarampion =self.tk. Checkbutton(datos2,text="Sarampion",variable=enfermedadcontrol,onvalue="Si",offvalue="")
+        sarampion.deselect()
         sarampion.place(x=147,y=10,width=80)
-        rubeola = self.tk.Checkbutton(datos2,text="Rubeola",command=enfermedadcontrol2)
+
+        rubeola = self.tk.Checkbutton(datos2,text="Rubeola",variable=enfermedadcontrol2,onvalue="Si",offvalue="")
+        sarampion.deselect()
         rubeola.place(x=225,y=10,width=80)
-        lechina = self.tk.Checkbutton(datos2,text="Lechina",command=enfermedadcontrol3)
+
+        lechina = self.tk.Checkbutton(datos2,text="Lechina",variable=enfermedadcontrol3,onvalue="Si",offvalue="")
+        lechina.deselect()
         lechina.place(x=300,y=10,width=80)
-        tosferina = self.tk.Checkbutton(datos2,text="Tosferina",command=enfermedadcontrol4)
+
+        tosferina = self.tk.Checkbutton(datos2,text="Tosferina",variable=enfermedadcontrol4,onvalue="Si",offvalue="")
+        tosferina.deselect()
         tosferina.place(x=370,y=10,width=80)
-        meningitis =self.tk.Checkbutton(datos2,text="Meningitis",command=enfermedadcontrol5)
+
+        meningitis =self.tk.Checkbutton(datos2,text="Meningitis",variable=enfermedadcontrol5,onvalue="Si",offvalue="")
+        meningitis.deselect()
         meningitis.place(x=450,y=10,width=80)
-        hepatitis = self.tk.Checkbutton(datos2,text="Hepatitis",command=enfermedadcontrol6)
+
+        hepatitis = self.tk.Checkbutton(datos2,text="Hepatitis",variable=enfermedadcontrol6,onvalue="Si",offvalue="")
+        hepatitis.deselect()
         hepatitis.place(x=535,y=10,width=85)
-        parotiditis = self.tk.Checkbutton(datos2,text="Parotiditis",command=enfermedadcontrol7)
+
+        parotiditis = self.tk.Checkbutton(datos2,text="Parotiditis",variable=enfermedadcontrol7,onvalue="Si",offvalue="")
+        parotiditis.deselect()
         parotiditis.place(x=4,y=45,width=80)
-        otras = self.tk.Checkbutton(datos2,text="Otras",command=enfermedadcontrol8)
+
+        otras = self.tk.Checkbutton(datos2,text="Otras",variable=enfermedadcontrol8,onvalue="Si",offvalue="")
+        otras.deselect()
         otras.place(x=90,y=45,width=60)
+
         cuales= self.tk.Label(datos2,text="Cuales:")
         cuales.place(x=155,y=45,width=60)
         cuales2 =self.tk. Entry(datos2,border=3,relief="ridge")
@@ -274,29 +307,43 @@ class App(BaseView):
         # ######
         
         
-        vacunascontrol = self.tk.StringVar
-        vacunascontrol2= self.tk.StringVar
-        vacunascontrol3 = self.tk.StringVar
-        vacunascontrol4= self.tk.StringVar
+        vacunascontrol = self.tk.StringVar()
+        vacunascontrol2= self.tk.StringVar()
+        vacunascontrol3 = self.tk.StringVar()
+        vacunascontrol4= self.tk.StringVar()
 
-        vacunascontrol5 = self.tk.StringVar
-        vacunascontrol6= self.tk.StringVar
-        vacunascontrol7 = self.tk.StringVar
+        vacunascontrol5 = self.tk.StringVar()
+        vacunascontrol6= self.tk.StringVar()
+        vacunascontrol7 = self.tk.StringVar()
 
         vacunas = self.tk.Label(datos2,text="Vacunas recibidas:").place(x=330,y=45,width=100)
-        bcg = self.tk.Checkbutton(datos2,text="BCG",command=vacunascontrol)
+
+        bcg = self.tk.Checkbutton(datos2,text="BCG",variable=vacunascontrol,onvalue="Si",offvalue="")
+        bcg.deselect()
         bcg.place(x=435,y=45,width=45)
-        antitetanica = self.tk.Checkbutton(datos2,text="Antitetanica",command=vacunascontrol2)
+
+        antitetanica = self.tk.Checkbutton(datos2,text="Antitetanica",variable=vacunascontrol2,onvalue="Si",offvalue="")
+        antitetanica.deselect()
         antitetanica.place(x=480,y=45,width=90)
-        rubeola = self.tk.Checkbutton(datos2,text="Rubeola",command=vacunascontrol3)
+
+        rubeola = self.tk.Checkbutton(datos2,text="Rubeola",variable=vacunascontrol3)
+        rubeola.deselect()
         rubeola.place(x=4,y=80,width=80)
-        triple =self.tk.Checkbutton(datos2,text="Triple",command=vacunascontrol4)
+
+        triple =self.tk.Checkbutton(datos2,text="Triple",variable=vacunascontrol4,onvalue="Si",offvalue="")
+        triple.deselect()
         triple.place(x=90,y=80,width=60)
-        fiebre_amarilla =self.tk. Checkbutton(datos2,text="Fiebre Amarilla",command=vacunascontrol5)
+
+        fiebre_amarilla =self.tk. Checkbutton(datos2,text="Fiebre Amarilla",variable=vacunascontrol5,onvalue="Si",offvalue="")
+        fiebre_amarilla.deselect()
         fiebre_amarilla.place(x=150,y=80,width=120)
-        polio = self.tk.Checkbutton(datos2,text="Polio",command=vacunascontrol6)
+
+        polio = self.tk.Checkbutton(datos2,text="Polio",variable=vacunascontrol6,onvalue="Si",offvalue="")
+        polio.deselect()
         polio.place(x=260,y=80,width=60)
-        otras = self.tk.Checkbutton(datos2,text="Otras",command=vacunascontrol7)
+
+        otras = self.tk.Checkbutton(datos2,text="Otras",variable=vacunascontrol7,onvalue="Si",offvalue="")
+        otras.deselect()
         otras.place(x=320,y=80,width=60)
 
         alergia = self.tk.Label(datos2,text="Alergico(a):").place(x=380,y=80,width=80)
@@ -304,16 +351,21 @@ class App(BaseView):
         alergia2.place(x=460,y=80,width=120)
 
 ###
-        derechacontrol= self.tk.StringVar
-        izquierdacontrol = self.tk.StringVar
-        ambascontrol= self.tk.StringVar
+        derechacontrol= self.tk.StringVar()
+        izquierdacontrol = self.tk.StringVar()
+        ambascontrol= self.tk.StringVar()
 
         mano = self.tk.Label(datos2,text="Que mano usa frecuentemente:").place(x=0,y=115,width=185)
-        derecha = self.tk.Checkbutton(datos2,text="Derecha",command=derechacontrol)
+        derecha = self.tk.Checkbutton(datos2,text="Derecha",variable=derechacontrol,onvalue="Si",offvalue="")
+        derecha.deselect()
         derecha.place(x=180,y=115,width=60)
-        izquierda =self.tk. Checkbutton(datos2,text="Izquierda",command=izquierdacontrol)
+
+        izquierda =self.tk. Checkbutton(datos2,text="Izquierda",variable=izquierdacontrol,onvalue="Si",offvalue="")
+        izquierda.deselect()
         izquierda.place(x=254,y=115,width=80)
-        ambas = self.tk.Checkbutton(datos2,text="Ambas",command=ambascontrol)
+
+        ambas = self.tk.Checkbutton(datos2,text="Ambas",variable=ambascontrol,onvalue="Si",offvalue="")
+        ambas.deselect()
         ambas.place(x=330,y=115,width=80)
 
 
@@ -340,20 +392,28 @@ class App(BaseView):
 
 
 ###
-        padrecontrol= self.tk.StringVar
-        madrecontrol = self.tk.StringVar
-        abueloscontro= self.tk.StringVar
-        otrocontrol= self.tk.StringVar
+        padrecontrol= self.tk.StringVar()
+        madrecontrol = self.tk.StringVar()
+        abueloscontrol= self.tk.StringVar()
+        otrocontrol= self.tk.StringVar()
 
         nino_vive = self.tk.Label(datos2,text="El niño vive con:").place(x=4,y=180,width=85)
-        padre = self.tk.Checkbutton(datos2,text="Padre",command=padrecontrol)
+        padre = self.tk.Checkbutton(datos2,text="Padre",variable=padrecontrol,onvalue="Si",offvalue="")
+        padre.deselect()
         padre.place(x=90,y=185,width=70)
-        madre= self.tk.Checkbutton(datos2,text="Madre",command=madrecontrol)
+
+        madre= self.tk.Checkbutton(datos2,text="Madre",variable=madrecontrol,onvalue="Si",offvalue="")
+        madre.deselect()
         madre.place(x=150,y=185,width=70)
-        abuelos = self.tk.Checkbutton(datos2,text="Abuelos",command=abueloscontro)
+
+        abuelos = self.tk.Checkbutton(datos2,text="Abuelos",variable=abueloscontrol,onvalue="Si",offvalue="")
+        abuelos.deselect()
         abuelos.place(x=220,y=185,width=62)
-        otro = self.tk.Checkbutton (datos2,text="Otro :",command=otrocontrol)
+
+        otro = self.tk.Checkbutton (datos2,text="Otro :",variable=otrocontrol,onvalue="Si",offvalue="")
+        otro.deselect()
         otro.place(x=300,y=185,width=60)
+
         otro2 = self.tk.Entry(datos2,border=2,relief="ridge")
         otro2.place(x=370,y=185,width=100)
 
@@ -376,14 +436,18 @@ class App(BaseView):
         hermano_nino = self.tk.Label(datos3,text="Tiene hermanos en otro grupo o Primaria:").place(x=2,y=40,width=235)
 
         
-        hermanocontrol= self.tk.StringVar
-        hermano2control = self.tk.StringVar
+        hermanocontrol= self.tk.StringVar()
+        hermano2control = self.tk.StringVar()
 
 
-        hermano_nino2 = self.tk.Checkbutton(datos3,text="Si",command=hermanocontrol)
+        hermano_nino2 = self.tk.Checkbutton(datos3,text="Si",variable=hermanocontrol,onvalue="Si",offvalue="")
+        hermano_nino2.deselect()
         hermano_nino2.place(x=230,y=40,width=40)
-        hermano_nino3 = self.tk.Checkbutton(datos3,text="No",command=hermano2control)
+
+        hermano_nino3 = self.tk.Checkbutton(datos3,text="No",variable=hermano2control,onvalue="X",offvalue="")
+        hermano_nino3.deselect()
         hermano_nino3.place(x=280,y=40,width=40)
+
         hermano_nino4 = self.tk.Label(datos3,text="Grado(s):")
         hermano_nino4.place(x=320,y=40,width=60)
         hermano_nino5 = self.tk.Entry(datos3,border=2,relief="ridge")
@@ -465,13 +529,16 @@ class App(BaseView):
 
 
 
-        viveninocontrol= self.tk.StringVar
-        vivenino2control = self.tk.StringVar
+        viveninocontrol= self.tk.StringVar()
+        vivenino2control = self.tk.StringVar()
 
         vive = self.tk.Label(padre,text="Vive con el niño(a) :").place(x=0,y=250,width=120)
-        si = self.tk.Checkbutton(padre,text="Si",command=viveninocontrol)
+        si = self.tk.Checkbutton(padre,text="Si",variable=viveninocontrol,onvalue="X",offvalue="")
+        si.deselect()
         si.place(x=120,y=250,width=40,)
-        no = self.tk.Checkbutton(padre,text="No",command=vivenino2control)
+
+        no = self.tk.Checkbutton(padre,text="No",variable=vivenino2control,onvalue="X",offvalue="")
+        no.deselect()
         no.place(x=170,y=250,width=40)
 
         ###Datos de la madre ===================================================
@@ -518,13 +585,16 @@ class App(BaseView):
         telefonot_ma = self.tk.Entry(madre,border=2,relief="groove")
         telefonot_ma.place(x=50,y=220,width=80)
 
-        vive_con_control_ma= self.tk.StringVar
-        vive_con_contro2_ma = self.tk.StringVar
+        vive_con_control_ma= self.tk.StringVar()
+        vive_con_contro2_ma = self.tk.StringVar()
 
         vive = self.tk.Label(madre,text="Vive con el niño(a) :").place(x=0,y=250,width=120)
-        si2 = self.tk.Checkbutton(madre,text="Si",command=vive_con_control_ma)
+        si2 = self.tk.Checkbutton(madre,text="Si",variable=vive_con_control_ma,onvalue="X",offvalue="")
+        si2.deselect()
         si2.place(x=120,y=250,width=40)
-        no2 = self.tk.Checkbutton(madre,text="No",command=vive_con_contro2_ma)
+
+        no2 = self.tk.Checkbutton(madre,text="No",variable=vive_con_contro2_ma,onvalue="X",offvalue="")
+        no2.deselect()
         no2.place(x=170,y=250,width=40)
 
         # TODO: acomodar los campos de representantes y agregar los faltantes
@@ -568,14 +638,6 @@ class App(BaseView):
         telefonot_re2 =self.tk. Entry(representante,border=2,relief="groove")
         telefonot_re2.place(x=40,y=180,width=80)
 
-        vive_si_re = self.tk.StringVar
-        vive_no_re = self.tk.StringVar
-
-        vive =self.tk.Label(representante,text="Vive con el niño(a) :").place(x=120,y=180,width=120)
-        si3=self.tk.Checkbutton(representante,text="Si",command=vive_si_re)
-        si3.place(x=240,y=180,width=40)
-        no3 = self.tk.Checkbutton(representante,text="No",command=vive_no_re)
-        no3.place(x=290,y=180,width=40)
 
         fecha:date  = fecha_nacimiento1.get_date()
 
@@ -593,7 +655,7 @@ class App(BaseView):
             tripe=vacunascontrol4.get(),f_a=vacunascontrol5.get(),pol=vacunascontrol6.get(),otras_2=vacunascontrol7.get(),
             der=derechacontrol.get(),izq=izquierdacontrol.get(),amb=ambascontrol.get(),peso=pesa.get(),altura=mide.get(),
             talla=talla.get(),pantalon=talla2.get(),zap=talla3.get(),padre=padrecontrol.get(),madre=madrecontrol.get(),
-            abuelos=abueloscontro.get(),otro_fami=otrocontrol.get(),empezo_hab=edad_hablar2.get(),quien_duer=duerme_nino2.get(),
+            abuelos=abueloscontrol.get(),otro_fami=otrocontrol.get(),empezo_hab=edad_hablar2.get(),quien_duer=duerme_nino2.get(),
             si_her=hermano_nino2.get(),no_her=hermano_nino3.get(),gra_her=hermano_nino5.get(),
             hab_correc=habla_correctamente2.get(),canta=cantar2.get(),baila=bailar2.get(),historias=contar_historias2,
             si_dep=actividades_fisicas2,cual_dep=actividades_fisicas4,juega_con=juega2,juegos_casa=juegos_realiza2.get(),
