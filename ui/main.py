@@ -10,7 +10,7 @@ from datetime import date
 
 class App(BaseView):
     def __init__(self):
-        super().__init__(title="nombre_colegio",geometry="700x530",controller=Controller)
+        super().__init__(title="C.E.I Josefina Molina de Duque",geometry="700x530",controller=Controller)
 
 
         self.main()
@@ -40,6 +40,7 @@ class App(BaseView):
         # self.notebook2.place(x=0,y=400,width=120,height=20)
 
     def validate_search(self, event):
+        return
         result = self.get_userss_all()
         if self.search.get() == "":
             self.tree.delete(*self.tree.get_children())
@@ -597,7 +598,7 @@ class App(BaseView):
         no2.deselect()
         no2.place(x=170,y=250,width=40)
 
-        # TODO: acomodar los campos de representantes y agregar los faltantes
+
 ### Datos representante ====================================================================================
         representante =self.tk.LabelFrame(self.frame7,border=2,relief="groove",text="Datos Representantes")
         representante.place(x=105,y=40,width=500,height=250)
@@ -619,28 +620,28 @@ class App(BaseView):
         ci_re.place(x=260,y=40,width=80)
         
         phone_re = self.tk.Label(representante,text="Telf:").place(x=350,y=40,width=20)
-        phone_re =self.tk. Entry(representante,border=2,relief="groove")
-        phone_re.place(x=380,y=40,width=100)
+        phone_re1 =self.tk. Entry(representante,border=2,relief="groove")
+        phone_re1.place(x=380,y=40,width=100)
 
-        direccion_hab =self.tk. Label(representante,text="Direccion de Habitación").place(x=5,y=70,width=130)
+        direccion1_hab =self.tk. Label(representante,text="Direccion de Habitación").place(x=5,y=70,width=130)
         direccion_hab = self.tk.Entry(representante,border=2,relief="groove")
         direccion_hab.place(x=140,y=70,width=200)
 
-        phone_re1 =self.tk.Label(representante,text="Telf:").place(x=350,y=70,width=20)
-        phone_re1 =self.tk.Entry(representante,border=2,relief="groove")
-        phone_re1.place(x=380,y=70,width=100)
+        phone_re =self.tk.Label(representante,text="Telf:").place(x=350,y=70,width=20)
+        phone_re2 =self.tk.Entry(representante,border=2,relief="groove")
+        phone_re2.place(x=380,y=70,width=100)
 
         direccion_tra =self.tk. Label(representante,text="Direccion de Trabajo").place(x=5.5,y=105,width=109)
-        direccion_tra = self.tk.Entry(representante,border=2,relief="groove")
-        direccion_tra.place(x=120,y=105,width=220)
+        direccion_tra2 = self.tk.Entry(representante,border=2,relief="groove")
+        direccion_tra2.place(x=120,y=105,width=220)
 
-        phone_re2 =self.tk.Label(representante,text="Telf:").place(x=350,y=105,width=20)
-        phone_re2 =self.tk.Entry(representante,border=2,relief="groove")
-        phone_re2.place(x=380,y=105,width=100)
+        phone_re =self.tk.Label(representante,text="Telf:").place(x=350,y=105,width=20)
+        phone_re3 =self.tk.Entry(representante,border=2,relief="groove")
+        phone_re3.place(x=380,y=105,width=100)
 
         direccion_f_Cer =self.tk.Label(representante,text="Direccion de Familiar Cercano:").place(x=4,y=140,width=170)
-        direccion_f_Cer =self.tk.Entry(representante,border=2,relief="groove")
-        direccion_f_Cer.place(x=175,y=140,width=305)
+        direccion_f_Cer2 =self.tk.Entry(representante,border=2,relief="groove")
+        direccion_f_Cer2.place(x=175,y=140,width=305)
 
         telefonot =self.tk.Label(representante,text="Telf de Familiar Cercano:").place(x=5,y=180,width=140)
         telefonot_re2 =self.tk. Entry(representante,border=2,relief="groove")
@@ -673,9 +674,9 @@ class App(BaseView):
             ape_ma=apellido_madre2.get(),ced_ma=ci_ma.get(),nac_ma=nacionalidad_ma.get(),pro_ma=profesion_ma.get(),
             hab_ma=habitacion_ma.get(),tel_ma=telefonoh_ma.get(),tra_ma=trabajo_ma.get(),tel_ma_trab=telefonot_ma.get(),
             vive_con_el_si=vive_con_control_ma.get(),vive_con_el_no=vive_con_contro2_ma.get(),nombre_re=nombre_re2.get(),
-            apellido_re=apellido_re2.get(),parentesco="",cedula=ci_re.get(),telefono="",direccion_casa=habitacion_re2.get(),
-            telefono_hab_re=telefonoh_re2.get(),direccion_trabajo=trabajo_re2.get(),telefono_t_re=telefonot_re2.get(),
-            telefono_cer_re="",dir_cer_re=""
+            apellido_re=apellido_re2.get(),parentesco=parentesco_re1.get(),cedula=ci_re.get(),telefono=phone_re1.get(),direccion_casa=direccion_hab.get(),
+            telefono_hab_re=phone_re2.get(),direccion_trabajo=direccion_tra.get(),telefono_t_re=phone_re3.get(),
+            telefono_cer_re=telefonot_re2.get(),dir_cer_re= direccion_f_Cer2.get()
         ))
         btn.place( relx=0.9,rely=0.8)
 
