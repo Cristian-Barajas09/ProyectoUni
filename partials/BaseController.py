@@ -13,3 +13,4 @@ class BaseController:
         self.encrypt = encryptPassword
         self.match = matchPassword
 
+

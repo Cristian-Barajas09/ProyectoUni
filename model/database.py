@@ -115,7 +115,7 @@ class BaseDatos(BaseModel):
         return result
 
 
-    def register_child(self,
+    def register_child(self,*,
                     nombres:str,
                     apellidos:str,
                     fecha_nacimiento:date,
@@ -204,7 +204,7 @@ class BaseDatos(BaseModel):
                 '{donde_estudian_hermanos}',
                 {habla_correctamente},
                 '{con_quien_juega}',
-                 )"""
+                )"""
         )
 
 
@@ -244,7 +244,7 @@ class BaseDatos(BaseModel):
         )
 
 
-    def set_representantes(self,cedula:int,nacionalidad:str,profesion:str,nombres:str,apellidos:str,vive_con_el:bool):
+    def set_representantes(self,*,cedula:int,nacionalidad:str,profesion:str,nombres:str,apellidos:str,vive_con_el:bool):
         return self.CRUD (
             sql=f"INSERT INTO representantes (cedula,nacionalidad,profesion,nombre,apellidos,vive_con_el) VALUES ({cedula},'{nacionalidad}','{profesion}','{nombres}','{apellidos}',{vive_con_el}')"
         )

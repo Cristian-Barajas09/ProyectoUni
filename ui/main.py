@@ -308,8 +308,7 @@ class App(BaseView):
         cuales2 =self.tk. Entry(datos2,border=3,relief="ridge")
         cuales2.place(x=210,y=45,width=100)
         # ######
-        
-        
+
         vacunascontrol = self.tk.StringVar()
         vacunascontrol2= self.tk.StringVar()
         vacunascontrol3 = self.tk.StringVar()
@@ -793,7 +792,7 @@ class App(BaseView):
                     telefono_cer_re,
                     dir_cer_re,
                     ):
-        print(nombre)
+
         datos = {
         'anno_cursar':anno_cursar,
         'nombre':nombre,
@@ -906,7 +905,7 @@ class App(BaseView):
 
         print(datos)
 
-        self._controller.registerChild("2004-08-30",**datos)
+        self._controller.registerChild(**datos)
 
 
 

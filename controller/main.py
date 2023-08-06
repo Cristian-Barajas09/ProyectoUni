@@ -11,6 +11,9 @@ class  Controller(BaseController):
     """
         valida los datos para poder ingresar al sistema
     """
+
+
+
     def getData(self,user:str,password:str) -> bool:
         """
             recibe datos de la vista y los valida para permitir el acceso
@@ -96,16 +99,126 @@ class  Controller(BaseController):
             return result
 
 
-    def registerChild(self,fecha_nacimiento:datetime,**kwargs:dict[str,Any]):
+    def registerChild(self,**kwargs:dict[str,Any]):
+
+        anno_cursar = kwargs["anno_cursar"],
+        nombre = kwargs['nombre'],
+        apellido = kwargs["apellido"],
+        f_di = kwargs['f_di'],
+        f_m = kwargs['f_m'],
+        f_an = kwargs['f_an'],
+        e_a = kwargs['e_a'],
+        e_m = kwargs['e_m'],
+        sex = kwargs['sex'],
+        l_n = kwargs['l_n'],
+        en_fed = kwargs['en_fed'],
+        nacionalidad = kwargs['nacionalidad'],
+        ced_escolar = kwargs['ced_escolar'],
+        man =kwargs['man'],
+        tar = kwargs['tar'],
+        secc = kwargs['secc'],
+        A =  'A' if not(kwargs['A'])  else '',
+        B = 'B' if not(kwargs['B'])  else '',
+        C  ='C' if not(kwargs['C']) else '',
+        instituto_pro = kwargs['instituto_pro'],
+        del_hogar = kwargs['del_hogar'],
+        senci = kwargs['senci'],
+        gem =kwargs['gem'],
+        g_1 =kwargs['g_1'],
+        g_2 =kwargs['g_2'],
+        trill = kwargs['trill'],
+        t_1 =kwargs['t_1'],
+        t_2 =kwargs['t_2'],
+        t_3 =kwargs['t_3'],
+        nor =kwargs['nor'],
+        ces =kwargs['ces'],
+        forcep = kwargs['forcep'],
+        term = kwargs['term'],
+        saram = kwargs['saram'],
+        ru = kwargs['ru'],
+        lec =kwargs['lec'],
+        osf =kwargs['osf'],
+        me = kwargs['me'],
+        he = kwargs['he'],
+        pa = kwargs['pa'],
+        otras = kwargs['otras'],
+        cuales = kwargs['cuales'],
+        BCG = kwargs['BCG'],
+        anti = kwargs['anti'],
+        rube = kwargs['rube'],
+        tripe = kwargs['tripe'],
+        f_a = kwargs['f_a'],
+        pol = kwargs['pol'],
+        otras_2 = kwargs['otras_2'],
+        der = kwargs['der'],
+        izq = kwargs['izq'],
+        Amb = kwargs['amb'],
+        peso = kwargs['peso'],
+        altura = kwargs['altura'],
+        talla = kwargs['talla'],
+        pantalon = kwargs['pantalon'],
+        zap = kwargs['zap'],
+        padre = kwargs['padre'],
+        madre = kwargs['madre'],
+        abuelos = kwargs['abuelos'],
+        otro_fami = kwargs['otro_fami'],
+        empezo_hab = kwargs['empezo_hab'],
+        quien_duer = kwargs['quien_duer'],
+        si_her = kwargs['si_her'],
+        no_her = kwargs['no_her'],
+        gra_her = kwargs['gra_her'],
+        hab_correc = kwargs['hab_correc'],
+        canta = kwargs['canta'],
+        baila = kwargs['baila'],
+        historias = kwargs['historias'],
+        si_dep = kwargs['si_dep'],
+        cual_dep = kwargs['cual_dep'],
+        juega_con = kwargs['juega_con'],
+        juegos_casa = kwargs['juegos_casa'],
 
         self.set_representante(**kwargs)
+
+        self.sql.register_child()
+
         self.set_planilla(**kwargs)
 
 
 
     def set_representante(self,**kwargs):
-
-        pass
+        nom_pa = kwargs['nom_pa'],
+        ape_pa = kwargs['ape_pa'],
+        ced_pa = kwargs['ced_pa'],
+        nac_pa = kwargs['nac_pa'],
+        pro_pa = kwargs['pro_pa'],
+        hab_pa = kwargs['hab_pa'],
+        tel_pa = kwargs['tel_pa'],
+        trabajo_pa = kwargs['trabajo_pa'],
+        tel_pa_tra = kwargs['tel_pa_tra'],
+        vi_si = kwargs['vi_si'],
+        vi_no = kwargs['vi_no'],
+        nombre_ma = kwargs['nombre_ma,']
+        ape_ma = kwargs['ape_ma'],
+        ced_ma = kwargs['ced_ma'],
+        nac_ma = kwargs['nac_ma'],
+        pro_ma = kwargs['pro_ma'],
+        hab_ma = kwargs['hab_ma'],
+        tel_hab_ma = kwargs['tel_ma'],
+        tra_ma = kwargs['tra_ma'],
+        tel_trab_m = kwargs['tel_ma_trab'],
+        vive_con_el_si = kwargs['vive_con_el_si'],
+        vive_con_el_no = kwargs['vive_con_el_no'],
+        nombre_re = kwargs['nombre_re'],
+        apellido_re = kwargs['apellido_re'],
+        parentesco = kwargs['parentesco'],
+        cedula = kwargs['cedula'],
+        telefono = kwargs['telefono'],
+        direccion_casa = kwargs['direccion_casa'],
+        telefono_hab_re = kwargs['telefono_hab_re'],
+        direccion_trabajo = kwargs['direccion_trabajo'],
+        telefono_t_re = kwargs['telefono_t_re'],
+        telefono_cer_re = kwargs['telefono_cer_re'],
+        dir_cer_re = kwargs['dir_cer_re'],
+        self.sql.set_representantes()
 
     def set_planilla(self,**kwargs):
 

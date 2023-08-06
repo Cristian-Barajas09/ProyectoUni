@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 
 INSERT INTO users
-(cedula,nombres,apellidos,password,email,fecha_nacimiento,edad,n_telefono,sexo,rol) 
+(cedula,nombres,apellidos,password,email,fecha_nacimiento,edad,n_telefono,sexo,rol)
 VALUES ('1','admin','admin','$2a$12$m6qhNLM2B/cjyjlqVuaUXOsZjiuwmLvZz/IJvhb/p6.JyLfK/r7Ea','admin@admin','2000-01-01',18,'0424-7411450','M','admin');
 
 
