@@ -51,6 +51,8 @@ class App(BaseView):
                     item['nombres'], item['apellidos'], item['cedula']))
             self.controlPersonas()
 
+
+
     def inscripcion(self):
         self.notebook2 = self.ttk.Notebook(self.frame2)
         self.frame3 = self.ttk.Frame(self.notebook2)
@@ -951,6 +953,12 @@ class App(BaseView):
         scrollbar = self.ttk.Scrollbar(self.frame1, orient=self.tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscroll=scrollbar.set)
         scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
+        
+        btn_search = self.tk.Button(self.frame1,bg="#041d9b",border=0,fg="#fff", text="Generar Planilla del Personal", command=lambda: self.search_user(
+            self.search.get(), self.select.get()))
+        btn_search.place(relx=0.38, rely=0.92, width=160, height=35)
+        
+        
 
     # def buscar(self, search, param):
     #     if search.get() == "":
