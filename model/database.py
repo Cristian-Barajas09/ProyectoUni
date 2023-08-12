@@ -1,7 +1,7 @@
 from partials.BaseModel import BaseModel
 from pymysql.cursors import Cursor
 from datetime import date
-
+from .models import Representante
 
 class BaseDatos(BaseModel):
 
@@ -244,9 +244,14 @@ class BaseDatos(BaseModel):
         )
 
 
-    def set_representantes(self,*,cedula:int,nacionalidad:str,profesion:str,nombres:str,apellidos:str,vive_con_el:bool):
+    def set_representantes(self,*,representante:Representante):
         return self.CRUD (
-            sql=f"INSERT INTO representantes (cedula,nacionalidad,profesion,nombre,apellidos,vive_con_el) VALUES ({cedula},'{nacionalidad}','{profesion}','{nombres}','{apellidos}',{vive_con_el}')"
+            sql=f"""INSERT INTO representantes (cedula,nacionalidad,profesion,nombre,apellidos,vive_con_el) VALUES (
+                {representante.cedula},'{representante.nacionalidad}',
+                '{representante.profesion}','{representante.nombres}',
+                '{representante.apellidos}',{representante.vive_con_el}')
+
+            """
         )
 
 
@@ -254,14 +259,14 @@ class BaseDatos(BaseModel):
         return self.CRUD(
             sql=f"UPDATE representantes SET status='inactivo' WHERE cedula={cedula}"
         )
-    
+
     def update_representante(self,old_cedula:int,cedula:int,nacionalidad:str,profesion:str,nombres:str,apellidos:str,vive_con_el:bool):
         return self.CRUD(
             sql=f"""
-                UPDATE representantes SET 
+                UPDATE representantes SET
             """
         )
-    def set_direccion(self,cedula: int,direccion:str,de: str):
+    def set_direccion(self,cedula:int,direccion:str,de:str):
         """
         :param cedula:int -> cedula del representante
         :param direccion:str -> direccion del representate
@@ -285,7 +290,7 @@ class BaseDatos(BaseModel):
 
     def get_usuarios(self):
         result:Cursor = self.consulta(
-            sql="SELECT * FROM users WHERE status != 'inactivo'"
+            sql="SELECT cedula,nombres,apellidos,rol FROM users WHERE status != 'inactivo'"
         )
 
         return result.fetchall()
@@ -295,4 +300,19 @@ class BaseDatos(BaseModel):
             sql=f"SELECT * FROM estudiantes WHERE cedula_escolar = {cedula}"
         )
 
-        return result.fetchone
+        return result.fetchone()
+    
+    def get_childs(self):
+        result:Cursor = self.consulta(
+            sql="SELECT cedula_escolar,nombres,apellidos FROM estudiantes"
+        )
+
+        return result.fetchall()
+
+
+    def get_representantes(self):
+        result:Cursor = self.consulta(
+            sql="SELECT CEDULA,NOMBRES,APELLIDOS FROM REPRESENTANTES"
+        )
+
+        return result.fetchall()

@@ -63,12 +63,11 @@ CREATE TABLE IF NOT EXISTS estudiantes (
     habla_correctamente BOOLEAN,
     con_quien_juega VARCHAR(20),
 
-    id_representante  VARCHAR(10) UNIQUE NOT NULL,
+
     id_anno INT NOT NULL,
     PRIMARY KEY(id),
     status SET ('activo','inactivo') DEFAULT 'activo',
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_representante FOREIGN KEY (id_representante) REFERENCES representantes(cedula),
     CONSTRAINT fk_annos FOREIGN KEY (id_anno) REFERENCES annos(anno)
 );
 --3
@@ -164,6 +163,15 @@ CREATE TABLE IF NOT EXISTS annos(
     id_profesor VARCHAR(10) NOT NULL UNIQUE,
     PRIMARY KEY(anno),
     CONSTRAINT fk_profesor FOREIGN KEY (id_profesor) REFERENCES users(cedula)
+);
+
+CREATE TABLE representante_legal(
+
+    cedula_representante VARCHAR(10),
+    id_estudiante INT NOT NULL,
+    parentesco VARCHAR(50) NOT NULL,
+    CONSTRAINT fk_representante_legal_estudiante FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id),
+    CONSTRAINT fk_representante_legal FOREIGN KEY (cedula_representante) REFERENCES representantes(cedula)
 );
 
 --13
