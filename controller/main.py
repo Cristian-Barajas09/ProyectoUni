@@ -206,6 +206,15 @@ class  Controller(BaseController):
         elif trill != "":
             parto = 3
 
+        if nor != "":
+            proceso = "N"
+        elif ces != "":
+            proceso = "C"
+        elif forcep != "":
+            proceso = "F"
+        elif term != "":
+            proceso = "T"
+
 
 
         estudiante = Estudiante(
@@ -218,7 +227,9 @@ class  Controller(BaseController):
 
         self.set_representante(**kwargs)
 
-        self.sql.register_child(nombres=estudiante.nombres)
+        self.sql.register_child(nombres=estudiante.nombres,apellidos=estudiante.apellidos)
+
+
 
         self.set_planilla(**kwargs)
 
