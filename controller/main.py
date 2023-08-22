@@ -186,7 +186,28 @@ class  Controller(BaseController):
         procedencia = instituto_pro if instituto_pro != "" else del_hogar
         parto:str
         proceso:str
-
+        enfermedades:str
+        vacunas:str
+        mano_que_usa:str
+        peso_estudiante:str
+        altura_estudiante:str
+        talla_camisa_estudiante:str
+        talla_pantalon_estudiante:str
+        talla_zapatos_estudiante:int
+        familiar:str
+        comenzo_hablar:str
+        duerme_con:str        
+        hermanos:str
+        grados:str
+        h_c:str
+        cant:str
+        bai:str
+        contar_historias:str
+        act_deport:str
+        deport:str
+        jue_con:str
+        juegos_hogar:str
+        
         if tar != '':
             turno = tar
         else:
@@ -214,15 +235,121 @@ class  Controller(BaseController):
             proceso = "F"
         elif term != "":
             proceso = "T"
-
-
-
+            
+        if saram != "":
+            enfermedades = "saram"
+        elif ru != "":
+            enfermedades = "ru"
+        elif lec != "":
+            enfermedades = "lec"
+        elif osf != "":
+            enfermedades = "osf"
+        elif me != "":
+            enfermedades = "me"
+        elif he != "":
+            enfermedades = "he"
+        elif pa != "":
+            enfermedades = "pa"
+        else:
+            enfermedades = kwargs["otras"]
+            
+        if BCG != "":
+            vacunas = "BCG"
+        elif anti != "":
+            vacunas = "anti"
+        elif rube != "":
+            vacunas = "rube"
+        elif tripe != "":
+            vacunas = "tripe"
+        elif f_a != "":
+            vacunas = "f-a"
+        elif pol != "":
+            vacunas = "pol"
+        else:
+            vacunas = "otras_2"
+            
+        if der != "":
+            mano_que_usa = "der"
+        elif izq != "":
+            mano_que_usa = "izq"
+        else:
+            mano_que_usa = "Amb"
+            
+        if peso != "":
+            peso_estudiante = "peso"
+            
+        if altura != "":
+            altura_estudiante = "altura"
+            
+        if talla != "":
+            talla_camisa_estudiante = "talla"
+            
+        if pantalon != "":
+            talla_pantalon_estudiante = "pantalon"
+            
+        if zap != "":
+            talla_zapatos_estudiante
+            
+        if padre != "":
+            familiar = "padre"
+        elif madre != "":
+            familiar = "madre"
+        elif abuelos != "":
+            familiar = "abuelos"
+        else:
+            familiar = "otro_fami"
+            
+        if empezo_hab != "":
+            comenzo_hablar = "empezo_hab"
+            
+        if quien_duer != "":
+            duerme_con = "quien_duer"
+        
+        if si_her != "":
+            hermanos = "si_her"
+        else:
+            hermanos = "no_her"
+            
+        if gra_her != "":
+            grados = "gra_her"
+            
+        if hab_correc != "":
+            h_c = "hab_correc"
+            
+        if canta != "":
+            cant = canta
+        
+        if baila != "":
+            bai = "baila"
+        
+        if historias != "":
+            contar_historias = "historias"
+        
+        if si_dep != "":
+            act_deport = "si_dep"
+        
+        if cual_dep != "":
+            deport = "cual_dep"
+        
+        if juega_con != "":
+            jue_con = "juega_con"
+            
+        if juegos_casa != "":
+            juegos_hogar = "juegos_casa"
+        
         estudiante = Estudiante(
             anno=anno_cursar,nombres=nombre,apellidos=apellido,cedula_escolar=ced_escolar,
             fecha_nacimiento=fecha_nacimiento,edad=e_a,edad_meses=e_m,sexo=sex,
             lugar_de_nacimiento=l_n,entidad_federal=en_fed,nacionalidad=nacionalidad,
             turno=turno,seccion=secc,grupo=grupo,instituto_procedencia=procedencia,
-            parto=parto,proceso_nacimiento=proceso
+            parto=parto,proceso_nacimiento=proceso,enfermedades=enfermedades,vacunas=vacunas,
+            mano_que_usa=mano_que_usa,peso=peso_estudiante,altura=altura_estudiante,
+            talla=talla_camisa_estudiante,pantalon=talla_pantalon_estudiante,
+            talla_zapatos_estudiante=zap,familiar=familiar,empezo_hab=comenzo_hablar,
+            quien_duer=duerme_con,hermanos=hermanos,gra_her=grados,hab_correc=h_c,
+            canta=cant,baila=bai,historias=contar_historias,si_dep=act_deport,
+            cual_dep=deport,juega_con=jue_con,juegos_casa=juegos_hogar
+            
         )
 
         self.set_representante(**kwargs)
