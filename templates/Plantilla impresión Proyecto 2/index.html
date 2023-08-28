@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
     <title>Lista Alumnos</title>
     <style>
         *{
@@ -106,11 +105,11 @@
             <tbody>
                 {%  for i in users  %}
                     <tr>
-                        <td>{{nombres}} {{apellidos}}</td>
-                        <td>{{cedula}}</td>
-                        <td>{{grupo}}</td>
-                        <td>{{seccion}}</td>
-                        <td>{{docente}}</td>
+                        <td>{{i["nombres"]}} {{i["apellidos"]}}</td>
+                        <td>{{i["cedula_escolar"]}}</td>
+                        <td>{{i["grupo"]}}</td>
+                        <td>{{i["seccion"]}}</td>
+                        <td>{{i["docente"]}}</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -10,7 +10,7 @@ from util.generic import leer_image_tkinter
 from PIL.ImageTk import PhotoImage
 from typing import Tuple,Any
 
-from controller.main import Controller
+from partials.controller.BaseController import BaseController
 
 
 
@@ -26,13 +26,13 @@ class BaseView:
     window: tkinter.Tk
     tk = tkinter
     ttk = ttk
-    _controller:Controller
+    _controller:BaseController
 
-    def __init__(self,title:str,geometry:str,controller:Controller,):
+    def __init__(self,title:str,geometry:str,controller:BaseController,):
         self.window = self.tk.Tk()
         self.window.title(title)
         self.window.geometry(geometry)
-        
+
         self._controller = controller()
 
     def resizable(self,width:int,height:int):

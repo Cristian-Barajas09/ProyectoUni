@@ -1,5 +1,5 @@
-from partials.base import BaseView
-from controller.main import Controller
+from partials.view.baseView import BaseView
+from controller.AppController import Controller
 from tkcalendar import DateEntry
 from tkinter.font import BOLD
 from typing import List
@@ -915,6 +915,11 @@ class App(BaseView):
     def controlPersonas(self):
         frame_search = self.tk.Frame(self.frame1,bg="#000")
         frame_search.place(relx=0, rely=0, relwidth=1, relheight=0.3)
+
+
+        self.notebook_person = self.ttk.Notebook(self.frame1)
+        self.frame_estudiantes = self.tk.Frame(self.notebook_person)
+        self.notebook_person.add(self.frame_estudiantes,text="estudiantes")
         self.search = self.ttk.Entry(frame_search, justify="right",validate="key",validatecommand=(self.frame1.register(self.validate_entry_text), "%S"))
         self.search.place(relx=0.34, rely=0.2, width=220, height=25)
         self.search.bind("<FocusOut>", self.validate_search)
@@ -933,20 +938,21 @@ class App(BaseView):
 
 
         columns = ("nombres","apellidos","cedula")
-        self.tree = self.ttk.Treeview(self.frame1,columns=columns,show="headings")
+        self.tree = self.ttk.Treeview(self.frame_estudiantes,columns=columns,show="headings")
 
         self.tree.heading("nombres",text="nombres")
         self.tree.heading("apellidos",text="apellidos")
         self.tree.heading("cedula",text="cedula")
 
-
+        print(self.get_users())
 
         for item in self.get_users():
-            self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
+
+            self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula_escolar']))
 
         self.tree.bind('<<TreeviewSelect>>', self.item_selected)
 
-        self.tree.place(relx=0,rely=0.3,relwidth=1,relheight=0.6)
+        self.tree.pack()
 
 
         scrollbar = self.ttk.Scrollbar(self.frame1, orient=self.tk.VERTICAL, command=self.tree.yview)
@@ -954,9 +960,10 @@ class App(BaseView):
         scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
 
 
-        btn_search = self.tk.Button(self.frame1,bg="#041d9b",border=0,fg="#fff", text="Generar Planilla del Personal", command=lambda: self.search_user(
-            self.search.get(), self.select.get()))
-        btn_search.place(relx=0.38, rely=0.92, width=160, height=35)
+        btn_generar_plantilla = self.tk.Button(self.frame1,bg="#041d9b",border=0,fg="#fff", text="Generar Planilla del Personal",command=self.generarPlanilla)
+        btn_generar_plantilla.place(relx=0.38, rely=0.92, width=160, height=35)
+
+        self.notebook_person.place(relx=0,rely=0.3,relwidth=1,relheight=0.6)
 
     # def buscar(self, search, param):
     #     if search.get() == "":
@@ -993,7 +1000,7 @@ class App(BaseView):
 
 
     def get_users(self):
-        return self._controller.get_users_tree()
+        return self._controller.getEstudiantes()
 
     def item_selected(self,event):
         values = []
@@ -1033,3 +1040,7 @@ class App(BaseView):
         else:
             self.search.delete(0,'end')
             self.search["validatecommand"] = (self.frame1.register(self.validate_entry_text), "%S")
+
+
+    def generarPlanilla(self):
+        self._controller.generarPlanilla()

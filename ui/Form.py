@@ -1,11 +1,12 @@
 import tkinter
-from partials.base import BaseView
+from partials.view.baseView import BaseView
 from tkcalendar import DateEntry
-from controller.main import Controller
+from controller.FormController import FormController
+from babel.numbers import *
 from .main import App
 class Form(BaseView):
     def __init__(self):
-        super().__init__(title="Ingresar",geometry="500x500",controller=Controller)
+        super().__init__(title="Ingresar",geometry="500x500",controller=FormController)
         self.resizable(0,0)
 
         self.main()
