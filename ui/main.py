@@ -844,7 +844,7 @@ class App(BaseView):
         'otras_2':otras_2,
         'der':der,
         'izq':izq,
-        'Amb':amb,
+        'amb':amb,
         'peso':peso,
         'altura':altura,
         'talla':talla,

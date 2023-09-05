@@ -201,7 +201,7 @@ class  Controller(BaseController):
         elif izquierda != "":
             mano_que_usa = "izq"
         else:
-            mano_que_usa = "Amb"
+            mano_que_usa = "amb"
 
         if peso != "":
             peso_estudiante = "peso"
