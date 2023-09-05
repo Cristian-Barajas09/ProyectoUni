@@ -19,12 +19,12 @@ class RepresentanteDao(BaseModel):
             f"UPDATE representantes SET nacionalidad='{representante.nacionalidad}',profesion='{representante.profesion}',nombres='{representante.nombres}',apellidos='{representante.apellidos}',vive_con_el='{representante.vive_con_el}',parentesco='{representante.parentesco}' WHERE cedula={representante.cedula}"
         )
     
-    def guardarDireccion(self,cedula,direccion,de):
+    def guardarDireccion(self,cedula:str | int,direccion:str,de:str):
         return self.insert(
             f"INSERT INTO direcciones (cedula,direccion,de) VALUES ('{cedula}','{direccion}','{de}')"
         )
     
-    def guardarTelefono(self,cedula,telefono):
+    def guardarTelefono(self,cedula:str | int,telefono:str):
         return self.insert(
             f"INSERT INTO telefono (cedula,n_telefono) VALUES ('{cedula}','{telefono}')"
         )

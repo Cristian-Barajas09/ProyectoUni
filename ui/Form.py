@@ -1,64 +1,66 @@
-import tkinter
-from partials.view.baseView import BaseView
-from tkcalendar import DateEntry
 from controller.FormController import FormController
-from babel.numbers import *
+from partials.view.baseView import BaseView
 from .main import App
-class Form(BaseView):
+from util.generic import get_font
+from tkcalendar import DateEntry
+import os
+
+class Signin(BaseView):
     def __init__(self):
-        super().__init__(title="Ingresar",geometry="500x500",controller=FormController)
+        super().__init__('ingresar',"700x500",FormController)
+
+        self.icon()
         self.resizable(0,0)
 
-        self.main()
+        self.window.configure(background="#fff")
 
-        self.window.mainloop()
+        img = self.image(os.path.join(self.carpeta_imagenes,'logo.jpeg'),(400,500))
 
-    def main(self):
+        labelImage = self.tk.Label(self.window,image=img,bg="#333")
+        labelImage.place(relx=0,rely=0,relwidth=0.5,relheight=1)
 
+        frameForm = self.tk.Frame(self.window,bg="#222")
+        frameForm.place(relx=0.5,rely=0,relwidth=0.5,relheight=1)
 
-        notebook = self.ttk.Notebook(self.window,width=500,height=500)
+        # label signin
+        labelSignin = self.tk.Label(frameForm,text='Iniciar sesion',bg="#222",fg="#fff",font=get_font(15))
+        labelSignin.place(x=100,y=50,width=130)
 
-        frame1 = self.tk.Frame(self.window,width=500,height=500,bg="#000")
-        frame1.place(relx=0,rely=0)
+        #Email
+        labelEmail = self.tk.Label(frameForm,text='ingrese su emal',fg="#fff",bg="#222")
+        labelEmail.place(x=50,y=120,width=130)
 
-        self.frame2 = self.tk.Frame(self.window,width=500,height=500)
-        self.frame2.place(relx=0,rely=0,relwidth=1,relheight=1)
+        inputEmail = self.tk.Entry(frameForm,bg="#222",fg="#fff",border=0)
+        inputEmail.place(x=50,y=150,width=250,height=25)
+        self.tk.Frame(frameForm,bg="#fff").place(x=50,y=175,width=250,height=2)
 
-        notebook.add(frame1,text="iniciar sesion")
-        notebook.add(self.frame2,text="registrarse")
-
-
-
-        notebook.bind("<<NotebookTabChanged>>",lambda evt: self.cambiar_nombre_pestanha(notebook,evt))
-
-        # frame3 = self.ttk.Frame(frame1)
-        # frame3.pack(side="left")
-        # frame4 = self.ttk.Frame(frame1)
-        # frame4.pack(side="right")
-
-        labelFrame1 = self.tk.LabelFrame(frame1,text="Correo",background="#222",fg="#fff",border=0)
-        labelFrame1.place(relx=0.25,rely=0.2,relwidth=0.5,relheight=0.10)
-        labelFrame2 = self.tk.LabelFrame(frame1,text="Contraseña",background="#222",fg="#fff",border=0)
-        labelFrame2.place(relx=0.25,rely=0.3,relwidth=0.5,relheight=0.15)
+        # Password
+        labelPassword = self.tk.Label(frameForm,text='ingrese su contraseña',fg="#fff",bg="#222")
+        labelPassword.place(x=50,y=190,width=130)
 
 
-        self.input1 = self.tk.Entry(labelFrame1,border=0)
-        self.input2 = self.tk.Entry(labelFrame2,show="*",border=0)
-        btnShow = self.tk.Checkbutton(labelFrame2,background='#222',fg='#fff',text="mostrar contraseña",command=lambda:self.show(self.input2))
+        inputPassword = self.tk.Entry(frameForm,show="*",bg="#222",border=0,fg="#fff")
+        inputPassword.place(x=50,y=220,width=250,height=25)
+        self.tk.Frame(frameForm,bg="#fff").place(x=50,y=245,width=250,height=2)
+
+        #btn show password
+
+        btnShow = self.tk.Button(
+            frameForm,text='Mostrar contraseña',command=lambda: self.show(inputPassword),cursor="hand2",border=0,background="#38B1EE",fg="#fff")
+        btnShow.place(x=50,y=250,width=120,height=20)
+
+        # button
+
+        btnSignin = self.tk.Button(frameForm,text='Iniciar sesion',cursor="hand2",border=0,background="#38B1EE",fg="#fff",command=lambda: self.verificarUsuario(inputEmail,inputPassword))
+        btnSignin.place(x=40,y=300,width=260,height=40)
+
+        btnSignup = self.tk.Button(frameForm,text='Registrarse',cursor='hand2',border=0,background="#38B1EE",fg="#fff",command=self.signup)
+        btnSignup.place(x=200,y=450,width=100,height=30)
 
 
-        btn = self.tk.Button(frame1,text="iniciar sesion",command=self.verificarUsuario,border=0,background="#041d9b",foreground="#fff")
-        self.input1.place(relwidth=1,relheight=0.80)
-        self.input2.place(relwidth=1,relheight=0.50)
-        btnShow.place(rely=0.5)
-        btn.place(relx=0.25,rely=0.5,relwidth=0.5,relheight=0.10)
-
-        # registro
-
-        self.registrar()
 
 
-        notebook.pack(expand=True)
+
 
     def show(self,input):
         if input.cget("show") == "*":
@@ -67,16 +69,57 @@ class Form(BaseView):
             input.configure(show="*")
 
 
-    def registrarUsuario(self):
+    def verificarUsuario(self,email,password):
+        user = email.get()
+        password = password.get()
+        result = self._controller.getData(user=user,password=password)
+        if result:
+            self.window.destroy()
+            App()
+
+    def signup(self):
+        self.window.destroy()
+        Form()
+
+
+class Form(BaseView):
+    def __init__(self):
+        super().__init__(title="Registrarse",geometry="700x500",controller=FormController)
+        self.resizable(0,0)
+        self.window.configure(bg="#333")
+
+        self.icon()
+        self.main()
+
+        self.window.mainloop()
+
+    def main(self):
+
+
+
+        # registro
+
+        self.registrar()
+
+
+
+    def show(self,input):
+        if input.cget("show") == "*":
+            input.configure(show="")
+        else:
+            input.configure(show="*")
+
+
+    def registrarUsuario(self,nombres,apellidos,correo,f_nacimiento,cedula,sexo,clave,confirm):
         dicc = {
-            "nombres": self.input3.get(),
-            "apellidos": self.inputApellidos.get(),
-            "correo":self.input4.get(),
-            "f_nacimiento":self.inputCalendar.get_date(),
-            "cedula":self.input5.get(),
-            "sexo":self.input6.get(),
-            "clave":self.input7.get(),
-            "confirm":self.input8.get()
+            "nombres": nombres.get(),
+            "apellidos": apellidos.get(),
+            "correo":correo.get(),
+            "f_nacimiento":f_nacimiento.get_date(),
+            "cedula":cedula.get(),
+            "sexo":sexo.get(),
+            "clave":clave.get(),
+            "confirm":confirm.get()
         }
         result = self._controller.registerData(**dicc)
 
@@ -85,95 +128,69 @@ class Form(BaseView):
             self.window.destroy()
             App()
 
-    def verificarUsuario(self):
-        user = self.input1.get()
-        password = self.input2.get()
-        result = self._controller.getData(user=user,password=password)
-        if result:
-            self.window.destroy()
-            App()
-
-    def cambiar_nombre_pestanha(self,notebook ,event):
-            if notebook.tab(notebook.select(),'text') == "iniciar sesion":
-                self.window.wm_title("iniciar sesion")
-            else:
-                self.window.wm_title("registrarse")
-
-
 
     def registrar(self):
-        frame = self.tk.Frame(self.frame2,bg="#000")
-        frame.place(relx=0, rely=0, relwidth=1, relheight=1)
 
-        
+        # title
+        frameTitle = self.tk.Frame(self.window,bg="#222")
+        frameTitle.place(relx=0.25,rely=0.01,relwidth=0.5,relheight=0.1)
 
-        #nombres
-        label3 = self.tk.LabelFrame(frame,text="Nombres",bg="#222",fg="#fff",border=0)
-        label3.place(relx=0.01,rely=0.10,relwidth=0.5,relheight=0.09)
-        #Apellidos
-        label4 = self.tk.LabelFrame(frame,text="Apellidos",bg="#222",fg="#fff",border=0)
-        label4.place(relx=0.52,rely=0.10,relwidth=0.5,relheight=0.09)
-        #correo
-        label5 = self.tk.LabelFrame(frame,text="Correo",bg="#222",fg="#fff",border=0)
-        label5.place(relx=0.01,rely=0.25,relwidth=0.5,relheight=0.09)
-        #f_nacimiento
-        label6 = self.tk.LabelFrame(frame,text="Fecha de nacimiento",bg="#222",fg="#fff",border=0)
-        label6.place(relx=0.52,rely=0.25,relwidth=0.5,relheight=0.09)
-        #cedula
-        label7 = self.tk.LabelFrame(frame,text="Cedula",bg="#222",fg="#fff",border=0)
-        label7.place(relx=0.01,rely=0.40,relwidth=0.5,relheight=0.09)
-        #sexo
-        label8 = self.tk.LabelFrame(frame,text="Sexo",bg="#222",fg="#fff",border=0)
-        label8.place(relx=0.52,rely=0.40,relwidth=0.5,relheight=0.09)
-        #contraseña
-        label9 = self.tk.LabelFrame(frame,text="Contraseña",bg="#222",fg="#fff",border=0)
-        label9.place(relx=0.01,rely=0.55,relwidth=0.5,relheight=0.15)
-        #confirmar
-        label10 = self.tk.LabelFrame(frame,text="Confirmar Contraseña",bg="#222",fg="#fff",border=0)
-        label10.place(relx=0.52,rely=0.55,relwidth=0.5,relheight=0.15)
-
-        self.input3 = self.tk.Entry(
-            label3,)
-        self.input3.place(relx=0, rely=0, relwidth=1, relheight=1)
-
-        #apellidos
-        self.inputApellidos = self.tk.Entry(
-            label4
-        )
-        self.inputApellidos.place(relx=0,rely=0,relheight=1,relwidth=1)
-        # correo
-        self.input4 = self.tk.Entry(
-            label5, )
-        self.input4.place(relx=0, rely=0, relwidth=1, relheight=1)
-        #fecha de nacimento
-        self.inputCalendar = DateEntry(
-            label6, textvariable="fecha de nacimiento", background="black", foreground="white", state="readonly")
-        self.inputCalendar.place(
-            relx=0.1, rely=0, relwidth=0.8, relheight=1)
-        # cedula
-        self.input5 = self.tk.Entry(
-            label7)
-        self.input5.place(relx=0, rely=0, relwidth=1, relheight=1)
-        # sexo
-        self.input6 = self.ttk.Combobox(
-            label8,
-            values=("M","F"),
-            state="readonly")
-        self.input6.place(relx=0.1, rely=0, relwidth=0.8, relheight=1)
-        # clave
-        self.input7 = self.tk.Entry(
-            label9, show="*" )
-        self.input7.place(relx=0, rely=0, relwidth=1, relheight=0.5)
-        btn1 = self.tk.Checkbutton(label9,text="mostrar contraseña",command=lambda: self.show(self.input7),bg="#222",fg="#fff")
-        btn1.place(relx=0,rely=0.5)
+        labelTitle = self.tk.Label(frameTitle,bg="#222",fg="#fff",text='Registrar usuario',font=get_font(20))
+        labelTitle.pack()
 
 
-        #confirmar clave
-        self.input8 = self.tk.Entry(
-            label10,show="*")
-        self.input8.place(relx=0, rely=0, relwidth=1, relheight=0.5)
-        btn1 = self.tk.Checkbutton(label10,text="mostrar contraseña",command=lambda: self.show(self.input8),bg='#222',fg='#fff')
-        btn1.place(relx=0,rely=0.5)
 
-        btn3 = self.tk.Button(frame, text="Registrarse",command=self.registrarUsuario, background="#041d9b",foreground="#fff",border=0)
-        btn3.place(relx=0.35, rely=0.8, relwidth=0.3, relheight=0.1)
+        frame = self.tk.Frame(self.window,bg="#222")
+        frame.place(relx=0.2,rely=0.15,relwidth=0.6,relheight=0.7)
+
+        labelNames = self.tk.Label(frame,text="Nombres").place(relx=0.01,rely=0.01)
+        inputNames = self.tk.Entry(frame)
+        inputNames.place(relx=0.01,rely=0.1)
+
+        labelLastname = self.tk.Label(frame,text="Apellidos").place(relx=0.5,rely=0.01)
+        inputLastName = self.tk.Entry(frame)
+        inputLastName.pack()
+
+        labelEmail = self.tk.Label(frame,text="Correo").pack()
+        inputEmail = self.tk.Entry(frame)
+        inputEmail.pack()
+
+        labelDate = self.tk.Label(frame,text="Fecha de nacimiento").pack()
+        inputDate = DateEntry(frame)
+        inputDate.pack()
+
+
+        labelId = self.tk.Label(frame,text="Cedula de identidad").pack()
+        inputId = self.tk.Entry(frame)
+        inputId.pack()
+
+
+        labelGender = self.tk.Label(frame,text="Genero").pack()
+        inputGender = self.ttk.Combobox(frame,values=('M','F'),state="readonly")
+        inputGender.current(0)
+        inputGender.pack()
+
+        labelPassword = self.tk.Label(frame,text="Contraseña").pack()
+        inputPassword = self.tk.Entry(frame)
+        inputPassword.pack()
+
+        labelConfirmPassword = self.tk.Label(frame,text="Confirmar Contraseña").pack()
+
+        inputConfirmPassword = self.tk.Entry(frame)
+        inputConfirmPassword.pack()
+
+        btnSignup = self.tk.Button(frame)
+        btnSignup.pack()
+
+        btnSignin = self.tk.Button(self.window,text="iniciar sesion",command=self.signin)
+        btnSignin.place(relx=0.8,rely=0.7,relwidth=0.1,relheight=0.01)
+
+
+    def signin(self):
+        self.window.destroy()
+        Signin()
+
+
+
+
+

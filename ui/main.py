@@ -1,8 +1,6 @@
 from partials.view.baseView import BaseView
 from controller.AppController import Controller
 from tkcalendar import DateEntry
-from tkinter.font import BOLD
-from typing import List
 from babel.numbers import *
 from datetime import date
 
@@ -11,9 +9,10 @@ from datetime import date
 class App(BaseView):
     def __init__(self):
         super().__init__(title="C.E.I Josefina Molina de Duque",geometry="700x530",controller=Controller)
-
+        self.icon()
 
         self.main()
+
         self.resizable(0,0)
 
         self.window.mainloop()
@@ -676,7 +675,7 @@ class App(BaseView):
             hab_ma=habitacion_ma.get(),tel_ma=telefonoh_ma.get(),tra_ma=trabajo_ma.get(),tel_ma_trab=telefonot_ma.get(),
             vive_con_el_si=vive_con_control_ma.get(),vive_con_el_no=vive_con_contro2_ma.get(),nombre_re=nombre_re2.get(),
             apellido_re=apellido_re2.get(),parentesco=parentesco_re1.get(),cedula=ci_re.get(),telefono=phone_re1.get(),direccion_casa=direccion_hab.get(),
-            telefono_hab_re=phone_re2.get(),direccion_trabajo=direccion_tra.get(),telefono_t_re=phone_re3.get(),
+            telefono_hab_re=phone_re2.get(),direccion_trabajo=direccion_tra2.get(),telefono_t_re=phone_re3.get(),
             telefono_cer_re=telefonot_re2.get(),dir_cer_re= direccion_f_Cer2.get()
         ))
         btn.place( relx=0.9,rely=0.8)
@@ -1008,12 +1007,21 @@ class App(BaseView):
             item = self.tree.item(selected_item)
             values = item['values']
 
-        print(values)
+        result = self._controller.obtenerEstudiante(values[2])
+
+        print(result)
         self.person = self.tk.Toplevel()
-        self.person.wm_title(f"usuario: {values[0]}")
+        self.person.wm_title(f"usuario: {result['nombres']}")
 
 
+        btnDelete = self.tk.Button(self.person,text="eliminar estudiante",command=lambda: self.deleteEstudiante(result['cedula_escolar']))
+        btnDelete.pack()
 
+
+    def deleteEstudiante(self,cedula):
+        self._controller.eliminarEstudiante(cedula)
+        self.controlPersonas()
+        self.person.destroy()
 
     def validate_entry_number(self,text:str):
         if not(text.isdecimal()):

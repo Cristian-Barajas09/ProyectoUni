@@ -27,6 +27,7 @@ class BaseView:
     tk = tkinter
     ttk = ttk
     _controller:BaseController
+    carpeta_imagenes = os.path.join(dir,"image")
 
     def __init__(self,title:str,geometry:str,controller:BaseController,):
         self.window = self.tk.Tk()
@@ -47,8 +48,8 @@ class BaseView:
         """
             nos genera el icono de la ventana
         """
-        carpeta_imagenes = os.path.join(dir,"image")
-        icon = os.path.join(carpeta_imagenes,"logo.ico")
+
+        icon = os.path.join(self.carpeta_imagenes,"logo.ico")
         self.window.iconbitmap(icon)
 
     # def add_image(self,path,size) -> CTkImage:
@@ -64,3 +65,6 @@ class BaseView:
             en la vista
         """
         return leer_image_tkinter(path,size)
+
+    def image(self,path:str,size:tuple):
+        return PhotoImage(file=path,size=size)

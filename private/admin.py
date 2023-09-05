@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from .empaquetar import Installer
-from ui.Form import Form
+from ui.Form import Signin
 from ui.main import App
 
 
@@ -39,7 +39,7 @@ o en lo creas ¯\_(ツ)_/¯
 
     def form(self):
         self.window.destroy()
-        Form()
+        Signin()
 
     def app(self):
         self.window.destroy()

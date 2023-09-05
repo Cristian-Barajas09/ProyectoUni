@@ -51,14 +51,16 @@ class EstudianteDao(BaseModel):
 
 
 
-    def eliminar(self,estudiante: Estudiante):
+    def eliminar(self,cedula:str):
+        query = "UPDATE estudiantes SET status='{0}' WHERE cedula_escolar='{1}'".format('inactivo',cedula)
+        print(query)
         return self.update(
-            "UPDATE estudiantes SET status=%s FROM id=%d".format('inactivo',estudiante.id)
+            query
         )
 
 
     def getEstudiantes(self):
-        return self.select("SELECT cedula_escolar,nombres,apellidos FROM estudiantes")
+        return self.select("SELECT cedula_escolar,nombres,apellidos FROM estudiantes where status = 'activo' ")
 
     def guardarEnfermedades(self,cedula,enfermedad):
         self.insert(f"INSERT INTO enfermedades (cedula_estudiante,enfermedad) VALUES ('{cedula}','{enfermedad}')")
@@ -94,4 +96,7 @@ class EstudianteDao(BaseModel):
 
 
     def generateReport(self):
-        return self.select("select * from estudiantes")
+        return self.select("select * from estudiantes WHERE status = 'activo'")
+
+    def obtenerEstudiante(self,cedula):
+        return self.selectOne(f"select * from estudiantes where cedula_escolar={cedula}")

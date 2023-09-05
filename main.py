@@ -1,10 +1,11 @@
-from ui.Form import Form
+from ui import Signin
 from private.admin import Admin
-from testApp.Estudiante.TestEstudiante import TestEstudiante
-# import argparse
+from testApp import TestEstudiante,TestRepresentante
+
+import argparse
 # desactivar si ya quieres iniciar produccion
 
-# parser = argparse.ArgumentParser(description="framework by Cristian :)")
+# parser = argparse.ArgumentParser(description="app by Cristian :)")
 
 # parser.add_argument("params", help="ingresar el nombre del comando", type=str, nargs='+')
 
@@ -15,8 +16,9 @@ from testApp.Estudiante.TestEstudiante import TestEstudiante
 DEBUG: bool = True
 
 def tests():
-    testEstudiante = TestEstudiante()
-    testEstudiante.crear_estudiante()
+    test = TestRepresentante()
+    test.crear()
+    # testEstudiante.crear_estudiante()
 
 
 
@@ -25,7 +27,10 @@ def run():
         print("estas en modo desarrolador")
         Admin()
     else:
-        Form()
+        Signin()
 
 if __name__ == "__main__":
+    # if args.params[0] == 'test':
+    #     tests()
+    # elif args.params[0] == 'run':
         run()

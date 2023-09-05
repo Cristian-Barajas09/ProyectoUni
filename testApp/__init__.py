@@ -1,0 +1,2 @@
+from .Estudiante.TestEstudiante import TestEstudiante
+from .Representante.TestRepresentante import TestRepresentante

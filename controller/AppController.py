@@ -323,9 +323,16 @@ class  Controller(BaseController):
         return result
 
 
+    def obtenerEstudiante(self,cedula):
+        return self.sql.obtenerEstudiante(cedula)
+
     def generarPlanilla(self):
         result = self.sql.generateReport()
         result[0]["docente"] = 'admin'
 
         generate_report(result)
 
+
+    def eliminarEstudiante(self,cedula):
+        result = self.sql.eliminar(cedula)
+        print(result)

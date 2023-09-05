@@ -8,7 +8,9 @@ from PIL import ImageTk,Image
 #     )
 
 def leer_image_tkinter(path,size):
-    return ImageTk.PhotoImage(Image.open(path).resize(size,Image.ANTIALIAS))
+    return ImageTk.PhotoImage(Image.open(path).resize(size,Image.Resampling.LANCZOS))
+
+
 
 def centrar_ventana(ventana,aplicacion_ancho,aplicacion_largo):
     pantalla_ancho = ventana.winfo_screenwidth()

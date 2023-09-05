@@ -64,6 +64,7 @@ class BaseModel :
 
         try:
             cur.execute(query)
+            con.commit()
         except Error as error:
             con.rollback()
             raise RuntimeError("no se pudo actualizar el objeto")
@@ -78,6 +79,7 @@ class BaseModel :
 
         try:
             cur.execute(query)
+            con.commit()
         except Error as error:
             con.rollback()
             raise RuntimeError("no se pudo eliminar el objeto")
@@ -97,6 +99,19 @@ class BaseModel :
             raise RuntimeError("no se pudo encontrar el objeto")
         else:
             return cur.fetchall()
+        finally:
+            con.close()
+            cur.close()
+
+    def selectOne(self,query):
+        con,cur = self.connect()
+
+        try:
+            cur.execute(query)
+        except Error as error:
+            raise RuntimeError("no se pudo encontrar el objeto")
+        else:
+            return cur.fetchone()
         finally:
             con.close()
             cur.close()
