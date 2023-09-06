@@ -119,7 +119,7 @@ class  Controller(BaseController):
         altura_estudiante:str
         talla_camisa_estudiante:str
         talla_pantalon_estudiante:str
-        talla_zapatos_estudiante:int
+        talla_zapatos_estudiante:str
         familiar:str
         comenzo_hablar:str
         duerme_con:str
@@ -208,14 +208,15 @@ class  Controller(BaseController):
 
         if altura != "":
             altura_estudiante = "altura"
-            
+
         if talla_camisa != "":
             talla_camisa_estudiante = "talla"
 
         if pantalon != "":
             talla_pantalon_estudiante = "pantalon"
+
         if zapatos != "":
-            talla_zapatos_estudiante
+            talla_zapatos_estudiante = zapatos
 
         if vive_con_padre != "":
             familiar = "padre"
@@ -236,10 +237,12 @@ class  Controller(BaseController):
             hermanos = "si_her"
         else:
             hermanos = "no_her"
-            
-        if grado_del_hermano != "":
-            grados = "gra_her"
-            
+        if tiene_hermanos_estudiando:
+            if grado_del_hermano != "":
+                grados = grado_del_hermano
+            else:
+                grados = False
+
         if habla_correctamente != "":
             h_c = "hab_correc"
             
@@ -272,7 +275,7 @@ class  Controller(BaseController):
             parto=parto,proceso_nacimiento=proceso,enfermedades=enfermedades,vacunas=vacunas,
             mano_que_usa=mano_que_usa,peso=peso_estudiante,altura=altura_estudiante,
             talla=talla_camisa_estudiante,pantalon=talla_pantalon_estudiante,
-            talla_zapatos_estudiante=zapatos,familiar=familiar,empezo_hab=comenzo_hablar,
+            talla_zapatos_estudiante=talla_zapatos_estudiante,familiar=familiar,empezo_hab=comenzo_hablar,
             quien_duer=duerme_con,hermanos=hermanos,gra_her=grados,hab_correc=h_c,
             canta=cant,baila=bai,historias=contar_historias,si_dep=act_deport,
             cual_dep=deport,juega_con=jue_con,juegos_casa=juegos_hogar
