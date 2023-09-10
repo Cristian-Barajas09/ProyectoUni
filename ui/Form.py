@@ -22,12 +22,19 @@ class Signin(BaseView):
         frameForm = self.tk.Frame(self.window,bg="#222")
         frameForm.place(relx=0.5,rely=0,relwidth=0.5,relheight=1)
 
+        frameImage = self.tk.Frame(self.window,bg="#757575")
+        frameImage.place(relx=0,rely=0,relwidth=0.5,relheight=1)
+
+        img = self.tk.PhotoImage(file="/ui/assets/logo.png")
+        insert = self.tk.Label(frameImage,image=img)
+        insert.place(x=0,y=0)
+
         # label signin
         labelSignin = self.tk.Label(frameForm,text='Iniciar sesion',bg="#222",fg="#fff",font=get_font(15))
         labelSignin.place(x=100,y=50,width=130)
 
         #Email
-        labelEmail = self.tk.Label(frameForm,text='ingrese su emal',fg="#fff",bg="#222")
+        labelEmail = self.tk.Label(frameForm,text='ingrese su email',fg="#fff",bg="#222")
         labelEmail.place(x=50,y=120,width=130)
 
         inputEmail = self.tk.Entry(frameForm,bg="#222",fg="#fff",border=0)
@@ -59,6 +66,9 @@ class Signin(BaseView):
 
 
         self.window.mainloop()
+
+
+
 
 
 
