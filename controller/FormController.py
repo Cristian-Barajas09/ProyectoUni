@@ -84,7 +84,7 @@ class FormController(BaseController):
                 return messagebox.showerror("claves no coinciden", "las claves ingresadas no son iguales")
 
 
-            
+
 
             newPassword = self.encrypt(clave)
 

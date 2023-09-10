@@ -27,6 +27,7 @@ class BaseView:
     tk = tkinter
     ttk = ttk
     _controller:BaseController
+    dir = dir
     carpeta_imagenes = os.path.join(dir,"image")
 
     def __init__(self,title:str,geometry:str,controller:BaseController,):

@@ -58,6 +58,9 @@ class Signin(BaseView):
         btnSignup.place(x=200,y=450,width=100,height=30)
 
 
+        self.window.mainloop()
+
+
 
 
 
