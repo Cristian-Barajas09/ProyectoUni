@@ -2,15 +2,15 @@ from ui import Signin
 from private.admin import Admin
 from testApp import TestEstudiante,TestRepresentante
 
-# import argparse
+import argparse
 # desactivar si ya quieres iniciar produccion
 
-# parser = argparse.ArgumentParser(description="app by Cristian :)")
+parser = argparse.ArgumentParser(description="app by CFJO")
 
-# parser.add_argument("params", help="ingresar el nombre del comando", type=str, nargs='+')
+parser.add_argument("params", help="ingresar el nombre del comando", type=str, nargs='+')
 
 
-# args = parser.parse_args()
+args = parser.parse_args()
 
 
 DEBUG: bool = True
@@ -31,7 +31,7 @@ def run():
         Signin()
 
 if __name__ == "__main__":
-    # if args.params[0] == 'test':
-    #     tests()
-    # elif args.params[0] == 'run':
+    if args.params[0] == 'test':
+        tests()
+    elif args.params[0] == 'run':
         run()

@@ -14,16 +14,22 @@ class Signin(BaseView):
 
         self.window.configure(background="#fff")
 
-        img = self.image(os.path.join(self.carpeta_imagenes,'Logo_Josefina_Redondo.png'),(400,500))
 
-        labelImage = self.tk.Label(self.window,image=img,bg="#333")
-        labelImage.place(relx=0,rely=0,relwidth=0.5,relheight=1)
+
+        frameImage = self.tk.Frame(self.window,bg="#757575")
+        frameImage.place(relx=0,rely=0,relwidth=0.5,relheight=1)
+
+        print(os.path.join(self.carpeta_imagenes,'Logo_Josefina_Redondo.png'))
+        img = self.image(os.path.join(self.carpeta_imagenes,'Logo_Josefina_Redondo.png'),(300,500))
+
+        labelImage = self.tk.Label(frameImage,image=img,bg="#333")
+
+        labelImage.place(relx=0,rely=0,relwidth=1,relheight=1)
 
         frameForm = self.tk.Frame(self.window,bg="#222")
         frameForm.place(relx=0.5,rely=0,relwidth=0.5,relheight=1)
 
-        frameImage = self.tk.Frame(self.window,bg="#757575")
-        frameImage.place(relx=0,rely=0,relwidth=0.5,relheight=1)
+
 
 
         # label signin
