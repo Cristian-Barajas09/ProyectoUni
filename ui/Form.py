@@ -25,16 +25,13 @@ class Signin(BaseView):
         frameImage = self.tk.Frame(self.window,bg="#757575")
         frameImage.place(relx=0,rely=0,relwidth=0.5,relheight=1)
 
-        img = self.tk.PhotoImage(file="/ui/assets/logo.png")
-        insert = self.tk.Label(frameImage,image=img)
-        insert.place(x=0,y=0)
 
         # label signin
         labelSignin = self.tk.Label(frameForm,text='Iniciar sesion',bg="#222",fg="#fff",font=get_font(15))
         labelSignin.place(x=100,y=50,width=130)
 
         #Email
-        labelEmail = self.tk.Label(frameForm,text='ingrese su email',fg="#fff",bg="#222")
+        labelEmail = self.tk.Label(frameForm,text='Ingrese su email',fg="#fff",bg="#222")
         labelEmail.place(x=50,y=120,width=130)
 
         inputEmail = self.tk.Entry(frameForm,bg="#222",fg="#fff",border=0)
@@ -42,7 +39,7 @@ class Signin(BaseView):
         self.tk.Frame(frameForm,bg="#fff").place(x=50,y=175,width=250,height=2)
 
         # Password
-        labelPassword = self.tk.Label(frameForm,text='ingrese su contraseña',fg="#fff",bg="#222")
+        labelPassword = self.tk.Label(frameForm,text='Ingrese su contraseña',fg="#fff",bg="#222")
         labelPassword.place(x=50,y=190,width=130)
 
 
@@ -97,8 +94,8 @@ class Signin(BaseView):
 
 class Form(BaseView):
     def __init__(self):
-        super().__init__(title="Registrarse",geometry="700x500",controller=FormController)
-        self.resizable(0,0)
+        super().__init__(title="Registrarse",geometry="700x450",controller=FormController)
+        # self.resizable(0,0)
         self.window.configure(bg="#333")
 
         self.icon()
@@ -154,50 +151,50 @@ class Form(BaseView):
 
 
         frame = self.tk.Frame(self.window,bg="#222")
-        frame.place(relx=0.2,rely=0.15,relwidth=0.6,relheight=0.7)
+        frame.place(x=50,y=80,width=600,height=300)
 
-        labelNames = self.tk.Label(frame,text="Nombres").place(relx=0.01,rely=0.01)
-        inputNames = self.tk.Entry(frame)
-        inputNames.place(relx=0.01,rely=0.1)
+        labelName = self.tk.Label(frame,text="Nombres",font=get_font(11),bg="#222",fg="#fff").place(x=110,y=15,width=60)
+        inputName = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=50,y=45,width=200)
+        self.tk.Frame(frame,bg="#fff").place(x=50,y=64,width=200,height=2)
 
-        labelLastname = self.tk.Label(frame,text="Apellidos").place(relx=0.5,rely=0.01)
-        inputLastName = self.tk.Entry(frame)
-        inputLastName.pack()
-
-        labelEmail = self.tk.Label(frame,text="Correo").pack()
-        inputEmail = self.tk.Entry(frame)
-        inputEmail.pack()
-
-        labelDate = self.tk.Label(frame,text="Fecha de nacimiento").pack()
-        inputDate = DateEntry(frame)
-        inputDate.pack()
+        labelLastName = self.tk.Label(frame,text="Apellidos",font=get_font(11),bg="#222",fg="#fff").place(x=420,y=15,width=60)
+        inputLastName = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=350,y=45,width=200)
+        self.tk.Frame(frame,bg="#fff").place(x=350,y=64,width=200,height=2)
 
 
-        labelId = self.tk.Label(frame,text="Cedula de identidad").pack()
-        inputId = self.tk.Entry(frame)
-        inputId.pack()
+        labelEmail = self.tk.Label(frame,text="Correo",bg="#222",fg="#fff",font=get_font(11)).place(x=80,y=100,width=60)
+        inputEmail = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=40,y=125,width=140)
+        self.tk.Frame(frame,bg="#fff").place(x=40,y=140,width=140,height=2)
 
 
-        labelGender = self.tk.Label(frame,text="Genero").pack()
-        inputGender = self.ttk.Combobox(frame,values=('M','F'),state="readonly")
+        labelDate = self.tk.Label(frame,text="Fecha de nacimiento",bg="#222",fg="#fff",font=get_font(11)).place(x=230,y=100,width=140)
+        inputDate = DateEntry(frame).place(x=250,y=125)
+
+        labelId = self.tk.Label(frame,text="Cedula",bg="#222",fg="#fff",font=get_font(11)).place(x=445,y=100,width=60)
+        inputId = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=440,y=125,width=80)
+        self.tk.Frame(frame,bg="#fff").place(x=420,y=140,width=120,height=2)
+
+
+        labelGender = self.tk.Label(frame,text="Genero",bg="#222",fg="#fff",font=get_font(11)).place(x=70,y=170,width=60)
+        inputGender = self.ttk.Combobox(frame,values=('Masculino','Femenino',"Pentasexual",".!."),state="readonly")
         inputGender.current(0)
-        inputGender.pack()
+        inputGender.place(x=70,y=200,width=80)
 
-        labelPassword = self.tk.Label(frame,text="Contraseña").pack()
-        inputPassword = self.tk.Entry(frame)
-        inputPassword.pack()
+        labelPassword = self.tk.Label(frame,text="Contraseña",bg="#222",fg="#fff",font=get_font(11)).place(x=220,y=170,width=80)
+        inputPassword = self.tk.Entry(frame,fg="#fff",border=0,bg="#222").place(x=205,y=190,width=120)
+        self.tk.Frame(frame,bg="#fff").place(x=205,y=210,width=120,height=2)
 
-        labelConfirmPassword = self.tk.Label(frame,text="Confirmar Contraseña").pack()
 
-        inputConfirmPassword = self.tk.Entry(frame)
-        inputConfirmPassword.pack()
 
-        btnSignup = self.tk.Button(frame)
-        btnSignup.pack()
+        labelConfirmPassword = self.tk.Label(frame,text="Confirmar Contraseña",bg="#222",fg="#fff",font=get_font(11)).place(x=380,y=170,width=160)
+        inputConfirmPassword = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=390,y=190,width=140)
+        self.tk.Frame(frame,bg="#fff").place(x=390,y=210,width=140,height=2)
 
-        btnSignin = self.tk.Button(self.window,text="iniciar sesion",command=self.signin)
-        btnSignin.place(relx=0.8,rely=0.7,relwidth=0.1,relheight=0.01)
+        # btnSignup = self.tk.Button(frame)
+        # btnSignup.pack()
 
+        btnSignin = self.tk.Button(self.window,text="Iniciar sesion",command=self.signin,background="#38B1EE",fg="#fff")
+        btnSignin.pack(side="bottom")
 
     def signin(self):
         self.window.destroy()
