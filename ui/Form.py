@@ -200,7 +200,9 @@ class Form(BaseView):
         self.window.destroy()
         Signin()
 
-
+    def algo (self):
+        return print("algo")
+    
 
 
 
