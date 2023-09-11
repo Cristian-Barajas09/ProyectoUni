@@ -331,8 +331,6 @@ class  Controller(BaseController):
 
     def generarPlanilla(self):
         result = self.sql.generateReport()
-        result[0]["docente"] = 'admin'
-
         generate_report(result)
 
 

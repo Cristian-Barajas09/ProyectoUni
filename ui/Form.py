@@ -14,7 +14,7 @@ class Signin(BaseView):
 
         self.window.configure(background="#fff")
 
-        img = self.image(os.path.join(self.carpeta_imagenes,'logo.jpeg'),(400,500))
+        img = self.image(os.path.join(self.carpeta_imagenes,'Logo_Josefina_Redondo.png'),(400,500))
 
         labelImage = self.tk.Label(self.window,image=img,bg="#333")
         labelImage.place(relx=0,rely=0,relwidth=0.5,relheight=1)

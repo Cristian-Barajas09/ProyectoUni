@@ -96,7 +96,9 @@ class EstudianteDao(BaseModel):
 
 
     def generateReport(self):
-        return self.select("select * from estudiantes WHERE status = 'activo'")
+        return self.select("""select estudiantes.nombres,estudiantes.apellidos,estudiantes.cedula_escolar,annos.anno as grupo,annos.seccion,users.nombres as docente from estudiantes
+inner join annos on annos.anno = estudiantes.id_anno AND estudiantes.status ='activo'
+inner join users on users.cedula = annos.id_profesor AND users.status='activo'""")
 
     def obtenerEstudiante(self,cedula):
         return self.selectOne(f"select * from estudiantes where cedula_escolar={cedula}")
