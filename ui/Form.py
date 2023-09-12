@@ -201,8 +201,7 @@ class Form(BaseView):
         Signin()
 
     def algo (self):
-        return print("algo")
-    
+        return print("algo1")
 
 
 
