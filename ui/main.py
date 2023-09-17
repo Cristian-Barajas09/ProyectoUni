@@ -3,10 +3,12 @@ from controller.AppController import Controller
 from tkcalendar import DateEntry
 from babel.numbers import *
 from datetime import date
+from tkinter import messagebox
 
 
 
 class App(BaseView):
+    __table_name = 'estudiantes'
     def __init__(self):
         super().__init__(title="C.E.I Josefina Molina de Duque",geometry="700x530",controller=Controller)
         self.icon()
@@ -39,8 +41,7 @@ class App(BaseView):
         # self.notebook2.place(x=0,y=400,width=120,height=20)
 
     def validate_search(self, event):
-        return
-        result = self.get_userss_all()
+        result = self.get_users()
         if self.search.get() == "":
             self.tree.delete(*self.tree.get_children())
             for item in result:
@@ -918,7 +919,12 @@ class App(BaseView):
 
         self.notebook_person = self.ttk.Notebook(self.frame1)
         self.frame_estudiantes = self.tk.Frame(self.notebook_person)
+        self.frame_users = self.tk.Frame(self.notebook_person)
+        self.frame_representantes = self.tk.Frame(self.notebook_person)
         self.notebook_person.add(self.frame_estudiantes,text="estudiantes")
+        self.notebook_person.add(self.frame_users,text="profesores")
+        self.notebook_person.add(self.frame_representantes,text="representantes")
+        self.notebook_person.bind("<<NotebookTabChanged>>",lambda evt: self.cambiar_parametro_de_busqueda(self.notebook_person ,evt))
         self.search = self.ttk.Entry(frame_search, justify="right",validate="key",validatecommand=(self.frame1.register(self.validate_entry_text), "%S"))
         self.search.place(relx=0.34, rely=0.2, width=220, height=25)
         self.search.bind("<FocusOut>", self.validate_search)
@@ -931,11 +937,46 @@ class App(BaseView):
 
         self.select.bind("<<ComboboxSelected>>",lambda event: self.validate_param(self.select.get()))
 
-        btn_search = self.tk.Button(frame_search,bg="#041d9b",border=0,fg="#fff", text="Buscar", command=lambda: self.search_user(
-            self.search.get(), self.select.get()))
+        btn_search = self.tk.Button(frame_search,bg="#041d9b",border=0,fg="#fff", text="Buscar", command=lambda: self.buscar(
+            self.search, self.select))
         btn_search.place(relx=0.46, rely=0.6, width=60, height=35)
 
 
+        self.table_estudiantes()
+        self.table_users()
+        self.table_representantes()
+
+
+        btn_generar_plantilla = self.tk.Button(self.frame1,bg="#041d9b",border=0,fg="#fff", text="Generar Planilla del Personal",command=self.generarPlanilla)
+        btn_generar_plantilla.place(relx=0.38, rely=0.92, width=160, height=35)
+
+        self.notebook_person.place(relx=0,rely=0.3,relwidth=1,relheight=0.6)
+
+    def table_users(self):
+        
+        columns = ("nombres","apellidos","cedula")
+        self.tree2 = self.ttk.Treeview(self.frame_users,columns=columns,show="headings")
+
+        self.tree2.heading("nombres",text="nombres")
+        self.tree2.heading("apellidos",text="apellidos")
+        self.tree2.heading("cedula",text="cedula")
+
+
+
+        for item in self.get_users():
+            self.tree2.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
+
+        self.tree2.bind('<<TreeviewSelect>>', self.item_selected_estudiantes)
+
+        self.tree2.pack()
+
+
+        scrollbar = self.ttk.Scrollbar(self.frame1, orient=self.tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=scrollbar.set)
+        scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
+
+    def table_estudiantes(self):
+        
         columns = ("nombres","apellidos","cedula")
         self.tree = self.ttk.Treeview(self.frame_estudiantes,columns=columns,show="headings")
 
@@ -943,13 +984,12 @@ class App(BaseView):
         self.tree.heading("apellidos",text="apellidos")
         self.tree.heading("cedula",text="cedula")
 
-        print(self.get_users())
 
-        for item in self.get_users():
 
-            self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula_escolar']))
+        for item in self.get_estudiantes():
+            self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
 
-        self.tree.bind('<<TreeviewSelect>>', self.item_selected)
+        self.tree.bind('<<TreeviewSelect>>', self.item_selected_estudiantes)
 
         self.tree.pack()
 
@@ -959,49 +999,70 @@ class App(BaseView):
         scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
 
 
-        btn_generar_plantilla = self.tk.Button(self.frame1,bg="#041d9b",border=0,fg="#fff", text="Generar Planilla del Personal",command=self.generarPlanilla)
-        btn_generar_plantilla.place(relx=0.38, rely=0.92, width=160, height=35)
 
-        self.notebook_person.place(relx=0,rely=0.3,relwidth=1,relheight=0.6)
+    def table_representantes(self):
+        columns = ("nombres","apellidos","cedula")
+        self.tree = self.ttk.Treeview(self.frame_representantes,columns=columns,show="headings")
 
-    # def buscar(self, search, param):
-    #     if search.get() == "":
-    #         return self.root.bell()
-
-    #     self.carga = tk.Toplevel()
-    #     self.carga.wm_geometry("200x30")
-    #     carga = ttk.Progressbar(self.carga)
-
-    #     carga.pack()
-    #     carga.start(30)
-
-    #     result = self.ctrl.busqueda(search.get(), param.get())
-
-    #     if not (isinstance(result, list)):
-    #         messagebox.showerror("Error", result)
-    #     else:
-    #         if len(result) > 0:
-    #             self.carga.destroy()
-    #             self.tree.delete(*self.tree.get_children())
-    #             for item in result:
-    #                 self.tree.insert('', tk.END, values=(
-    #                     item[0], item[1], item[2]))
-    #             self.frame1.update()
+        self.tree.heading("nombres",text="nombres")
+        self.tree.heading("apellidos",text="apellidos")
+        self.tree.heading("cedula",text="cedula")
 
 
-    def search_user(self,search,param):
 
-        result = self._controller.search_user(search.capitalize(),param)
+        for item in self.get_representantes():
+            self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
 
-        if result != ():
-            return result
-        return []
+        self.tree.bind('<<TreeviewSelect>>', self.item_selected_estudiantes)
+
+        self.tree.pack()
+
+
+        scrollbar = self.ttk.Scrollbar(self.frame1, orient=self.tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=scrollbar.set)
+        scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
+
+    def buscar(self, search, param):
+        if search.get() == "":
+            return self.window.bell()
+
+        self.carga = self.tk.Toplevel()
+        self.carga.wm_geometry("200x30")
+        carga = self.ttk.Progressbar(self.carga)
+
+        carga.pack()
+        carga.start(30)
+
+        print(self.__table_name)
+
+        result = self._controller.search(search.get(), param.get(),self.__table_name)
+        print(result)
+        if result == ():
+            self.carga.destroy()
+            messagebox.showerror("hubo un problema",f"no hay nadie con ese {param.get()}")
+        else:
+            if len(result) > 0:
+                self.carga.destroy()
+                self.tree.delete(*self.tree.get_children())
+                for item in result:
+                    self.tree.insert('', self.tk.END, values=(
+                        item['nombres'], item['apellidos'], item['cedula']))
+                self.frame1.update()
+
 
 
     def get_users(self):
+        print(self._controller.getUsers())
+        return self._controller.getUsers()
+
+
+    def get_estudiantes(self):
         return self._controller.getEstudiantes()
 
-    def item_selected(self,event):
+    def get_representantes(self):
+        return self._controller.getRepresentantes()
+
+    def item_selected_estudiantes(self,event):
         values = []
         for selected_item in self.tree.selection():
             item = self.tree.item(selected_item)
@@ -1009,17 +1070,21 @@ class App(BaseView):
 
         result = self._controller.obtenerEstudiante(values[2])
 
-        print(result)
         self.person = self.tk.Toplevel()
         self.person.wm_title(f"usuario: {result['nombres']}")
 
 
-        btnDelete = self.tk.Button(self.person,text="eliminar estudiante",command=lambda: self.deleteEstudiante(result['cedula_escolar']))
+        btnDelete = self.tk.Button(self.person,text="eliminar estudiante",command=lambda: self.deleteEstudiante(result['cedula']))
         btnDelete.pack()
 
 
     def deleteEstudiante(self,cedula):
-        self._controller.eliminarEstudiante(cedula)
+        result = self._controller.eliminarEstudiante(cedula)
+
+        if not(isinstance(result,int)):
+            return messagebox.showerror("No se pudo eliminar el usuario")
+
+
         self.controlPersonas()
         self.person.destroy()
 
@@ -1052,3 +1117,13 @@ class App(BaseView):
 
     def generarPlanilla(self):
         self._controller.generarPlanilla()
+
+
+    def cambiar_parametro_de_busqueda(self,notebook ,event):
+            name_notebook =  notebook.tab(notebook.select(),'text')
+            if name_notebook == "estudiantes":
+                self.__table_name = 'estudiantes'
+            elif name_notebook == "profesores":
+                self.__table_name = 'users'
+            elif name_notebook == 'representantes':
+                self.__table_name = 'representantes'

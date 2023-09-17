@@ -16,10 +16,11 @@ class UsuarioDao(BaseModel):
 
 
     def getUsuario(self,email):
-        return self.select(f"SELECT email,password FROM USERS WHERE email='{email}'")
+        return self.select(f"SELECT email,password FROM USERS WHERE email='{email}' AND status='activo'",'one')
 
 
-
+    def getUsuarios(self):
+        return self.select(f"SELECT * FROM USERS WHERE status = 'activo'")
 
     def setSession(self,cedula):
         return self.insert(f"INSERT INTO sessions (user_ced,status) VALUES ('{cedula}',TRUE)")

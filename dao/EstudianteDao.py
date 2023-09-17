@@ -60,7 +60,7 @@ class EstudianteDao(BaseModel):
 
 
     def getEstudiantes(self):
-        return self.select("SELECT cedula_escolar,nombres,apellidos FROM estudiantes where status = 'activo' ")
+        return self.select("SELECT cedula_escolar as cedula,nombres,apellidos FROM estudiantes where status = 'activo' ")
 
     def guardarEnfermedades(self,cedula,enfermedad):
         self.insert(f"INSERT INTO enfermedades (cedula_estudiante,enfermedad) VALUES ('{cedula}','{enfermedad}')")
@@ -101,4 +101,4 @@ inner join annos on annos.anno = estudiantes.id_anno AND estudiantes.status ='ac
 inner join users on users.cedula = annos.id_profesor AND users.status='activo'""")
 
     def obtenerEstudiante(self,cedula):
-        return self.selectOne(f"select * from estudiantes where cedula_escolar={cedula}")
+        return self.select(f"select * from estudiantes where cedula_escolar={cedula}",'one')

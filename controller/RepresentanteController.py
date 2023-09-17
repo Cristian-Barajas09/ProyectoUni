@@ -94,3 +94,7 @@ class RepresentanteController(BaseController):
 
             for k,v in representante.telefonos.items():
                 self.sql.guardarTelefono(cedula=representante.cedula,telefono=v)
+
+
+    def get_representante(self):
+        return self.sql.select("SELECT nombres,apellidos,cedula FROM representantes")

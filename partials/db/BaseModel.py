@@ -90,7 +90,7 @@ class BaseModel :
             cur.close()
 
 
-    def select(self,query):
+    def select(self,query,quantity ="all"):
         con,cur = self.connect()
 
         try:
@@ -98,20 +98,10 @@ class BaseModel :
         except Error as error:
             raise RuntimeError("no se pudo encontrar el objeto")
         else:
-            return cur.fetchall()
-        finally:
-            con.close()
-            cur.close()
-
-    def selectOne(self,query):
-        con,cur = self.connect()
-
-        try:
-            cur.execute(query)
-        except Error as error:
-            raise RuntimeError("no se pudo encontrar el objeto")
-        else:
-            return cur.fetchone()
+            if quantity == "all":
+                return cur.fetchall()
+            elif quantity == "one":
+                return cur.fetchone()
         finally:
             con.close()
             cur.close()

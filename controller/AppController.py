@@ -6,12 +6,13 @@ from typing import Any
 from util.pdf import generate_planilla,generate_report
 from models.Estudiante.Estudiante import Estudiante
 from .RepresentanteController import RepresentanteController
-
+from .UsuarioController import UsuarioController
 
 class  Controller(BaseController):
     def __init__(self):
 
         self.representante = RepresentanteController()
+        self.users = UsuarioController()
 
         super().__init__(EstudianteDao)
 
@@ -311,18 +312,35 @@ class  Controller(BaseController):
 
         return self.sql.getEstudiantes()
 
+    def getRepresentantes(self):
+        return self.representante.get_representante()
 
+    def getUsers(self):
+        return self.users.getUsuarios()
 
 
     def set_sessions(self,cedula:int):
         self.sql.set_session(cedula)
 
 
-    def search_user(self,search,param):
-        result = self.sql.consulta(
-            f'SELECT nombres,apellidos,cedula FROM users WHERE {param} LIKE "{search}%"')
-        result = result.fetchall()
+    def search(self,search,param,table):
 
+        query = ""
+
+        if table == 'users':
+            query = 'SELECT nombres,apellidos,{cedula} FROM {table} WHERE {param} LIKE "{search}%" AND status = "activo"'.format(cedula='cedula',table=table,param=param,search=search)
+
+        elif table == 'estudiantes':
+            query = 'SELECT nombres,apellidos,{cedula} FROM {table} WHERE {param} LIKE "{search}%" AND status = "activo"'.format(cedula='cedula_escolar as cedula',table=table,param=param,search=search)
+        elif table == "representantes":
+            query = 'SELECT nombres,apellidos,{cedula} FROM {table} WHERE {param} LIKE "{search}%" AND status = "activo"'.format(cedula='cedula',table=table,param=param,search=search)
+
+        print(query)
+
+        result = self.sql.select(
+            query
+        )
+        print(result)
         return result
 
 
