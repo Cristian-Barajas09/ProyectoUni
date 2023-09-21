@@ -67,6 +67,8 @@ CREATE TABLE IF NOT EXISTS estudiantes (
 );
 --3
 
+SELECT * FROM estudiantes;
+
 CREATE TABLE gustos(
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     cedula_estudiante VARCHAR(12) NOT NULL,
@@ -130,7 +132,7 @@ CREATE TABLE IF NOT EXISTS representantes(
     status SET ('activo','inactivo') DEFAULT 'activo'
 );
 --10
-
+select * from representantes;
 CREATE TABLE direcciones(
     cedula VARCHAR(12) NOT NULL,
     direccion VARCHAR(50),

@@ -2,7 +2,7 @@ from jinja2 import Environment,FileSystemLoader
 from .rutas import dir
 import os
 from datetime import date
-
+from shutil import copyfile
 planilla = {
         'anno_cursar':2,
         'nombre':"cristian",
@@ -133,19 +133,36 @@ def generate_planilla(**kwargs):
 
 
 def generate_report(usuarios,ruta):
-    template = env.get_template("Plantilla impresión Proyecto 2/index.html")
+    try:
+        template = env.get_template("Plantilla impresión Proyecto 2/index.html")
 
-    html = template.render({'users':usuarios})
-    print(usuarios)
+        html = template.render({'users':usuarios})
 
-    carpeta = os.path.join(ruta,"reporte")
 
-    os.mkdir(carpeta)
+        carpeta = os.path.join(ruta,"reporte")
+        carpeta_imagenes = os.path.join(carpeta,"imagenes")
+
+        logo = os.path.join(dir_template,"Plantilla impresión Proyecto 2","imagenes","logozona.png")
+        fondo = os.path.join(dir_template,"Plantilla impresión Proyecto 2","imagenes","fondoniños2.jpg")
+
+        os.mkdir(carpeta)
+        os.mkdir(carpeta_imagenes)
+
+        archivo_1 = os.path.join(carpeta_imagenes,"logozona.png")
+        archivo_2 = os.path.join(carpeta_imagenes,"fondoniños2.jpg")
+
+        copyfile(logo,archivo_1)
+        copyfile(fondo,archivo_2)
+        ruta = os.path.join(carpeta,f"reporte{date.today()}.html")
+        f = open(ruta,'w',encoding="utf-8")
+        f.write(html)
+        f.close()
+
+        return True
+    except:
+        return False
+
     
-    ruta = os.path.join(carpeta,f"reporte{date.today()}.html")
-    f = open(ruta,'w',encoding="utf-8")
-    f.write(html)
-    f.close()
 
 if __name__ == '__main__':
 

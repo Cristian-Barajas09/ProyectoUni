@@ -15,4 +15,4 @@ class UsuarioController(BaseController):
 
 
     def obtenerUsuario(self,cedula):
-        return self.sql.select(f"SELECT nombres,apellidos,cedula FROM USERS WHERE cedula={cedula}")
+        return self.sql.select(f"SELECT * FROM USERS WHERE cedula={cedula}",'one')

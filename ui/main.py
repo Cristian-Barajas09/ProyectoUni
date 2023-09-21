@@ -976,7 +976,7 @@ class App(BaseView):
         scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
 
     def table_estudiantes(self):
-        
+
         columns = ("nombres","apellidos","cedula")
         self.tree = self.ttk.Treeview(self.frame_estudiantes,columns=columns,show="headings")
 
@@ -1002,24 +1002,24 @@ class App(BaseView):
 
     def table_representantes(self):
         columns = ("nombres","apellidos","cedula")
-        self.tree = self.ttk.Treeview(self.frame_representantes,columns=columns,show="headings")
+        self.tree3 = self.ttk.Treeview(self.frame_representantes,columns=columns,show="headings")
 
-        self.tree.heading("nombres",text="nombres")
-        self.tree.heading("apellidos",text="apellidos")
-        self.tree.heading("cedula",text="cedula")
+        self.tree3.heading("nombres",text="nombres")
+        self.tree3.heading("apellidos",text="apellidos")
+        self.tree3.heading("cedula",text="cedula")
 
 
 
         for item in self.get_representantes():
-            self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
+            self.tree3.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
 
-        self.tree.bind('<<TreeviewSelect>>', self.item_selected_representante)
+        self.tree3.bind('<<TreeviewSelect>>', self.item_selected_representante)
 
-        self.tree.pack()
+        self.tree3.pack()
 
 
         scrollbar = self.ttk.Scrollbar(self.frame1, orient=self.tk.VERTICAL, command=self.tree.yview)
-        self.tree.configure(yscroll=scrollbar.set)
+        self.tree3.configure(yscroll=scrollbar.set)
         scrollbar.place(relx=0.98,rely=0.3,relwidth=0.02,relheight=0.6)
 
     def buscar(self, search, param):
@@ -1067,25 +1067,24 @@ class App(BaseView):
         for selected_item in self.tree.selection():
             item = self.tree.item(selected_item)
             values = item['values']
-
         result = self._controller.obtenerEstudiante(values[2])
 
         self.person = self.tk.Toplevel()
         self.person.wm_title(f"usuario: {result['nombres']}")
 
 
-        btnDelete = self.tk.Button(self.person,text="eliminar estudiante",command=lambda: self.deleteEstudiante(result['cedula']))
+        btnDelete = self.tk.Button(self.person,text="eliminar estudiante",command=lambda: self.deleteEstudiante(result['cedula_escolar']))
         btnDelete.pack()
 
 
     def item_selected_representante(self,event):
         values = []
-        for selected_item in self.tree.selection():
-            item = self.tree.item(selected_item)
+        for selected_item in self.tree3.selection():
+            item = self.tree3.item(selected_item)
             values = item['values']
 
-        result = self._controller.obtenerEstudiante(values[2])
-
+        result = self._controller.obtenerRepresentante(values[2])
+        print(result)
         self.person = self.tk.Toplevel()
         self.person.wm_title(f"usuario: {result['nombres']}")
 
@@ -1095,8 +1094,8 @@ class App(BaseView):
 
     def item_selected_usuarios(self,event):
         values = []
-        for selected_item in self.tree.selection():
-            item = self.tree.item(selected_item)
+        for selected_item in self.tree2.selection():
+            item = self.tree2.item(selected_item)
             values = item['values']
 
         result = self._controller.obtenerUsuario(values[2])
@@ -1120,7 +1119,7 @@ class App(BaseView):
 
     def deleteRepresentante(self,cedula):
         result = self._controller.eliminarRepresentante(cedula)
-
+        print(result,cedula)
         if not(isinstance(result,int)):
             return messagebox.showerror("No se pudo eliminar el usuario")
 
@@ -1168,7 +1167,11 @@ class App(BaseView):
 
     def generarPlanilla(self):
         ruta = askdirectory()
-        self._controller.generarPlanilla(ruta)
+        result = self._controller.generarPlanilla(ruta)
+
+        if result:
+            return messagebox.showinfo("exito","reporte guardado con exito")
+        return messagebox.showerror("error","no se pudo guardar el reporte")
 
 
     def cambiar_parametro_de_busqueda(self,notebook ,event):

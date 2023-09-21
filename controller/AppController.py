@@ -355,7 +355,8 @@ class  Controller(BaseController):
 
     def generarPlanilla(self,ruta):
         result = self.sql.generateReport()
-        generate_report(result,ruta)
+
+        return generate_report(result,ruta)
 
     def eliminarRepresentante(self,cedula):
         result = self.representante.eliminar_representante(cedula)
