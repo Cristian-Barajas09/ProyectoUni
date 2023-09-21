@@ -3,7 +3,6 @@ from .rutas import dir
 import os
 from datetime import date
 
-
 planilla = {
         'anno_cursar':2,
         'nombre':"cristian",
@@ -116,7 +115,6 @@ planilla = {
     }
 
 
-
 public = os.path.join(dir,"public")
 dir_template = os.path.join(dir,"templates")
 
@@ -134,12 +132,17 @@ def generate_planilla(**kwargs):
     f.close()
 
 
-def generate_report(usuarios):
+def generate_report(usuarios,ruta):
     template = env.get_template("Plantilla impresión Proyecto 2/index.html")
 
     html = template.render({'users':usuarios})
     print(usuarios)
-    ruta = os.path.join(public,f"reporte{date.today()}.html")
+
+    carpeta = os.path.join(ruta,"reporte")
+
+    os.mkdir(carpeta)
+    
+    ruta = os.path.join(carpeta,f"reporte{date.today()}.html")
     f = open(ruta,'w',encoding="utf-8")
     f.write(html)
     f.close()

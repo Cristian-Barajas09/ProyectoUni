@@ -19,6 +19,11 @@ class RepresentanteDao(BaseModel):
             f"UPDATE representantes SET nacionalidad='{representante.nacionalidad}',profesion='{representante.profesion}',nombres='{representante.nombres}',apellidos='{representante.apellidos}',vive_con_el='{representante.vive_con_el}',parentesco='{representante.parentesco}' WHERE cedula={representante.cedula}"
         )
     
+    def eliminar(self,cedula:str):
+        return self.update(
+            "UPDATE representantes SET status='{0}' WHERE cedula='{1}'".format('inactivo',cedula)
+        )
+
     def guardarDireccion(self,cedula:str | int,direccion:str,de:str):
         return self.insert(
             f"INSERT INTO direcciones (cedula,direccion,de) VALUES ('{cedula}','{direccion}','{de}')"

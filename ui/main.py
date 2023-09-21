@@ -3,8 +3,8 @@ from controller.AppController import Controller
 from tkcalendar import DateEntry
 from babel.numbers import *
 from datetime import date
-from tkinter import messagebox
-
+from tkinter import messagebox,dialog
+from tkinter.filedialog import askdirectory
 
 
 class App(BaseView):
@@ -966,7 +966,7 @@ class App(BaseView):
         for item in self.get_users():
             self.tree2.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
 
-        self.tree2.bind('<<TreeviewSelect>>', self.item_selected_estudiantes)
+        self.tree2.bind('<<TreeviewSelect>>', self.item_selected_usuarios)
 
         self.tree2.pack()
 
@@ -1013,7 +1013,7 @@ class App(BaseView):
         for item in self.get_representantes():
             self.tree.insert('',self.tk.END,values=(item['nombres'],item['apellidos'],item['cedula']))
 
-        self.tree.bind('<<TreeviewSelect>>', self.item_selected_estudiantes)
+        self.tree.bind('<<TreeviewSelect>>', self.item_selected_representante)
 
         self.tree.pack()
 
@@ -1078,8 +1078,59 @@ class App(BaseView):
         btnDelete.pack()
 
 
+    def item_selected_representante(self,event):
+        values = []
+        for selected_item in self.tree.selection():
+            item = self.tree.item(selected_item)
+            values = item['values']
+
+        result = self._controller.obtenerEstudiante(values[2])
+
+        self.person = self.tk.Toplevel()
+        self.person.wm_title(f"usuario: {result['nombres']}")
+
+
+        btnDelete = self.tk.Button(self.person,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
+        btnDelete.pack()
+
+    def item_selected_usuarios(self,event):
+        values = []
+        for selected_item in self.tree.selection():
+            item = self.tree.item(selected_item)
+            values = item['values']
+
+        result = self._controller.obtenerUsuario(values[2])
+
+        self.person = self.tk.Toplevel()
+        self.person.wm_title(f"usuario: {result['nombres']}")
+
+
+        btnDelete = self.tk.Button(self.person,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
+        btnDelete.pack()
+
     def deleteEstudiante(self,cedula):
         result = self._controller.eliminarEstudiante(cedula)
+
+        if not(isinstance(result,int)):
+            return messagebox.showerror("No se pudo eliminar el usuario")
+
+
+        self.controlPersonas()
+        self.person.destroy()
+
+    def deleteRepresentante(self,cedula):
+        result = self._controller.eliminarRepresentante(cedula)
+
+        if not(isinstance(result,int)):
+            return messagebox.showerror("No se pudo eliminar el usuario")
+
+
+        self.controlPersonas()
+        self.person.destroy()
+
+
+    def deleteUsuario(self,cedula):
+        result = self._controller.eliminarUsuario(cedula)
 
         if not(isinstance(result,int)):
             return messagebox.showerror("No se pudo eliminar el usuario")
@@ -1116,7 +1167,8 @@ class App(BaseView):
 
 
     def generarPlanilla(self):
-        self._controller.generarPlanilla()
+        ruta = askdirectory()
+        self._controller.generarPlanilla(ruta)
 
 
     def cambiar_parametro_de_busqueda(self,notebook ,event):

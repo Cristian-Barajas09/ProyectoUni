@@ -98,3 +98,11 @@ class RepresentanteController(BaseController):
 
     def get_representante(self):
         return self.sql.select("SELECT nombres,apellidos,cedula FROM representantes")
+
+    def eliminar_representante(self,cedula):
+        return self.sql.eliminar(cedula)
+
+
+
+    def obtenerRepresentante(self,cedula):
+        return self.sql.select(f"SELECT nombres,apellidos,cedula FROM representantes WHERE CEDULA={cedula}")

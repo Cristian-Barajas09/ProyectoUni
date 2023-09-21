@@ -344,14 +344,32 @@ class  Controller(BaseController):
         return result
 
 
+    def obtenerUsuario(self,cedula):
+        return self.users.obtenerUsuario(cedula)
+
     def obtenerEstudiante(self,cedula):
         return self.sql.obtenerEstudiante(cedula)
 
-    def generarPlanilla(self):
+    def obtenerRepresentante(self,cedula):
+        return self.representante.obtenerRepresentante(cedula)
+
+    def generarPlanilla(self,ruta):
         result = self.sql.generateReport()
-        generate_report(result)
+        generate_report(result,ruta)
+
+    def eliminarRepresentante(self,cedula):
+        result = self.representante.eliminar_representante(cedula)
+        return result
+
 
 
     def eliminarEstudiante(self,cedula):
         result = self.sql.eliminar(cedula)
-        print(result)
+        return result
+
+
+
+
+    def eliminarUsuario(self,cedula):
+        result = self.users.eliminar_usuario(cedula)
+        return result

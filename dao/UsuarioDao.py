@@ -12,7 +12,10 @@ class UsuarioDao(BaseModel):
             f"INSERT INTO USERS (cedula,nombres,apellidos,password,email,fecha_nacimiento,edad,n_telefono,sexo) VALUES ({usuario.cedula},'{usuario.nombres}','{usuario.apellidos}','{usuario.password}','{usuario.email}','{usuario.fecha_nacimiento}',{usuario.edad},'{usuario.n_telefono}','{usuario.sexo.value}')"
         )
 
-
+    def eliminar(self,cedula:str):
+        return self.update(
+            "UPDATE users SET status='{0}' WHERE cedula='{1}'".format('inactivo',cedula)
+        )
 
 
     def getUsuario(self,email):
