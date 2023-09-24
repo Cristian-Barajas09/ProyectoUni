@@ -27,11 +27,11 @@ class FormController(BaseController):
             data = self.sql.getUsuario(email=user)
             print(data)
             if data:
-                savedPassword = data[0]["password"]
+                savedPassword = data["password"]
                 result = self.match(password, savedPassword)
                 if result:
                     messagebox.showinfo(
-                        "bienvenido", f"bienvenido {data[0]['email']}",
+                        "bienvenido", f"bienvenido {data['email']}",
                     )
                     return True
                 else:
@@ -62,7 +62,8 @@ class FormController(BaseController):
             kwargs["cedula"] == "" or
             kwargs["sexo"] == ""
         ):
-            return messagebox.showerror("faltan campos", "por favor rellene todos los campos")
+            messagebox.showerror("faltan campos", "por favor rellene todos los campos")
+            return False
         else:
             fecha = datetime.now()
             f_nacimiento:str = str(kwargs["f_nacimiento"])
@@ -94,7 +95,7 @@ class FormController(BaseController):
                 cedula=cedula,edad=edad,sexo=sexo
             )
 
-            result = self.sql.registrarUsuario(
+            result: str | int = self.sql.registrarUsuario(
                 newUsuario
             )
             return result

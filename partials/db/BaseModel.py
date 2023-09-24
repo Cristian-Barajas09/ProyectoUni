@@ -43,7 +43,7 @@ class BaseModel :
 
 
 
-    def insert(self,query:str):
+    def insert(self,query:str) -> str | int:
         con,cur = self.connect()
         try:
 
