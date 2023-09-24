@@ -5,6 +5,7 @@ from babel.numbers import *
 from datetime import date
 from tkinter import messagebox,dialog
 from tkinter.filedialog import askdirectory
+from util.helpers import read_env_value
 
 
 class App(BaseView):
@@ -16,6 +17,7 @@ class App(BaseView):
         self.main()
 
         self.resizable(0,0)
+        self.config()
 
         self.window.mainloop()
 
@@ -903,8 +905,7 @@ class App(BaseView):
         'dir_cer_re':dir_cer_re,
         }
 
-        print(datos)
-
+     
         self._controller.registerChild(**datos)
 
 
@@ -913,7 +914,7 @@ class App(BaseView):
 
 
     def controlPersonas(self):
-        frame_search = self.tk.Frame(self.frame1,bg="#000")
+        frame_search = self.tk.Frame(self.frame1,bg="#222")
         frame_search.place(relx=0, rely=0, relwidth=1, relheight=0.3)
 
 
@@ -925,22 +926,26 @@ class App(BaseView):
         self.notebook_person.add(self.frame_users,text="profesores")
         self.notebook_person.add(self.frame_representantes,text="representantes")
         self.notebook_person.bind("<<NotebookTabChanged>>",lambda evt: self.cambiar_parametro_de_busqueda(self.notebook_person ,evt))
-        self.search = self.ttk.Entry(frame_search, justify="right",validate="key",validatecommand=(self.frame1.register(self.validate_entry_text), "%S"))
-        self.search.place(relx=0.34, rely=0.2, width=220, height=25)
+        
+        # search 
+        self.search = self.tk.Entry(frame_search, validate="key",validatecommand=(self.frame1.register(self.validate_entry_text), "%S"),bg="#fff")
+        self.tk.Frame(frame_search,bg="#38B1EE").place(relx=0.24, rely=0.35, width=220, height=2)
+
+        self.search.place(relx=0.24, rely=0.2, width=220, height=25)
         self.search.bind("<FocusOut>", self.validate_search)
 
 
         self.select = self.ttk.Combobox(frame_search, values=(
             "nombres", "apellidos", "cedula"), state="readonly")
         self.select.current(0)
-        self.select.place(relx=0.34, rely=0.21, width=70,)
+        self.select.place(relx=0.557, rely=0.2, width=70,height=25)
 
         self.select.bind("<<ComboboxSelected>>",lambda event: self.validate_param(self.select.get()))
 
         btn_search = self.tk.Button(frame_search,bg="#041d9b",border=0,fg="#fff", text="Buscar", command=lambda: self.buscar(
-            self.search, self.select))
-        btn_search.place(relx=0.46, rely=0.6, width=60, height=35)
-
+            self.search, self.select),cursor="hand2")
+        btn_search.place(relx=0.66, rely=0.2, width=70, height=25)
+        #search
 
         self.table_estudiantes()
         self.table_users()
@@ -978,7 +983,8 @@ class App(BaseView):
     def table_estudiantes(self):
 
         columns = ("nombres","apellidos","cedula")
-        self.tree = self.ttk.Treeview(self.frame_estudiantes,columns=columns,show="headings")
+        self.tree = self.ttk.Treeview(self.frame_estudiantes,columns=columns,show="headings",)
+
 
         self.tree.heading("nombres",text="nombres")
         self.tree.heading("apellidos",text="apellidos")
@@ -1033,10 +1039,9 @@ class App(BaseView):
         carga.pack()
         carga.start(30)
 
-        print(self.__table_name)
 
         result = self._controller.search(search.get(), param.get(),self.__table_name)
-        print(result)
+
         if result == ():
             self.carga.destroy()
             messagebox.showerror("hubo un problema",f"no hay nadie con ese {param.get()}")
@@ -1052,7 +1057,7 @@ class App(BaseView):
 
 
     def get_users(self):
-        print(self._controller.getUsers())
+ 
         return self._controller.getUsers()
 
 
@@ -1069,7 +1074,7 @@ class App(BaseView):
             values = item['values']
         result = self._controller.obtenerEstudiante(values[2])
 
-        self.person = self.tk.Toplevel()
+        self.person = self.Toplevel()
         self.person.wm_title(f"usuario: {result['nombres']}")
 
 
@@ -1084,12 +1089,12 @@ class App(BaseView):
             values = item['values']
 
         result = self._controller.obtenerRepresentante(values[2])
-        print(result)
-        self.person = self.tk.Toplevel()
-        self.person.wm_title(f"usuario: {result['nombres']}")
+
+        self.person2 = self.Toplevel()
+        self.person2.wm_title(f"usuario: {result['nombres']}")
 
 
-        btnDelete = self.tk.Button(self.person,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
+        btnDelete = self.tk.Button(self.person2,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
         btnDelete.pack()
 
     def item_selected_usuarios(self,event):
@@ -1100,11 +1105,11 @@ class App(BaseView):
 
         result = self._controller.obtenerUsuario(values[2])
 
-        self.person = self.tk.Toplevel()
-        self.person.wm_title(f"usuario: {result['nombres']}")
+        self.person3 = self.Toplevel()
+        self.person3.wm_title(f"usuario: {result['nombres']}")
 
 
-        btnDelete = self.tk.Button(self.person,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
+        btnDelete = self.tk.Button(self.person3,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
         btnDelete.pack()
 
     def deleteEstudiante(self,cedula):
@@ -1119,7 +1124,7 @@ class App(BaseView):
 
     def deleteRepresentante(self,cedula):
         result = self._controller.eliminarRepresentante(cedula)
-        print(result,cedula)
+
         if not(isinstance(result,int)):
             return messagebox.showerror("No se pudo eliminar el usuario")
 
@@ -1156,7 +1161,7 @@ class App(BaseView):
 
 
     def validate_param(self,param):
-        print(param)
+        
         if param == "cedula":
             self.search.delete(0,'end')
             self.search["validatecommand"] = (self.frame1.register(self.validate_entry_number), "%S")
@@ -1166,7 +1171,10 @@ class App(BaseView):
 
 
     def generarPlanilla(self):
-        ruta = askdirectory()
+
+        env = read_env_value("RUTA_REPORTE")
+
+        ruta = askdirectory(initialdir=env)
         result = self._controller.generarPlanilla(ruta)
 
         if result:

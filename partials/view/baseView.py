@@ -37,6 +37,12 @@ class BaseView:
 
         self._controller = controller()
 
+
+    def config(self):
+        self.window.configure(
+            background="#222",
+        )
+
     def resizable(self,width:int,height:int):
         """nos dice si debemos bloquear la ventana
             args:
@@ -69,3 +75,6 @@ class BaseView:
 
     def image(self,path:str,size:tuple):
         return PhotoImage(file=path,size=size)
+
+    def Toplevel(self):
+        return self.tk.Toplevel(self.window,bg="#222")

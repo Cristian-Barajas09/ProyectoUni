@@ -1,5 +1,6 @@
 import bcrypt
-
+from .rutas import dir
+import dotenv
 def encryptPassword(password:str):
     """
         nos permite encriptar cosas no solo claves
@@ -20,3 +21,24 @@ def matchPassword(password,savedPassword):
         return  bcrypt.checkpw(bytes(password,"utf-8"),savedPassword)
     except ValueError:
         return False
+
+def generate_env_value(key,value):
+        file = open(f"{dir}/.env",'r').readlines()
+        print(file)
+        print(f"{key} = {value}" in file)
+        if f"{key} = {value}" in file:
+            print(key)
+            result = file.index(key)
+            file[result] = value
+            out = open(f"{dir}/.env",'w')
+            out.writelines(file)
+
+            out.close()
+        else :
+            with open(f"{dir}/.env",'a+') as file:
+                file.write(f"\n{key} = {value}\n")
+
+def read_env_value(key):
+    env = dotenv.dotenv_values()
+
+    return env.get(key)

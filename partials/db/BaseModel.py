@@ -2,7 +2,7 @@ import os
 import subprocess
 import pymysql.cursors
 from pymysql.err import OperationalError,Error
-from ..utils.keys import keys_db
+from partials.utils.keys import keys_db
 from tkinter import messagebox
 import pymysql.cursors
 

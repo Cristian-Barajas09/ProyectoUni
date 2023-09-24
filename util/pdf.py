@@ -2,7 +2,8 @@ from jinja2 import Environment,FileSystemLoader
 from .rutas import dir
 import os
 from datetime import date
-from shutil import copyfile
+import shutil
+from .helpers import generate_env_value
 planilla = {
         'anno_cursar':2,
         'nombre':"cristian",
@@ -133,7 +134,7 @@ def generate_planilla(**kwargs):
 
 
 def generate_report(usuarios,ruta):
-    try:
+    # try:
         template = env.get_template("Plantilla impresión Proyecto 2/index.html")
 
         html = template.render({'users':usuarios})
@@ -145,22 +146,26 @@ def generate_report(usuarios,ruta):
         logo = os.path.join(dir_template,"Plantilla impresión Proyecto 2","imagenes","logozona.png")
         fondo = os.path.join(dir_template,"Plantilla impresión Proyecto 2","imagenes","fondoniños2.jpg")
 
+
         os.mkdir(carpeta)
         os.mkdir(carpeta_imagenes)
 
         archivo_1 = os.path.join(carpeta_imagenes,"logozona.png")
         archivo_2 = os.path.join(carpeta_imagenes,"fondoniños2.jpg")
 
-        copyfile(logo,archivo_1)
-        copyfile(fondo,archivo_2)
+        shutil.copyfile(logo,archivo_1)
+        shutil.copyfile(fondo,archivo_2)
+
+        generate_env_value("RUTA_REPORTE",ruta)
+
         ruta = os.path.join(carpeta,f"reporte{date.today()}.html")
         f = open(ruta,'w',encoding="utf-8")
         f.write(html)
         f.close()
 
-        return True
-    except:
-        return False
+    #     return True
+    # except:
+    #     return False
 
     
 
