@@ -329,7 +329,6 @@ class  Controller(BaseController):
 
         if table == 'users':
             query = 'SELECT nombres,apellidos,{cedula} FROM {table} WHERE {param} LIKE "{search}%" AND status = "activo"'.format(cedula='cedula',table=table,param=param,search=search)
-
         elif table == 'estudiantes':
             query = 'SELECT nombres,apellidos,{cedula} FROM {table} WHERE {param} LIKE "{search}%" AND status = "activo"'.format(cedula='cedula_escolar as cedula',table=table,param=param,search=search)
         elif table == "representantes":
@@ -362,15 +361,31 @@ class  Controller(BaseController):
         result = self.representante.eliminar_representante(cedula)
         return result
 
-
-
     def eliminarEstudiante(self,cedula):
         result = self.sql.eliminar(cedula)
         return result
 
-
-
-
     def eliminarUsuario(self,cedula):
         result = self.users.eliminar_usuario(cedula)
         return result
+
+    def modificarRepresentante(self,cedula):
+        result = self.representantes.modificar_representante(cedula)
+        return result
+
+    def modificarEstudiante(self,anno,nombres,apellidos,cedula_escolar,fecha_nacimiento,edad,edad_meses,sexo,lugar_de_nacimiento,entidad_federal,nacionalidad,turno,seccion,grupo,instituto_procedencia,parto,proceso_nacimiento,enfermedades,vacunas,mano_que_usa,peso,altura,talla,pantalon,talla_zapatos_estudiante,familiar,empezo_hab,quien_duer,hermanos,gra_her,hab_correc,canta,baila,historias,si_dep,cual_dep,juega_con,juegos_casa):
+
+        estudiante = Estudiante(
+            anno=anno,nombres=nombres,apellidos=apellidos,cedula_escolar=cedula_escolar,
+            fecha_nacimiento=fecha_nacimiento,edad=edad,edad_meses=edad_meses,sexo=sexo,
+            lugar_de_nacimiento=lugar_de_nacimiento,entidad_federal=entidad_federal,nacionalidad=nacionalidad,
+            turno=turno,seccion=seccion,grupo=grupo,instituto_procedencia=instituto_procedencia,
+            parto=parto,proceso_nacimiento=proceso_nacimiento,enfermedades=enfermedades,vacunas=vacunas,
+            mano_que_usa=mano_que_usa,peso=peso,altura=altura,
+            talla=talla,pantalon=pantalon,
+            talla_zapatos_estudiante=talla_zapatos_estudiante,familiar=familiar,empezo_hab=empezo_hab,
+            quien_duer=quien_duer,hermanos=hermanos,gra_her=gra_her,hab_correc=hab_correc,
+            canta=canta,baila=baila,historias=historias,si_dep=si_dep,
+            cual_dep=cual_dep,juega_con=juega_con,juegos_casa=juegos_casa
+        )
+        results = self.sql.actualizar(estudiante)
