@@ -12,7 +12,7 @@ try:
         "database": config["DATABASE"],
         "cursorclass": DictCursor
     }
-    
+
     if config.get('PASSWORD_DATABASE'):
         keys_db["password"] = config.get("PASSWORD_DATABASE")
 

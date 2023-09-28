@@ -6,7 +6,6 @@ class RepresentanteController(BaseController):
     def __init__(self):
         super().__init__(RepresentanteDao)
 
-
     def set_representante(self,**kwargs):
         nom_pa = kwargs['nom_pa']
         ape_pa = kwargs['ape_pa']
@@ -102,7 +101,19 @@ class RepresentanteController(BaseController):
     def eliminar_representante(self,cedula):
         return self.sql.eliminar(cedula)
 
-
-
     def obtenerRepresentante(self,cedula):
         return self.sql.select(f"SELECT * FROM representantes WHERE CEDULA={cedula}",'one')
+
+    def actualizar_datos_padre(self,nom_pa,ape_pa,ced_pa,nac_pa,pro_pa,hab_pa,tel_pa,trabajo_pa,tel_pa_tra,vi_si,vi_no,nombre_ma,ape_ma,ced_ma):
+        papa = set_representante(
+            nom_pa,ape_pa,ced_pa,nac_pa,pro_pa,hab_pa,tel_pa,trabajo_pa,tel_pa_tra,vi_si,vi_no,nombre_ma,ape_ma,ced_ma
+        )
+    def actualizar_datos_mama(self,nac_ma,pro_ma,hab_ma,tel_hab_ma,tra_ma,tel_trab_m,vive_con_el_si,vive_con_el_no):
+        mama = set_representantes(
+            nac_ma,pro_ma,hab_ma,tel_hab_ma,tra_ma,tel_trab_m,vive_con_el_si,vive_con_el_no
+        )
+    
+    def actualizar_datos_representante(self,nombre_re,apellido_re,parentesco,cedula,telefono,direccion_casa,telefono_hab_re,direccion_trabajo,telefono_t_re,telefono_cer_re,dir_cer_re):
+        representante = set_representante(
+            nombre_re,apellido_re,parentesco,cedula,telefono,direccion_casa,telefono_hab_re,direccion_trabajo,telefono_t_re,telefono_cer_re,dir_cer_re
+        )
