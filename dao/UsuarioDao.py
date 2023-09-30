@@ -25,6 +25,8 @@ class UsuarioDao(BaseModel):
     def getUsuarios(self):
         return self.select(f"SELECT * FROM USERS WHERE status = 'activo'")
 
+
+    #proximamente
     def setSession(self,cedula):
         return self.insert(f"INSERT INTO sessions (user_ced,status) VALUES ('{cedula}',TRUE)")
 

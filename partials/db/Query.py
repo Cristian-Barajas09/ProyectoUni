@@ -1,7 +1,10 @@
 from typing import Any
 
-class Query:
+
+class Query :
     results:Any
     def __init__(self,results):
         self.results = results
+
+
 

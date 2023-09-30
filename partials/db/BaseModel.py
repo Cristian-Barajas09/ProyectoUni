@@ -36,7 +36,6 @@ class BaseModel :
             """
                 agarrar el error de conexion
             """
-            print(error)
             messagebox.showerror("error",error)
             exit()
 
