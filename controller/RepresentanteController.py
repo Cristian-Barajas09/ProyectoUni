@@ -6,7 +6,6 @@ class RepresentanteController(BaseController):
     def __init__(self):
         super().__init__(RepresentanteDao)
 
-
     def set_representante(self,**kwargs):
         nom_pa = kwargs['nom_pa']
         ape_pa = kwargs['ape_pa']
@@ -101,8 +100,6 @@ class RepresentanteController(BaseController):
 
     def eliminar_representante(self,cedula):
         return self.sql.eliminar(cedula)
-
-
 
     def obtenerRepresentante(self,cedula):
         return self.sql.select(f"SELECT * FROM representantes WHERE CEDULA={cedula}",'one')
