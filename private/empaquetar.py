@@ -22,7 +22,7 @@ class Installer():
             admin2 = lines.index("        Admin()\n")
             lines[index] = "DEBUG: bool = False\n"
             lines[admin] = "#from private.admin import Admin\n"
-            lines[admin2] = "#        Admin()\n"
+            lines[admin2] = "        #Admin()\n"
             out = open(self.main,'w')
             out.writelines(lines)
             out.close()

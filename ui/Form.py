@@ -160,24 +160,29 @@ class Form(BaseView):
         frame.place(x=50,y=80,width=600,height=300)
 
         labelName = self.tk.Label(frame,text="Nombres",font=get_font(11),bg="#222",fg="#fff").place(x=110,y=15,width=60)
-        inputName = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=50,y=45,width=200)
+        inputName = self.tk.Entry(frame,bg="#222",fg="#fff",border=0)
+        inputName.place(x=50,y=45,width=200)
         self.tk.Frame(frame,bg="#fff").place(x=50,y=64,width=200,height=2)
 
         labelLastName = self.tk.Label(frame,text="Apellidos",font=get_font(11),bg="#222",fg="#fff").place(x=420,y=15,width=60)
-        inputLastName = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=350,y=45,width=200)
+        inputLastName = self.tk.Entry(frame,bg="#222",fg="#fff",border=0)
+        inputLastName.place(x=350,y=45,width=200)
         self.tk.Frame(frame,bg="#fff").place(x=350,y=64,width=200,height=2)
 
 
         labelEmail = self.tk.Label(frame,text="Correo",bg="#222",fg="#fff",font=get_font(11)).place(x=80,y=100,width=60)
-        inputEmail = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=40,y=125,width=140)
+        inputEmail = self.tk.Entry(frame,bg="#222",fg="#fff",border=0)
+        inputEmail.place(x=40,y=125,width=140)
         self.tk.Frame(frame,bg="#fff").place(x=40,y=140,width=140,height=2)
 
 
         labelDate = self.tk.Label(frame,text="Fecha de nacimiento",bg="#222",fg="#fff",font=get_font(11)).place(x=230,y=100,width=140)
-        inputDate = DateEntry(frame).place(x=250,y=125)
+        inputDate = DateEntry(frame)
+        inputDate.place(x=250,y=125)
 
         labelId = self.tk.Label(frame,text="Cedula",bg="#222",fg="#fff",font=get_font(11)).place(x=445,y=100,width=60)
-        inputId = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=440,y=125,width=80)
+        inputId = self.tk.Entry(frame,bg="#222",fg="#fff",border=0)
+        inputId.place(x=440,y=125,width=80)
         self.tk.Frame(frame,bg="#fff").place(x=420,y=140,width=120,height=2)
 
 
@@ -187,19 +192,26 @@ class Form(BaseView):
         inputGender.place(x=70,y=200,width=80)
 
         labelPassword = self.tk.Label(frame,text="Contraseña",bg="#222",fg="#fff",font=get_font(11)).place(x=220,y=170,width=80)
-        inputPassword = self.tk.Entry(frame,fg="#fff",border=0,bg="#222").place(x=205,y=190,width=120)
+        inputPassword = self.tk.Entry(frame,fg="#fff",border=0,bg="#222")
+        inputPassword.place(x=205,y=190,width=120)
         self.tk.Frame(frame,bg="#fff").place(x=205,y=210,width=120,height=2)
 
 
 
         labelConfirmPassword = self.tk.Label(frame,text="Confirmar Contraseña",bg="#222",fg="#fff",font=get_font(11)).place(x=380,y=170,width=160)
-        inputConfirmPassword = self.tk.Entry(frame,bg="#222",fg="#fff",border=0).place(x=390,y=190,width=140)
+        inputConfirmPassword = self.tk.Entry(frame,bg="#222",fg="#fff",border=0)
+        inputConfirmPassword.place(x=390,y=190,width=140)
         self.tk.Frame(frame,bg="#fff").place(x=390,y=210,width=140,height=2)
 
-        # btnSignup = self.tk.Button(frame)
-        # btnSignup.pack()
+        btnSignup = self.tk.Button(self.window,
+                                   text="registrarse",
+                                   command=lambda : self.registrarUsuario(
+                                       inputName,inputLastName,inputEmail,inputDate,inputId,inputGender,inputPassword,
+                                       inputConfirmPassword
+                                   ))
+        btnSignup.place(x=0,y=0)
 
-        btnSignin = self.tk.Button(self.window,text="Iniciar sesion",command=self.signin,background="#38B1EE",fg="#fff")
+        btnSignin = self.tk.Button(self.window,text="Iniciar sesion",command=self.signin,background="#38B1EE",fg="#fff",border=0)
         btnSignin.pack(side="bottom")
 
     def signin(self):
