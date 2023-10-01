@@ -102,3 +102,5 @@ inner join users on users.cedula = annos.id_profesor AND users.status='activo'""
 
     def obtenerEstudiante(self,cedula):
         return self.select(f"select * from estudiantes where cedula_escolar={cedula}",'one')
+
+# solo porque no me deja subir unos cambios

@@ -389,3 +389,5 @@ class  Controller(BaseController):
             cual_dep=cual_dep,juega_con=juega_con,juegos_casa=juegos_casa
         )
         results = self.sql.actualizar(estudiante)
+
+# solo porque no me deja subir unos cambios
