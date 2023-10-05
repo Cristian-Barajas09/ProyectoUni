@@ -5,8 +5,15 @@ from dao.EstudianteDao import EstudianteDao
 from typing import Any
 from util.pdf import generate_planilla,generate_report
 from models.Estudiante.Estudiante import Estudiante
+from models.Estudiante.ExtraEstudiante import ExtraEstudiante
+from models.extra.models import Mano
+
+from pydantic import ValidationError
+
+
 from .RepresentanteController import RepresentanteController
 from .UsuarioController import UsuarioController
+
 
 class  Controller(BaseController):
     def __init__(self):
@@ -21,8 +28,9 @@ class  Controller(BaseController):
     """
 
 
-    def registerChild(self,**kwargs:dict[str,Any]):
 
+    def registerChild(self,**kwargs):
+        print(kwargs)
         estudiante:Estudiante
 
         anno_cursar = kwargs["anno_cursar"]
@@ -41,12 +49,13 @@ class  Controller(BaseController):
         mannana =kwargs['man']
         tarde = kwargs['tar']
         seccion = kwargs['secc']
-        grupo_A =  'A' if not(kwargs['A'])  else ''
-        grupo_B = 'B' if not(kwargs['B'])  else ''
-        grupo_C  ='C' if not(kwargs['C']) else ''
+        grupo_A = kwargs['A']
+        grupo_B = kwargs['B']
+        grupo_C  =kwargs['C']
         instituto_de_procedencia = kwargs['instituto_pro']
         estudio_en_el_hogar = kwargs['del_hogar']
         # cuanto hijos tuvo
+
         sencillo = kwargs['senci']
         gemelos =kwargs['gem']
         gemelo_1 =kwargs['g_1']
@@ -55,10 +64,13 @@ class  Controller(BaseController):
         trillisos_1 =kwargs['t_1']
         trillisos_2 =kwargs['t_2']
         trillisos_3 =kwargs['t_3']
+
+        # proceso de nacimiento
         normal =kwargs['nor']
         cesesarea =kwargs['ces']
         forceps = kwargs['forcep']
         a_termino = kwargs['term']
+
         #enfermedades
         sarampion = kwargs['saram']
         rubeola = kwargs['ru']
@@ -105,208 +117,196 @@ class  Controller(BaseController):
         cual_deporte = kwargs['cual_dep']
         juega_con = kwargs['juega_con']
         que_juegos_realiza_en_casa = kwargs['juegos_casa']
+        emp_camin = kwargs['emp_camin']
 
         fecha_nacimiento = date(fecha_nacimiento_anos,fecha_nacimiento_mes,fecha_nacimiento_dia)
-        turno:str
-        grupo:str
+
+        turno = mannana if mannana else tarde
+
+        print("grupos",grupo_A,grupo_B,grupo_C)
+
+        grupo = grupo_A
+
+
+        if grupo_B:
+            grupo = grupo_B
+        elif grupo_C:
+            grupo = grupo_C
+
+        print("grupo",grupo)
 
         procedencia = instituto_de_procedencia if instituto_de_procedencia != "" else estudio_en_el_hogar
-        parto:str
-        proceso:str
-        enfermedades:str
-        vacunas:str
-        mano_que_usa:str
-        peso_estudiante:str
-        altura_estudiante:str
-        talla_camisa_estudiante:str
-        talla_pantalon_estudiante:str
-        talla_zapatos_estudiante:str
-        familiar:str
-        comenzo_hablar:str
-        duerme_con:str
-        hermanos:str
-        grados:str
-        h_c:str
-        cant:str
-        bai:str
-        contar_historias:str
-        act_deport:str
-        deport:str
-        jue_con:str
-        juegos_hogar:str
 
-        if tarde != '':
-            turno = tarde
-        else:
-            turno = mannana
+        parto = sencillo
 
-        if grupo_A != "":
-            grupo = "A"
-        elif grupo_B != "":
-            grupo = "B"
-        else:
-            grupo =  "C"
-
-        if sencillo != "":
-            parto = 1
-        elif gemelos != "":
+        if gemelos:
             parto = 2
-        elif trillisos != "":
+        elif trillisos:
             parto = 3
 
-        if normal != "":
-            proceso = "N"
-        elif cesesarea != "":
-            proceso = "C"
-        elif forceps != "":
-            proceso = "F"
-        elif a_termino != "":
-            proceso = "T"
+        print("proceso",normal,cesesarea,forceps,a_termino)
+        proceso = normal
+
+        if cesesarea:
+            proceso = cesesarea
+        elif forceps:
+            proceso = forceps
+        elif a_termino:
+            proceso = a_termino
+
+        print(proceso)
+
+        enfermedades = []
 
 
-        if sarampion != "":
-            enfermedades = "saram"
-        elif rubeola != "":
-            enfermedades = "ru"
-        elif lecechina != "":
-            enfermedades = "lec"
-        elif tosferina != "":
-            enfermedades = "tosferina"
-        elif meningitis != "":
-            enfermedades = "me"
-        elif hepatitis != "":
-            enfermedades = "he"
-        elif parotiditis != "":
-            enfermedades = "pa"
+        if sarampion:
+            enfermedades.append(sarampion)
+        elif rubeola:
+            enfermedades.append(rubeola)
+        elif lecechina:
+            enfermedades.append(tosferina)
+        elif meningitis:
+            enfermedades.append(meningitis)
+        elif hepatitis:
+            enfermedades.append(hepatitis)
+        elif parotiditis:
+            enfermedades.append(parotiditis)
+        elif otras:
+            enfermedades.append(cuales)
+
+        vacunas = []
+
+        if BCG:
+            vacunas.append(BCG)
+        elif antitetanica:
+            vacunas.append(antitetanica)
+        elif vacuna_rubeola:
+            vacunas.append(vacuna_rubeola)
+        elif triple:
+            vacunas.append(triple)
+        elif fibre_amarilla:
+            vacunas.append(fibre_amarilla)
+        elif polio:
+            vacunas.append(polio)
+
+        print("manos",derecha,izquierda,Ambas)
+        mano_que_usa = Mano.DERECHA.value
+
+        if izquierda == "izquierda":
+            mano_que_usa = Mano.IZQUIERDA.value
+        elif Ambas == "ambas":
+            mano_que_usa = Mano.AMBAS.value
+
+        print("mano",mano_que_usa)
+
+        familiar = vive_con_padre
+
+        if vive_con_madre:
+            familiar = vive_con_madre
+        elif vive_con_abuelos:
+            familiar = vive_con_abuelos
+        elif vive_con_otro_fami:
+            familiar = vive_con_otro_fami
+
+        hermanos = True
+        grados = grado_del_hermano
+
+        if hermanos == 'False':
+            hermanos = False
+            grados = None
+
+        act_deport = False
+        deport = None
+
+        if practica_algun_deporte:
+            act_deport = True
+            deport = cual_deporte
+
+        if sexo == "Masculino":
+            sexo = "M"
         else:
-            enfermedades = kwargs["otras"]
+            sexo = "F"
 
-        if BCG != "":
-            vacunas = "BCG"
-        elif antitetanica != "":
-            vacunas = "anti"
-        elif vacuna_rubeola != "":
-            vacunas = "rube"
-        elif triple != "":
-            vacunas = "tripe"
-        elif fibre_amarilla != "":
-            vacunas = "f-a"
-        elif polio != "":
-            vacunas = "pol"
+        if habla_correctamente == "si":
+            habla_correctamente = True
         else:
-            vacunas = "otras_2"
+            habla_correctamente = False
 
 
-        if derecha != "":
-            mano_que_usa = "der"
-        elif izquierda != "":
-            mano_que_usa = "izq"
-        else:
-            mano_que_usa = "amb"
-
-        if peso != "":
-            peso_estudiante = "peso"
-
-        if altura != "":
-            altura_estudiante = "altura"
-
-        if talla_camisa != "":
-            talla_camisa_estudiante = "talla"
-
-        if pantalon != "":
-            talla_pantalon_estudiante = "pantalon"
-
-        if zapatos != "":
-            talla_zapatos_estudiante = zapatos
-
-        if vive_con_padre != "":
-            familiar = "padre"
-        elif vive_con_madre != "":
-            familiar = "madre"
-        elif vive_con_abuelos != "":
-            familiar = "abuelos"
-        else:
-            familiar = "otro_fami"
-
-        if empezo_hablar != "":
-            comenzo_hablar = "empezo_hab"
-            
-        if con_quien_duerme != "":
-            duerme_con = "quien_duer"
-        
-        if tiene_hermanos_estudiando != "":
-            hermanos = "si_her"
-        else:
-            hermanos = "no_her"
-        if tiene_hermanos_estudiando:
-            if grado_del_hermano != "":
-                grados = grado_del_hermano
-            else:
-                grados = False
-
-        if habla_correctamente != "":
-            h_c = "hab_correc"
-            
-        if canta != "":
-            cant = canta
-        
-        if baila != "":
-            bai = "baila"
-        
-        if cuenta_historias != "":
-            contar_historias = "historias"
-        
-        if practica_algun_deporte != "":
-            act_deport = "si_dep"
-        
-        if cual_deporte != "":
-            deport = "cual_dep"
-        
-        if juega_con != "":
-            jue_con = "juega_con"
-            
-        if que_juegos_realiza_en_casa != "":
-            juegos_hogar = "juegos_casa"
-
-        estudiante = Estudiante(
-            anno=anno_cursar,nombres=nombre,apellidos=apellido,cedula_escolar=cededula_escolar,
-            fecha_nacimiento=fecha_nacimiento,edad=edad_annos,edad_meses=edad_meses,sexo=sexo,
-            lugar_de_nacimiento=lugar_nacimiento,entidad_federal=entidad_fedederal,nacionalidad=nacionalidad,
-            turno=turno,seccion=seccion,grupo=grupo,instituto_procedencia=procedencia,
-            parto=parto,proceso_nacimiento=proceso,enfermedades=enfermedades,vacunas=vacunas,
-            mano_que_usa=mano_que_usa,peso=peso_estudiante,altura=altura_estudiante,
-            talla=talla_camisa_estudiante,pantalon=talla_pantalon_estudiante,
-            talla_zapatos_estudiante=talla_zapatos_estudiante,familiar=familiar,empezo_hab=comenzo_hablar,
-            quien_duer=duerme_con,hermanos=hermanos,gra_her=grados,hab_correc=h_c,
-            canta=cant,baila=bai,historias=contar_historias,si_dep=act_deport,
-            cual_dep=deport,juega_con=jue_con,juegos_casa=juegos_hogar
+        extra = ExtraEstudiante(
+            vacunas=vacunas,
+            enfermedades=enfermedades,
+            gustos=[canta,baila,cuenta_historias],
+            juegos=[juega_con,que_juegos_realiza_en_casa],
+            actividades=[deport],
+            alergias=[otras_2]
         )
+        print(turno)
+        print(grupo)
 
-        self.representante.set_representante(**kwargs)
+        print(nacionalidad)
+
+        try:
+            estudiante = Estudiante(
+                anno=anno_cursar,nombres=nombre,apellidos=apellido,cedula_escolar=cededula_escolar,
+                fecha_nacimiento=fecha_nacimiento,edad=edad_annos,edad_meses=edad_meses,sexo=sexo,
+                lugar_de_nacimiento=lugar_nacimiento,entidad_federal=entidad_fedederal,nacionalidad=nacionalidad,
+                turno=turno,seccion=seccion,grupo=grupo,instituto_procedencia=procedencia,
+                parto=parto,proceso_nacimiento=proceso,
+                mano=mano_que_usa,peso=peso,estatura=altura,
+                talla_camisa=talla_camisa,talla_pantalon=pantalon,
+                talla_zapatos=zapatos,con_quien_vive=familiar,a_que_edad_camino=emp_camin,a_que_edad_hablo=int(empezo_hablar),
+                duerme_con=con_quien_duerme,tiene_hermanos=hermanos,donde_estudian_hermanos=grados,
+                habla_bien=habla_correctamente,juega_con=juega_con,extra=extra
+            )
+        except ValidationError as e:
+            messagebox.showerror("Error",e)
+            return
+
+
 
         id = self.sql.guardar(estudiante)
+        self.representante.set_representante(**kwargs)
 
-        self.sql.guardarEnfermedades(id)
+        self.guardarEnfermedades(estudiante.cedula_escolar,estudiante.extra.enfermedades)
 
-        self.sql.guardarGustos(id)
-        self.sql.guardarJuegos(id)
-        self.sql.guardarActividades(id)
-        self.sql.guardarVacunas(id)
-        self.sql.guardarAlergias(id)
-
-        
-
+        self.guardarGustos(estudiante.cedula_escolar,estudiante.extra.gustos)
+        self.guardarJuegos(estudiante.cedula_escolar,estudiante.extra.juegos)
+        self.guardarActividades(estudiante.cedula_escolar,estudiante.extra.actividades)
+        self.guardarVacunas(estudiante.cedula_escolar,estudiante.extra.vacunas)
+        self.guardarAlergias(estudiante.cedula_escolar,estudiante.extra.alergias)
 
         self.set_planilla(**kwargs)
 
-
-
-
+        return messagebox.showinfo("Exito","Estudiante registrado con exito")
 
     def set_planilla(self,**kwargs):
+        generate_planilla(**kwargs)
 
+    def guardarActividades(self,cedula:int | str,actividades:list):
+        for actividad in actividades:
+            self.sql.guardarActividades(cedula=cedula,actividad=actividad)
 
-        generate_planilla(  **kwargs   )
+    def guardarVacunas(self,cedula:int | str,vacunas:list):
+        for vacuna in vacunas:
+            self.sql.guardarVacunas(cedula=cedula,vacuna=vacuna)
+
+    def guardarJuegos(self,cedula:int | str,juegos:list):
+        for juego in juegos:
+            self.sql.guardarJuegos(cedula=cedula,juegos=juego)
+
+    def guardarAlergias(self,cedula:int | str,alergias:list):
+        for alergia in alergias:
+            self.sql.guardarAlergias(cedula=cedula,alergia=alergia)
+
+    def guardarGustos(self,cedula:int | str,gustos:list):
+        for gusto in gustos:
+            self.sql.guardarGustos(cedula=cedula,gusto=gusto)
+
+    def guardarEnfermedades(self,cedula:int | str,enfermedades:list):
+        for enfermedad in enfermedades:
+            self.sql.guardarEnfermedades(cedula=cedula,enfermedad=enfermedad)
+
 
     def getEstudiantes(self):
 
@@ -370,7 +370,7 @@ class  Controller(BaseController):
         return result
 
     def modificarRepresentante(self,cedula):
-        result = self.representantes.modificar_representante(cedula)
+        result = self.representante.modificar_representante(cedula)
         return result
 
     def modificarEstudiante(self,anno,nombres,apellidos,cedula_escolar,fecha_nacimiento,edad,edad_meses,sexo,lugar_de_nacimiento,entidad_federal,nacionalidad,turno,seccion,grupo,instituto_procedencia,parto,proceso_nacimiento,enfermedades,vacunas,mano_que_usa,peso,altura,talla,pantalon,talla_zapatos_estudiante,familiar,empezo_hab,quien_duer,hermanos,gra_her,hab_correc,canta,baila,historias,si_dep,cual_dep,juega_con,juegos_casa):
@@ -388,4 +388,5 @@ class  Controller(BaseController):
             canta=canta,baila=baila,historias=historias,si_dep=si_dep,
             cual_dep=cual_dep,juega_con=juega_con,juegos_casa=juegos_casa
         )
-        results = self.sql.actualizar(estudiante)
+
+        return self.sql.actualizar(estudiante)

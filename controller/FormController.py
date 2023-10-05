@@ -1,8 +1,11 @@
 from partials.controller.BaseController import BaseController
-from datetime import datetime
+from datetime import date
 from tkinter import messagebox
 from dao.UsuarioDao import UsuarioDao
 from models.Usuario.Usuario import Usuario
+from models.extra.models import Sexo
+from models.extra.niveles import Rol
+
 
 class FormController(BaseController):
 
@@ -65,7 +68,7 @@ class FormController(BaseController):
             messagebox.showerror("faltan campos", "por favor rellene todos los campos")
             return False
         else:
-            fecha = datetime.now()
+            fecha = date.today()
             f_nacimiento:str = str(kwargs["f_nacimiento"])
             sep:str = f_nacimiento.split("-")
             year_nac = int(sep[0])
@@ -77,7 +80,12 @@ class FormController(BaseController):
             cedula = kwargs["cedula"]
             sexo = kwargs["sexo"]
             clave = kwargs["clave"]
+            telefono = kwargs["telefono"]
 
+            if sexo == 'Masculino':
+                sexo = Sexo.MASCULINO.value
+            elif sexo == 'Femenino':
+                sexo = Sexo.FEMENINO.value
 
 
 
@@ -91,11 +99,13 @@ class FormController(BaseController):
 
             newUsuario = Usuario(
                 nombres=nombres,apellidos=apellidos,
-                password=newPassword,correo=correo,fecha_nacimiento=fecha,
-                cedula=cedula,edad=edad,sexo=sexo
+                password=newPassword,email=correo,fecha_nacimiento=fecha,
+                cedula=cedula,edad=edad,sexo=sexo,rol=Rol.PROFESOR.value,
+                n_telefono=telefono
             )
 
             result: str | int = self.sql.registrarUsuario(
                 newUsuario
             )
+
             return result

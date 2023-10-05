@@ -10,7 +10,7 @@ class EstudianteDao(BaseModel):
     def guardar(self,estudiante:Estudiante):
 
 
-        return self.insert(f"INSERT INTO estudiantes (nombres,apellidos,fecha_nacimiento,edad,sexo,lugar_nacimiento,entidad_federal,nacionalidad,cedula_escolar,turno, instituto_procedencia,parto,proceso_nacimiento,mano_dominante,peso,talla,talla_comisa,talla_pantalon,zapatos,con_quien_vive,cuando_hablo,cuando_camino,duerme_con,tiene_hermanos,donde_estudian_hermanos,habla_correctamente,con_quien_juega,id_anno,status) VALUES ('{estudiante.nombres}','{estudiante.apellidos}','{estudiante.fecha_nacimiento}',{estudiante.edad},'{estudiante.sexo.value}','{estudiante.lugar_de_nacimiento}','{estudiante.entidad_federal}','{estudiante.nacionalidad}','{estudiante.cedula_escolar}','{estudiante.turno.value}','{estudiante.instituto_procedencia}','{estudiante.parto.value}','{estudiante.proceso_nacimiento.value}','{estudiante.mano.value}',{estudiante.peso},{estudiante.estatura},'{estudiante.talla_camisa}','{estudiante.talla_pantalon}','{estudiante.talla_zapatos}','{estudiante.con_quien_vive}',{estudiante.a_que_edad_hablo},{estudiante.a_que_edad_camino},'{estudiante.duerme_con}',{estudiante.tiene_hermanos},'{estudiante.donde_estudian_hermanos}',{estudiante.habla_bien},'{estudiante.juega_con}',{estudiante.anno},'activo')")
+        return self.insert(f"INSERT INTO estudiantes (nombres,apellidos,fecha_nacimiento,edad,sexo,lugar_nacimiento,entidad_federal,nacionalidad,cedula_escolar,turno, instituto_procedencia,parto,proceso_nacimiento,mano_dominante,peso,talla,talla_comisa,talla_pantalon,zapatos,con_quien_vive,cuando_hablo,cuando_camino,duerme_con,tiene_hermanos,donde_estudian_hermanos,habla_correctamente,con_quien_juega,seccion,status) VALUES ('{estudiante.nombres}','{estudiante.apellidos}','{estudiante.fecha_nacimiento}',{estudiante.edad},'{estudiante.sexo.value}','{estudiante.lugar_de_nacimiento}','{estudiante.entidad_federal}','{estudiante.nacionalidad}','{estudiante.cedula_escolar}','{estudiante.turno.value}','{estudiante.instituto_procedencia}','{estudiante.parto.value}','{estudiante.proceso_nacimiento.value}','{estudiante.mano.value}',{estudiante.peso},{estudiante.estatura},'{estudiante.talla_camisa}','{estudiante.talla_pantalon}','{estudiante.talla_zapatos}','{estudiante.con_quien_vive}',{estudiante.a_que_edad_hablo},{estudiante.a_que_edad_camino},'{estudiante.duerme_con}',{estudiante.tiene_hermanos},'{estudiante.donde_estudian_hermanos}',{estudiante.habla_bien},'{estudiante.juega_con}','{estudiante.seccion}','activo')")
 
 
 
@@ -97,7 +97,7 @@ class EstudianteDao(BaseModel):
 
     def generateReport(self):
         return self.select("""select estudiantes.nombres,estudiantes.apellidos,estudiantes.cedula_escolar,annos.anno as grupo,annos.seccion,users.nombres as docente from estudiantes
-inner join annos on annos.anno = estudiantes.id_anno AND estudiantes.status ='activo'
+inner join annos on annos.seccion = estudiantes.seccion AND estudiantes.status ='activo'
 inner join users on users.cedula = annos.id_profesor AND users.status='activo'""")
 
     def obtenerEstudiante(self,cedula):

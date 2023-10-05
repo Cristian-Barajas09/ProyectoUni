@@ -126,8 +126,8 @@ env = Environment(loader=FileSystemLoader("templates",encoding="utf-8"),comment_
 def generate_planilla(**kwargs):
     template = env.get_template("template.html")
     html = template.render(kwargs)
-    nombre = kwargs["nombre"]
-    ruta = os.path.join(public,f"{nombre}.html")
+    cedula = kwargs["cedula"]
+    ruta = os.path.join(public,f"{cedula}.html")
     f = open(ruta,'w',encoding="utf-8")
     f.write(html)
     f.close()

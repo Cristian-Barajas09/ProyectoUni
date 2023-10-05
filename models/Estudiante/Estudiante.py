@@ -15,7 +15,7 @@ class Estudiante(BaseModel):
     entidad_federal:str
     nacionalidad:str
     turno:Turno
-    seccion:Seccion
+    seccion:str
     grupo:Grupo
     instituto_procedencia:str
     parto: Parto

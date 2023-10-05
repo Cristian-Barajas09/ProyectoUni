@@ -24,9 +24,9 @@ class RepresentanteController(BaseController):
         nac_ma = kwargs['nac_ma']
         pro_ma = kwargs['pro_ma']
         hab_ma = kwargs['hab_ma']
-        tel_hab_ma = kwargs['tel_ma']
+        tel_hab_ma = kwargs['tel_hab_ma']
         tra_ma = kwargs['tra_ma']
-        tel_trab_m = kwargs['tel_ma_trab']
+        tel_trab_m = kwargs['tel_trab_ma']
         vive_con_el_si = kwargs['vive_con_el_si']
         vive_con_el_no = kwargs['vive_con_el_no']
         nombre_re = kwargs['nombre_re']
@@ -41,7 +41,12 @@ class RepresentanteController(BaseController):
         telefono_cer_re = kwargs['telefono_cer_re']
         dir_cer_re = kwargs['dir_cer_re']
         if nom_pa != '':
-            padre = Representante(
+            if vi_si == 'si':
+                vi_si = True
+            elif vi_no == 'no':
+                vi_no = True
+
+            padre = Representante (
                 nombres=nom_pa,
                 apellidos=ape_pa,
                 cedula=ced_pa,
@@ -53,13 +58,18 @@ class RepresentanteController(BaseController):
                 vive_con_el= vi_si if vi_si else vi_no
             )
 
-            self.sql.set_representantes(representante=padre)
+            self.sql.guardar(representante=padre)
             for k,v in padre.direcciones.items():
                 self.sql.guardarDireccion(cedula=padre.cedula,direccion=v,de=k)
 
             for k,v in padre.telefonos.items():
                 self.sql.guardarTelefono(cedula=padre.cedula,telefono=v)
-        elif nombre_ma != '':
+        if nombre_ma != '':
+            if vive_con_el_si == 'si':
+                vive_con_el_si = True
+            elif vive_con_el_no == 'no':
+                vive_con_el_no = True
+
             madre = Representante(
                 nombres=nombre_ma,
                 apellidos=ape_ma,
@@ -72,13 +82,13 @@ class RepresentanteController(BaseController):
                 vive_con_el= vive_con_el_si if vive_con_el_si else vive_con_el_no
             )
 
-            self.sql.set_representantes(representante=madre)
+            self.sql.guardar(representante=madre)
             for k,v in madre.direcciones.items():
                 self.sql.guardarDireccion(cedula=madre.cedula,direccion=v,de=k)
 
             for k,v in madre.telefonos.items():
                 self.sql.guardarTelefono(cedula=madre.cedula,telefono=v)
-        elif nombre_re != '':
+        if nombre_re != 'False':
             representante = Representante(
                 nombres=nombre_re,
                 apellidos=apellido_re,
@@ -87,7 +97,9 @@ class RepresentanteController(BaseController):
                 telefonos={'propio':telefono,'habitacion':telefono_hab_re,'trabajo':telefono_t_re,'familiar':telefono_cer_re}
             )
 
-            self.sql.set_representantes(representante=representante)
+            self.sql.guardar(representante=representante)
+
+
             for k,v in representante.direcciones.items():
                 self.sql.guardarDireccion(cedula=representante.cedula,direccion=v,de=k)
 

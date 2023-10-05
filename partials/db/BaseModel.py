@@ -52,7 +52,7 @@ class BaseModel :
             con.rollback()
             raise RuntimeError("no se pudo guardar el objeto")
         else:
-            return con.insert_id()
+            return cur.rowcount
         finally:
             con.close()
             cur.close()

@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS estudiantes (
     apellidos VARCHAR(100) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     edad TINYINT NOT NULL,
-    sexo SET('M','F') NOT NULL,lugar_nacimiento VARCHAR(50),
+    sexo SET('M','F') NOT NULL,
+    lugar_nacimiento VARCHAR(50),
     entidad_federal VARCHAR(50),
     nacionalidad VARCHAR(50),
     turno SET('M','T') NOT NULL,
@@ -142,7 +143,7 @@ CREATE TABLE direcciones(
 --11
 
 CREATE TABLE telefonos(
-    cedula VARCHAR(10) UNIQUE NOT NULL,
+    cedula VARCHAR(12) NOT NULL,
     n_telefono VARCHAR(12),
     CONSTRAINT fk_telefono FOREIGN KEY (cedula) REFERENCES representantes(cedula)
 );

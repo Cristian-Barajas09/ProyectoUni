@@ -126,7 +126,7 @@ class Form(BaseView):
             input.configure(show="*")
 
 
-    def registrarUsuario(self,nombres,apellidos,correo,f_nacimiento,cedula,sexo,clave,confirm):
+    def registrarUsuario(self,nombres,apellidos,correo,f_nacimiento,cedula,sexo,clave,confirm,telefono):
         dicc = {
             "nombres": nombres.get(),
             "apellidos": apellidos.get(),
@@ -135,7 +135,8 @@ class Form(BaseView):
             "cedula":cedula.get(),
             "sexo":sexo.get(),
             "clave":clave.get(),
-            "confirm":confirm.get()
+            "confirm":confirm.get(),
+            'telefono':telefono.get()
         }
         result = self._controller.registerData(**dicc)
 
@@ -186,6 +187,14 @@ class Form(BaseView):
         self.tk.Frame(frame,bg="#fff").place(x=420,y=140,width=120,height=2)
 
 
+        
+        labelPhone = self.tk.Label(frame,text="telefono",bg="#222",fg="#fff",font=get_font(11)).place(x=345,y=220,width=60)
+        inputPhone = self.tk.Entry(frame,bg="#222",fg="#fff",border=0)
+        inputPhone.place(x=340,y=245,width=80)
+        self.tk.Frame(frame,bg="#fff").place(x=320,y=260,width=120,height=2)
+
+
+
         labelGender = self.tk.Label(frame,text="Genero",bg="#222",fg="#fff",font=get_font(11)).place(x=70,y=170,width=60)
         inputGender = self.ttk.Combobox(frame,values=('Masculino','Femenino',"Pentasexual",".!."),state="readonly")
         inputGender.current(0)
@@ -201,18 +210,22 @@ class Form(BaseView):
         labelConfirmPassword = self.tk.Label(frame,text="Confirmar Contraseña",bg="#222",fg="#fff",font=get_font(11)).place(x=380,y=170,width=160)
         inputConfirmPassword = self.tk.Entry(frame,bg="#222",fg="#fff",border=0)
         inputConfirmPassword.place(x=390,y=190,width=140)
+
+        
+
         self.tk.Frame(frame,bg="#fff").place(x=390,y=210,width=140,height=2)
 
         btnSignup = self.tk.Button(self.window,
                                    text="registrarse",
                                    command=lambda : self.registrarUsuario(
                                        inputName,inputLastName,inputEmail,inputDate,inputId,inputGender,inputPassword,
-                                       inputConfirmPassword
+                                       inputConfirmPassword,inputPhone
                                    ))
-        btnSignup.place(x=0,y=0)
+        btnSignup.pack(side="bottom")
 
         btnSignin = self.tk.Button(self.window,text="Iniciar sesion",command=self.signin,background="#38B1EE",fg="#fff",border=0)
-        btnSignin.pack(side="bottom")
+        
+        btnSignin.place(x=0,y=0)
 
     def signin(self):
         self.window.destroy()

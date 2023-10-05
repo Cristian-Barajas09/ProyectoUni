@@ -45,5 +45,5 @@ class RepresentanteDao(BaseModel):
 
     def guardarTelefono(self,cedula:str | int,telefono:str):
         return self.insert(
-            f"INSERT INTO telefono (cedula,n_telefono) VALUES ('{cedula}','{telefono}')"
+            f"INSERT INTO telefonos (cedula,n_telefono) VALUES ('{cedula}','{telefono}')"
         )

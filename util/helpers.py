@@ -26,10 +26,10 @@ def generate_env_value(key,value):
         file = open(f"{dir}/.env",'r').readlines()
         print(file)
         print(f"{key} = {value}" in file)
-        if f"{key} = {value}" in file:
+        if f"{key} = {value}\n" in file:
             print(key)
-            result = file.index(key)
-            file[result] = value
+            result = file.index(f"{key} = {value}\n")
+            file[result] = f"{key} = {value}\n"
             out = open(f"{dir}/.env",'w')
             out.writelines(file)
 
