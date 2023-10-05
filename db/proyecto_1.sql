@@ -6,7 +6,6 @@ CREATE DATABASE IF NOT EXISTS proyecto;
 USE proyecto;
 
 DROP TABLE IF EXISTS users;
---1
 CREATE TABLE IF NOT EXISTS users(
     cedula VARCHAR(10) UNIQUE NOT NULL,
     nombres VARCHAR(50),
@@ -30,16 +29,13 @@ VALUES ('1','admin','admin','$2a$12$m6qhNLM2B/cjyjlqVuaUXOsZjiuwmLvZz/IJvhb/p6.J
 
 
 DROP TABLE IF EXISTS estudiantes;
---2
-
 CREATE TABLE IF NOT EXISTS estudiantes (
     cedula_escolar VARCHAR(12) UNIQUE,
     nombres VARCHAR(100) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     edad TINYINT NOT NULL,
-    sexo SET('M','F') NOT NULL,
-    lugar_nacimiento VARCHAR(50),
+    sexo SET('M','F') NOT NULL,lugar_nacimiento VARCHAR(50),
     entidad_federal VARCHAR(50),
     nacionalidad VARCHAR(50),
     turno SET('M','T') NOT NULL,
@@ -60,15 +56,15 @@ CREATE TABLE IF NOT EXISTS estudiantes (
     donde_estudian_hermanos VARCHAR(20),
     habla_correctamente BOOLEAN,
     con_quien_juega VARCHAR(20),
-    id_anno INT NOT NULL,
+    seccion VARCHAR(1) NOT NULL,
     PRIMARY KEY(cedula_escolar),
     status SET ('activo','inactivo') DEFAULT 'activo',
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_annos FOREIGN KEY (id_anno) REFERENCES annos(anno)
+    CONSTRAINT fk_seccion FOREIGN KEY (seccion) REFERENCES annos(seccion)
 );
---3
 
-SELECT * FROM estudiantes;
+
+SELECT * FROM representantes;
 
 CREATE TABLE gustos(
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -77,7 +73,7 @@ CREATE TABLE gustos(
     CONSTRAINT fk_estudiante_gustos FOREIGN KEY (cedula_estudiante) REFERENCES estudiantes(cedula_escolar)
 );
 
---4
+
 
 CREATE TABLE juegos(
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -85,7 +81,7 @@ CREATE TABLE juegos(
     juego VARCHAR(20),
     CONSTRAINT fk_estudiante_juegos FOREIGN KEY (cedula_estudiante) REFERENCES estudiantes(cedula_escolar)
 );
---5
+
 
 CREATE TABLE actividades(
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -94,7 +90,7 @@ CREATE TABLE actividades(
     CONSTRAINT fk_estudiante_actividades FOREIGN KEY (cedula_estudiante) REFERENCES estudiantes(cedula_escolar)
 );
 
---6
+
 
 CREATE TABLE vacunas(
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -102,7 +98,8 @@ CREATE TABLE vacunas(
     vacuna VARCHAR(20),
     CONSTRAINT fk_estudiante_vacunas FOREIGN KEY (cedula_estudiante) REFERENCES estudiantes(cedula_escolar)
 );
---7
+
+
 
 CREATE TABLE alergias(
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -110,7 +107,7 @@ CREATE TABLE alergias(
     alergias VARCHAR(20),
     CONSTRAINT fk_estudiante_alergias FOREIGN KEY (cedula_estudiante) REFERENCES estudiantes(cedula_escolar)
 );
---8
+
 
 CREATE TABLE enfermedades(
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -118,7 +115,8 @@ CREATE TABLE enfermedades(
     enfermedad VARCHAR(20),
     CONSTRAINT fk_estudiante_enfermedades FOREIGN KEY (cedula_estudiante) REFERENCES estudiantes(cedula_escolar)
 );
---9
+
+select * from enfermedades;
 
 DROP TABLE IF EXISTS representantes;
 CREATE TABLE IF NOT EXISTS representantes(
@@ -132,33 +130,38 @@ CREATE TABLE IF NOT EXISTS representantes(
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status SET ('activo','inactivo') DEFAULT 'activo'
 );
---10
+
 select * from representantes;
+
+
 CREATE TABLE direcciones(
     cedula VARCHAR(12) NOT NULL,
     direccion VARCHAR(50),
     de VARCHAR(20),
     CONSTRAINT fk_direccion FOREIGN KEY (cedula) REFERENCES representantes(cedula)
 );
---11
+
 
 CREATE TABLE telefonos(
     cedula VARCHAR(12) NOT NULL,
     n_telefono VARCHAR(12),
     CONSTRAINT fk_telefono FOREIGN KEY (cedula) REFERENCES representantes(cedula)
 );
---12
+
 
 DROP TABLE IF EXISTS annos;
 CREATE TABLE IF NOT EXISTS annos(
-    anno INT NOT NULL UNIQUE,
     seccion VARCHAR(1),
+    anno VARCHAR(9) NOT NULL UNIQUE,
+    grupo ENUM('A','B','C'),
     id_profesor VARCHAR(10) NOT NULL UNIQUE,
-    PRIMARY KEY(anno),
+    PRIMARY KEY(seccion),
     CONSTRAINT fk_profesor FOREIGN KEY (id_profesor) REFERENCES users(cedula)
 );
 
-INSERT INTO annos (anno,seccion,id_profesor) VALUES (1,'A',1);
+INSERT INTO annos (anno,grupo,seccion,id_profesor) VALUES ('2023-2024','A','A',1);
+
+INSERT INTO annos (anno,grupo,seccion,id_profesor) VALUES ('2023-2024','A','B',"31357876");
 
 SELECT * FROM estudiantes;
 
@@ -170,7 +173,6 @@ CREATE TABLE representante_legal(
     CONSTRAINT fk_representante_legal FOREIGN KEY (cedula_representante) REFERENCES representantes(cedula)
 );
 
---13
 CREATE TABLE sessions(
     user_ced VARCHAR(12) NOT NULL,
     status BOOLEAN DEFAULT FALSE,
@@ -180,7 +182,4 @@ CREATE TABLE sessions(
 SHOW TABLES;
 
 
-
-
--- INSERT INTO users (nombres,apellidos,password,email,fecha_nacimiento,cedula,edad,rol) VALUES ("Cristian Alejandro","Barajas Bolivar","300804","cristianbarajasimasc@gmail.com","2004-08-30","31357876",18,"admin");
-
+ 
