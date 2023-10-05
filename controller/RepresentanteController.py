@@ -115,3 +115,5 @@ class RepresentanteController(BaseController):
 
     def obtenerRepresentante(self,cedula):
         return self.sql.select(f"SELECT * FROM representantes WHERE CEDULA={cedula}",'one')
+
+# solo porque no me deja subir unos cambios
