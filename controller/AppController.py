@@ -8,7 +8,6 @@ from models.Estudiante.Estudiante import Estudiante
 from models.Estudiante.ExtraEstudiante import ExtraEstudiante
 from models.extra.models import Mano
 
-from pydantic import ValidationError
 
 
 from .RepresentanteController import RepresentanteController
@@ -246,8 +245,7 @@ class  Controller(BaseController):
 
         print(nacionalidad)
 
-        try:
-            estudiante = Estudiante(
+        estudiante = Estudiante(
                 anno=anno_cursar,nombres=nombre,apellidos=apellido,cedula_escolar=cededula_escolar,
                 fecha_nacimiento=fecha_nacimiento,edad=edad_annos,edad_meses=edad_meses,sexo=sexo,
                 lugar_de_nacimiento=lugar_nacimiento,entidad_federal=entidad_fedederal,nacionalidad=nacionalidad,
@@ -258,10 +256,7 @@ class  Controller(BaseController):
                 talla_zapatos=zapatos,con_quien_vive=familiar,a_que_edad_camino=emp_camin,a_que_edad_hablo=int(empezo_hablar),
                 duerme_con=con_quien_duerme,tiene_hermanos=hermanos,donde_estudian_hermanos=grados,
                 habla_bien=habla_correctamente,juega_con=juega_con,extra=extra
-            )
-        except ValidationError as e:
-            messagebox.showerror("Error",e)
-            return
+        )
 
 
 
@@ -372,6 +367,7 @@ class  Controller(BaseController):
     def modificarRepresentante(self,cedula):
         result = self.representante.modificar_representante(cedula)
         return result
+
 
     def modificarEstudiante(self,anno,nombres,apellidos,cedula_escolar,fecha_nacimiento,edad,edad_meses,sexo,lugar_de_nacimiento,entidad_federal,nacionalidad,turno,seccion,grupo,instituto_procedencia,parto,proceso_nacimiento,enfermedades,vacunas,mano_que_usa,peso,altura,talla,pantalon,talla_zapatos_estudiante,familiar,empezo_hab,quien_duer,hermanos,gra_her,hab_correc,canta,baila,historias,si_dep,cual_dep,juega_con,juegos_casa):
 

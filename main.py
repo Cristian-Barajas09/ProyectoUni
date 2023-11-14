@@ -1,8 +1,12 @@
 from ui import Signin
 from private.admin import Admin
+from private.create_models import CreateTables
 from testApp import TestEstudiante,TestRepresentante
-
+from util.rutas import dir
+import os
 import argparse
+
+
 # desactivar si ya quieres iniciar produccion
 
 parser = argparse.ArgumentParser(description="app by CFJO")
@@ -31,7 +35,14 @@ def run():
         Signin()
 
 if __name__ == "__main__":
-    if args.params[0] == 'test':
-        tests()
-    elif args.params[0] == 'run':
+    if DEBUG:
+        if args.params[0] == 'test':
+            tests()
+        elif args.params[0] == 'run':
+            run()
+        elif args.params[0] == 'create':
+            sql_file = os.path.join(dir,'db','proyecto_1.sql')
+            create = CreateTables(sql_file)
+
+    else:
         run()

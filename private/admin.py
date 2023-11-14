@@ -43,7 +43,7 @@ o en lo creas ¯\_(ツ)_/¯
 
     def app(self):
         self.window.destroy()
-        App()
+        App({'rol':'admin'})
     # def control(self):
     #     self.window.destroy()
     #     Control()

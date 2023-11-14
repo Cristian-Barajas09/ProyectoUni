@@ -1,0 +1,7 @@
+bcrypt -> encriptar texto
+pyinstaller -> generar el instalador de la aplicacion
+pillow -> pillow manejador de imagenes
+jinja -> libreria para generar el reporte en html
+pymysql -> libreria para conectar mysql con python
+tkcalendar -> libreria para colocar calendarios en tkinter
+python-dotenv -> libreria para poder usar variables de entorno

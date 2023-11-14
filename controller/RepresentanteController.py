@@ -44,7 +44,7 @@ class RepresentanteController(BaseController):
             if vi_si == 'si':
                 vi_si = True
             elif vi_no == 'no':
-                vi_no = True
+                vi_no = False
 
             padre = Representante (
                 nombres=nom_pa,
@@ -68,7 +68,7 @@ class RepresentanteController(BaseController):
             if vive_con_el_si == 'si':
                 vive_con_el_si = True
             elif vive_con_el_no == 'no':
-                vive_con_el_no = True
+                vive_con_el_no = False
 
             madre = Representante(
                 nombres=nombre_ma,
@@ -89,6 +89,7 @@ class RepresentanteController(BaseController):
             for k,v in madre.telefonos.items():
                 self.sql.guardarTelefono(cedula=madre.cedula,telefono=v)
         if nombre_re != 'False':
+
             representante = Representante(
                 nombres=nombre_re,
                 apellidos=apellido_re,
@@ -115,5 +116,13 @@ class RepresentanteController(BaseController):
 
     def obtenerRepresentante(self,cedula):
         return self.sql.select(f"SELECT * FROM representantes WHERE CEDULA={cedula}",'one')
+
+
+    def getDireccionesRepresentante(self,cedula):
+        return self.sql.select(f"SELECT * FROM direcciones WHERE CEDULA={cedula}")
+    
+    def getTelefonosRepresentante(self,cedula):
+        return self.sql.select(f"SELECT * FROM telefonos WHERE CEDULA={cedula}")
+
 
 # solo porque no me deja subir unos cambios

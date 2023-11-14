@@ -6,17 +6,17 @@ from datetime import date
 from tkinter import messagebox,dialog
 from tkinter.filedialog import askdirectory
 from util.helpers import read_env_value
-import webbrowser
+from .Informacion import  InformacionRepresentante,InformacionEstudiante,InformacionProfesor
 # from .partials.inscripcion import inscripcion
 from tkinter import ttk
 import os
 
 class App(BaseView):
     __table_name = 'estudiantes'
-    def __init__(self):
+    def __init__(self,session):
         super().__init__(title="C.E.I Josefina Molina de Duque",geometry="900x530",controller=Controller)
         self.icon()
-
+        self.session = session
         self.main()
 
         self.resizable(0,0)
@@ -67,7 +67,7 @@ class App(BaseView):
         if self.search.get() == "":
             self.tree.delete(*self.tree.get_children())
             for item in result:
-                if item['rol'] == "admin" or item['rol'] == self.session['rol']:
+                if item['rol'] == "admin":
                     continue
                 self.tree.insert('', self.tk.END, values=(
                     item['nombres'], item['apellidos'], item['cedula']))
@@ -320,22 +320,22 @@ class App(BaseView):
 
         # search
         self.search = self.tk.Entry(frame_search, validate="key",validatecommand=(self.frame1.register(self.validate_entry_text), "%S"),bg="#fff")
-        self.tk.Frame(frame_search,bg="#38B1EE").place(relx=0.24, rely=0.35, width=220, height=2)
+        self.tk.Frame(frame_search,bg="#38B1EE").place(relx=0.27, rely=0.35, width=220, height=2)
 
-        self.search.place(relx=0.24, rely=0.2, width=220, height=25)
+        self.search.place(relx=0.27, rely=0.2, width=220, height=25)
         self.search.bind("<FocusOut>", self.validate_search)
 
 
         self.select = self.ttk.Combobox(frame_search, values=(
             "nombres", "apellidos", "cedula"), state="readonly")
         self.select.current(0)
-        self.select.place(relx=0.557, rely=0.2, width=70,height=25)
+        self.select.place(relx=0.517, rely=0.2, width=70,height=25)
 
         self.select.bind("<<ComboboxSelected>>",lambda event: self.validate_param(self.select.get()))
 
         btn_search = self.tk.Button(frame_search,bg="#041d9b",border=0,fg="#fff", text="Buscar", command=lambda: self.buscar(
             self.search, self.select),cursor="hand2")
-        btn_search.place(relx=0.66, rely=0.2, width=70, height=25)
+        btn_search.place(relx=0.595, rely=0.2, width=70, height=25)
         #search
 
         self.table_estudiantes()
@@ -432,8 +432,10 @@ class App(BaseView):
 
         param = param.get()
 
-        if self.__table_name == 'estudiantes':
+        if self.__table_name == 'estudiantes' and param == 'cedula':
             param = 'cedula_escolar'
+
+
 
         result = self._controller.search(search.get(), param,self.__table_name)
 
@@ -469,36 +471,9 @@ class App(BaseView):
             values = item['values']
         result = self._controller.obtenerEstudiante(values[2])
 
-        self.person = self.Toplevel()
-        self.person.wm_title(f"usuario: {result['nombres']}")
-
-        self.btn_open_planilla = self.tk.Button(self.person,text="Abrir Planilla",command=lambda: self.openPlanilla(result['cedula_escolar']))
-        self.btn_open_planilla.pack()
-        btnDelete = self.tk.Button(self.person,text="eliminar estudiante",command=lambda: self.deleteEstudiante(result['cedula_escolar']))
-        btnDelete.pack()
+        InformacionEstudiante(result,self._controller,self)
 
 
-    def openPlanilla(self,cedula):
-        browser = None
-        browsers = ("firefox", "opera", "mosaic","chrome", None)
-        webbrowser.register('edge',None,webbrowser.BackgroundBrowser("C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"))
-        
-        for b in browsers:
-            try:
-                browser = webbrowser.get(b)
-            except webbrowser.Error:
-                if b is None:
-                    print("No hay navegador registrado.")
-                else:
-                    print("No se ha encontrado '%s'." % b)
-            else:
-                if b is None:
-                    print("Navegador por defecto.")
-                else:
-                    print("Navegador '%s'." % b)
-
-        print(f"{os.path.join(self.dir,'public',f'{cedula}.html')}")
-        webbrowser.open(f"{os.path.join(self.dir,'public',f'{cedula}.html')}")
 
 
     def item_selected_representante(self,event):
@@ -509,12 +484,7 @@ class App(BaseView):
 
         result = self._controller.obtenerRepresentante(values[2])
 
-        self.person2 = self.Toplevel()
-        self.person2.wm_title(f"usuario: {result['nombres']}")
-
-
-        btnDelete = self.tk.Button(self.person2,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
-        btnDelete.pack()
+        InformacionRepresentante(result,self._controller,self)
 
     def item_selected_usuarios(self,event):
         values = []
@@ -524,43 +494,8 @@ class App(BaseView):
 
         result = self._controller.obtenerUsuario(values[2])
 
-        self.person3 = self.Toplevel()
-        self.person3.wm_title(f"usuario: {result['nombres']}")
+        InformacionProfesor(result,self._controller,self)
 
-
-        btnDelete = self.tk.Button(self.person3,text="eliminar representante",command=lambda: self.deleteRepresentante(result['cedula']))
-        btnDelete.pack()
-
-    def deleteEstudiante(self,cedula):
-        result = self._controller.eliminarEstudiante(cedula)
-
-        if not(isinstance(result,int)):
-            return messagebox.showerror("No se pudo eliminar el usuario")
-
-
-        self.controlPersonas()
-        self.person.destroy()
-
-    def deleteRepresentante(self,cedula):
-        result = self._controller.eliminarRepresentante(cedula)
-
-        if not(isinstance(result,int)):
-            return messagebox.showerror("No se pudo eliminar el usuario")
-
-
-        self.controlPersonas()
-        self.person.destroy()
-
-
-    def deleteUsuario(self,cedula):
-        result = self._controller.eliminarUsuario(cedula)
-
-        if not(isinstance(result,int)):
-            return messagebox.showerror("No se pudo eliminar el usuario")
-
-
-        self.controlPersonas()
-        self.person.destroy()
 
     def validate_entry_number(self,text:str):
         if not(text.isdecimal()):
